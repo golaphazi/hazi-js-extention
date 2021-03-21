@@ -32,7 +32,7 @@ let $header = nJs.el(
             'child' : [
                 'div',
                 {
-                    class: $prefix+'continer header-main app-header1'
+                    class: $prefix+'continer header-main app-header'
                 },
                 [
                     // logo area
@@ -308,9 +308,10 @@ nJs.addElement(
 );
 
 
-console.log(nJs);
+
 
 let $parent = nJs.parents(document.querySelector('.app-menu-ul'), '.app-header');
+//console.log($parent);
 
 // add class
 nJs.addClass( document.querySelector('.app-menu-ul'), ['golap', 'mostafa', 'fsdfsf hazi']);

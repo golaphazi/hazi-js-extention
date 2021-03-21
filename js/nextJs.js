@@ -116,7 +116,7 @@ class NextExt{
                 if( $k == ''){
                     continue;
                 }
-                var fn = window[$k];
+                var fn = $k;
                 if( typeof fn === "function"){
                     $element.removeEventListener($k, fn);
                 }
@@ -135,12 +135,12 @@ class NextExt{
                     let $func = ($v[0]) ? $v[0] : ''; 
                     let $params = ($v[1]) ? $v[1] : false; 
                     
-                    var fn = window[$func];
+                    var fn = $func;
                     if( typeof fn === "function"){
                         $element.addEventListener($k, fn, $params);
                     }
                 }else{
-                    var fn = window[$v];
+                    var fn = $v;
                     if( typeof fn === "function"){
                         $element.addEventListener($k, fn);
                     }
