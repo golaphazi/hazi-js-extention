@@ -405,6 +405,7 @@ class NextExt{
         }
         return;
     }
+
     // instance of class
     static instance() {
         return new NextExt();
@@ -435,4 +436,5 @@ var nJs = {
     json: NextExt.instance().getJson,
     jsonToStr: NextExt.instance().jsonToStr,
     strToJson: NextExt.instance().strToJson,
+    
 };

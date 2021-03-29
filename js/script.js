@@ -40,18 +40,46 @@ let $header = nJs.el(
                         'child' : [
                             'div',
                             {
-                                class: $prefix+'logo'
+                                class: $prefix+'logo  njs-layer',   
+                                'njs-depth' : .20
                             },
                             [
-                                /*{
+                               
+                                {
                                     'child' : [
                                         'img',
                                         {
                                             class: $prefix+'main-logo',
-                                            src: 'assets/logo.jpg'
+                                            src: 'assets/logo.jpg',
+                                            'njs-parallax' : '{x: 0, y: 100}'
                                         }
                                     ]
-                                }*/
+                                },
+                                
+                            ]
+                        ]
+                    },
+
+                    {
+                        'child' : [
+                            'div',
+                            {
+                                class: $prefix+'logo  njs-layer',   
+                                'njs-depth' : .20,
+                                style: 'left: 50px; top: 100px; display:inline;'
+                            },
+                            [
+                                {
+                                    'child' : [
+                                        'img',
+                                        {
+                                            class: $prefix+'main-logo',
+                                            src: 'assets/logo.jpg',
+                                            
+                                        }
+                                    ]
+                                },
+                                
                             ]
                         ]
                     },
@@ -366,3 +394,13 @@ nJs.get('./ajax.txt',
 nJs.json('http://localhost/next-js-extention/js/json/test.json').onload = function(res){
     console.log( nJs.strToJson(this.response) );
 };*/
+
+// set Parallax
+
+nLJs.parallax(
+    '.header-main',
+    {
+        x: 0,
+        y: 100
+    }
+);
