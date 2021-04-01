@@ -8,8 +8,11 @@
 * Developer: Hazi
 */
 class NextExt{
-    constructor(){
-        let $window = window;
+    constructor( $el = ''){
+        if( $el === ''){
+            return;
+        }
+        return document.querySelectorAll($el);
     }
 
     static createElement($append, $element, $props, $child, $type = 'append'){
@@ -413,7 +416,7 @@ class NextExt{
 }
 
 
-// decelar class function
+// decelar class veriable
 var nJs = {
     el: NextExt.createElement,
     parents: NextExt.instance().getParents,
@@ -438,3 +441,31 @@ var nJs = {
     strToJson: NextExt.instance().strToJson,
     
 };
+
+// function declar 
+
+var $n = function( $el ){
+    $el = new NextExt($el);
+    if(!$el){
+        return null;
+    }
+    return {
+
+        find: function( $selector ){
+            return $el[0].querySelectorAll($selector);
+        },
+
+        each: function(){
+            return $el;
+        },
+
+        attr: function( $attr ){
+            return ($el[0].hasAttribute($attr)) ? $el[0].getAttribute($attr) : null;
+        },
+
+        data: function( $attr ){
+            return ($el[0].hasAttribute('njs-' + $attr)) ? $el[0].getAttribute('njs-' + $attr) : null;
+        }
+
+    };
+}

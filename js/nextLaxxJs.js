@@ -11,13 +11,13 @@ class NextLaxxJs{
 
     setParallax( $selector, $settings = { x: 0, y: 0} ){
 
-        window.removeEventListener('scroll', NextLaxxJs.onScroll);
-        window.addEventListener('scroll', NextLaxxJs.onScroll);
-        
         let $el = document.querySelectorAll($selector);
         if( !$el ){
             return;
         }
+
+        window.removeEventListener('scroll', NextLaxxJs.onScroll);
+        window.addEventListener('scroll', NextLaxxJs.onScroll);
 
         $el.forEach(function($v){
 
@@ -47,9 +47,14 @@ class NextLaxxJs{
             
             $v.setAttribute('njs-move-settings', JSON.stringify($move));
 
-             // mouse event
-             $v.removeEventListener('mousemove', NextLaxxJs.onMoveMouse);
-             $v.addEventListener('mousemove', NextLaxxJs.onMoveMouse);
+            // mouse event
+            $v.removeEventListener('mousemove', NextLaxxJs.onMoveMouse);
+            $v.addEventListener('mousemove', NextLaxxJs.onMoveMouse);
+
+            // on scroll js libary
+            //$v.removeEventListener('scroll', NextLaxxJs.onScroll);
+            //$v.addEventListener('scroll', NextLaxxJs.onScroll);
+        
  
             // parent parallax element
             $v.querySelectorAll('.njs-layer').forEach(function($l, $i){
@@ -79,14 +84,19 @@ class NextLaxxJs{
 
     static onScroll( e ){
         e.preventDefault();
+
+        let $x = document.documentElement.scrollLeft;
+        let $y = document.documentElement.scrollTop;
+        //console.log(document.documentElement);
+       // console.log($x + ' - '+ $y);
         // data attr 
         document.querySelectorAll('[njs-parallax]').forEach(function($v){
             if($v){
                 let $value = JSON.stringify($v.getAttribute('njs-parallax'));
                 if($value){
                     $value = JSON.parse( JSON.stringify($value) );
-                    console.log($value);
-                    
+                   
+                   
                 }
                 
             }
@@ -109,6 +119,8 @@ class NextLaxxJs{
             y = ($moveSettings.y) ? $moveSettings.y : 0;
             z = ($moveSettings.z) ? $moveSettings.z : 0;
         }
+
+        //console.log($moveSettings);
 
         // parent parallax element
         $this.querySelectorAll('.njs-layer').forEach(function($l){

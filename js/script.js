@@ -50,7 +50,7 @@ let $header = nJs.el(
                                         'img',
                                         {
                                             class: $prefix+'main-logo',
-                                            src: 'assets/logo.jpg',
+                                            src: 'assets/p-f-1.jpg',
                                             'njs-parallax' : '{x: 0, y: 100}'
                                         }
                                     ]
@@ -74,7 +74,7 @@ let $header = nJs.el(
                                         'img',
                                         {
                                             class: $prefix+'main-logo',
-                                            src: 'assets/logo.jpg',
+                                            src: 'assets/p-f-1.jpg',
                                             
                                         }
                                     ]
@@ -404,3 +404,7 @@ nLJs.parallax(
         y: 100
     }
 );
+
+//var $this = $n('.app-logo');
+
+//console.log( $this.data('depth') );
