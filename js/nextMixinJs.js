@@ -310,14 +310,6 @@ class NextMixinJs{
             let $maxHeight = [];
             $items.forEach(function($v, $k){
 
-                if($v.classList.contains($targetClass) || $targetClass == '*'){
-                    console.log($k);
-
-                    $v.style.display = 'block';
-                } else {
-                    $v.style.display = 'none';
-                }
-
                 let $clientItem = $v.getBoundingClientRect();
                 let $height = Math.floor(($clientItem.height) ? $clientItem.height: 0);
                 let $width = ($clientItem.width) ? $clientItem.width: 0;
@@ -328,7 +320,7 @@ class NextMixinJs{
                 if( $widthRatio > $columns){
                     $widthRatio = $columns;
                 }
-               
+               console.log($clientItem);
                 // set width
                 var $itWidth = Math.floor( ($itemWidth * $widthRatio) + ($gutter * ($widthRatio - 1)) );
                 
@@ -340,7 +332,10 @@ class NextMixinJs{
                     $top = Math.floor( ($height * $heightRatio) + $gutter);
                     $Itemheight = Math.floor($height + $gutter)  + 'px';
                 }
-                $maxHeight.push($top);
+
+                if($v.classList.contains($targetClass) || $targetClass == '*'){
+                    $maxHeight.push($top);
+                }
 
                 let $heightItem = $v.querySelector($itemHeightSelector);
                 if( !$heightItem ){
@@ -354,33 +349,55 @@ class NextMixinJs{
                 $v.style.left = $itemLeft + 'px';
                 $v.setAttribute('njs-index-item', $totalItem);
 
-                $start += $widthRatio;
-                let $avg = Math.floor($start % $columns);
-                
-                if($avg == 0){
-                    $stepTop += NextMixinJs.instance().maxValue($maxHeight);
-                    $itemLeft = 0;
-                    $start = 0;
-                    $maxHeight = [];
-                } else{
-                    $itemLeft += $itWidth + $gutter;
-                    let $e = ($items[$totalItem]) ? $items[$totalItem] : '';
-                    if( $e ){
-                        let $next = Math.floor(($e.getAttribute('njs-width')) ? $e.getAttribute('njs-width') : 1);
-                        let $nextTotal = Number($start + $next);
-                        //console.log($nextTotal + ' max ' +$totalItem);
-                        if( $nextTotal > $columns){
-                            $stepTop += NextMixinJs.instance().maxValue($maxHeight);
-                            $itemLeft = 0;
-                            $start = 0;
-                            $maxHeight = [];
-                        } 
-                    } else {
+                // set another style
+                $v.style.opacity = 0;
+                $v.style.transitionProperty = 'opacity, transform';
+                $v.style.transitionDuration = '0.4s';
+                $v.style.transitionDelay = '0ms';
+                $v.style.transform = 'translate3d('+$clientItem.left+'px, '+$clientItem.top+'px, 0px)';
+
+                if($v.classList.contains($targetClass) || $targetClass == '*'){
+                    $start += $widthRatio;
+                    let $avg = Math.floor($start % $columns);
+                    if($avg == 0){
                         $stepTop += NextMixinJs.instance().maxValue($maxHeight);
-                    } 
+                        $itemLeft = 0;
+                        $start = 0;
+                        $maxHeight = [];
+                    } else{
+                        $itemLeft += $itWidth + $gutter;
+                        let $e = ($items[$totalItem]) ? $items[$totalItem] : '';
+                        if( $e ){
+                            let $next = Math.floor(($e.getAttribute('njs-width')) ? $e.getAttribute('njs-width') : 1);
+                            let $nextTotal = Number($start + $next);
+                            if( $nextTotal > $columns){
+                                $stepTop += NextMixinJs.instance().maxValue($maxHeight);
+                                $itemLeft = 0;
+                                $start = 0;
+                                $maxHeight = [];
+                            } 
+                        } else {
+                            $stepTop += NextMixinJs.instance().maxValue($maxHeight);
+                        } 
+                    }
+                    
+                    $totalHeight = Math.floor($stepTop) ;
                 }
-                
-                $totalHeight = Math.floor($stepTop) ;
+
+                setTimeout(function(){
+                     // set another style
+                    $v.style.opacity = '';
+                    $v.style.transitionProperty = '';
+                    $v.style.transitionDuration = '';
+                    $v.style.transitionDelay = '';
+                    $v.style.transform = '';
+                    if($v.classList.contains($targetClass) || $targetClass == '*'){
+                        $v.style.display = '';
+                    } else {
+                        $v.style.display = 'none';
+                    }
+                }, 300);
+
                 $totalItem++;
                
             });
