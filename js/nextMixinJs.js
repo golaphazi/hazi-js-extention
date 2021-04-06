@@ -268,8 +268,7 @@ class NextMixinJs{
 
         var $target = $el.getAttribute('njs-active');
         let $targetClass = $target.replace('.', '').replace('#', '');
-        //console.log($targetClass);
-
+        
         var $responMode = $el.getAttribute('njs-display');
         if($responMode == "tablate"){
             $columns = ($settings.columnsTablet) ? $settings.columnsTablet : 2;
@@ -311,6 +310,10 @@ class NextMixinJs{
             $items.forEach(function($v, $k){
 
                 let $clientItem = $v.getBoundingClientRect();
+                let $style = window.getComputedStyle($v);
+                let leftTrans = $style.getPropertyValue('left');
+                let topTrans = $style.getPropertyValue('top');
+
                 let $height = Math.floor(($clientItem.height) ? $clientItem.height: 0);
                 let $width = ($clientItem.width) ? $clientItem.width: 0;
 
@@ -320,7 +323,7 @@ class NextMixinJs{
                 if( $widthRatio > $columns){
                     $widthRatio = $columns;
                 }
-               console.log($clientItem);
+               
                 // set width
                 var $itWidth = Math.floor( ($itemWidth * $widthRatio) + ($gutter * ($widthRatio - 1)) );
                 
@@ -345,16 +348,57 @@ class NextMixinJs{
                 
                 $v.style.width =  $itWidth + 'px';
                 $v.style.position = 'absolute';
-                $v.style.top = $stepTop + 'px';
-                $v.style.left = $itemLeft + 'px';
+                
                 $v.setAttribute('njs-index-item', $totalItem);
 
                 // set another style
-                $v.style.opacity = 0;
-                $v.style.transitionProperty = 'opacity, transform';
-                $v.style.transitionDuration = '0.4s';
-                $v.style.transitionDelay = '0ms';
-                $v.style.transform = 'translate3d('+$clientItem.left+'px, '+$clientItem.top+'px, 0px)';
+                let $display = $style.getPropertyValue('display');
+                
+               
+                if($v.classList.contains($targetClass) || $targetClass == '*'){
+                    if($display == 'none'){
+                        $v.style.opacity = 1;
+                        $v.style.display = '';
+                    }
+    
+                    //$v.style.top = topTrans;
+                    //$v.style.left = leftTrans;
+                    console.log(leftTrans + '-' +$totalItem);
+
+                    let leftTrans2 = $itemLeft + 'px';
+                    let topTrans2 = $stepTop + 'px';
+                   
+                    if(leftTrans == leftTrans2 && $targetClass == '*'){
+                        leftTrans = '0px';
+                    } else{
+                        leftTrans = Number(parseInt(leftTrans) - parseInt(leftTrans2)) + 'px';
+                    }
+                    
+                    if(topTrans == topTrans2 && $targetClass == '*'){
+                        topTrans = '0px';
+                    } else{
+                        topTrans = Number(parseInt(topTrans) - parseInt(topTrans2)) + 'px';
+                    }
+                    
+                    $v.style.top = $stepTop + 'px';
+                    $v.style.left = $itemLeft + 'px';
+
+                    $v.style.transform = 'translate3d('+leftTrans+', '+topTrans+', 0px)';
+                    $v.style.transitionProperty = 'opacity, transform';
+                    $v.style.transitionDuration = '0.4s';
+                    $v.style.transitionDelay = '0ms';
+                }else{
+                    $v.style.top = $stepTop + 'px';
+                    $v.style.left = $itemLeft + 'px';
+                    $v.style.opacity = 0;
+                    $v.style.transform = 'scale(0.001)';
+                    $v.style.transitionProperty = 'opacity, transform';
+                    $v.style.transitionDuration = '0.4s';
+                    $v.style.transitionDelay = '0ms';
+                }
+               
+              // end another style
+
 
                 if($v.classList.contains($targetClass) || $targetClass == '*'){
                     $start += $widthRatio;
@@ -385,18 +429,17 @@ class NextMixinJs{
                 }
 
                 setTimeout(function(){
-                     // set another style
                     $v.style.opacity = '';
+                    $v.style.transform = '';
                     $v.style.transitionProperty = '';
                     $v.style.transitionDuration = '';
                     $v.style.transitionDelay = '';
-                    $v.style.transform = '';
                     if($v.classList.contains($targetClass) || $targetClass == '*'){
                         $v.style.display = '';
                     } else {
                         $v.style.display = 'none';
                     }
-                }, 300);
+                }, 500);
 
                 $totalItem++;
                
