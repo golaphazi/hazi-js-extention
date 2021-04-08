@@ -176,7 +176,7 @@ class NextMixinJs{
                         if( $v1.getAttribute('njs-filter-action') ){
                             $dataFilter = $v1.getAttribute('njs-filter-action');
                         }
-                        $el.setAttribute('njs-active', $dataFilter);
+                        $el.setAttribute('njs-active', '-1');
                       }
 
                    });
@@ -266,7 +266,12 @@ class NextMixinJs{
         var $tWidth = $client.width;
         var $tHeight = $client.height;
 
-        var $target = $el.getAttribute('njs-active');
+        var $target1 = $el.getAttribute('njs-active');
+        if( $target1 == -1){
+            var $target = '*';
+        } else {
+            var $target = $target1;
+        }
         let $targetClass = $target.replace('.', '').replace('#', '');
         
         var $responMode = $el.getAttribute('njs-display');
@@ -276,8 +281,7 @@ class NextMixinJs{
         else if($responMode == "mobile"){
             $columns = ($settings.columnsMobile) ? $settings.columnsMobile : 1;
         }
-       
-        let $gutterCOl = Math.floor($gutter * $columns);
+        let $gutterCOl = Math.floor($gutter * ($columns - 1));
         let $itemWidth = Math.floor(($tWidth - $gutterCOl) / $columns);
 
         let $itemConSelector = ($settings.itemContainer) ? $settings.itemContainer : '.njs-item-container';
@@ -348,48 +352,37 @@ class NextMixinJs{
                 
                 $v.style.width =  $itWidth + 'px';
                 $v.style.position = 'absolute';
-                
                 $v.setAttribute('njs-index-item', $totalItem);
-
                 // set another style
                 let $display = $style.getPropertyValue('display');
-                
                
                 if($v.classList.contains($targetClass) || $targetClass == '*'){
-                    if($display == 'none'){
-                        $v.style.opacity = 1;
-                        $v.style.display = '';
-                    }
-    
-                    //$v.style.top = topTrans;
-                    //$v.style.left = leftTrans;
-                    console.log(leftTrans + '-' +$totalItem);
-
+                   
                     let leftTrans2 = $itemLeft + 'px';
                     let topTrans2 = $stepTop + 'px';
                    
                     if(leftTrans == leftTrans2 && $targetClass == '*'){
                         leftTrans = '0px';
                     } else{
-                        leftTrans = Number(parseInt(leftTrans) - parseInt(leftTrans2)) + 'px';
+                        leftTrans = Number(parseInt(leftTrans2) - parseInt(leftTrans)) + 'px';
                     }
                     
                     if(topTrans == topTrans2 && $targetClass == '*'){
                         topTrans = '0px';
                     } else{
-                        topTrans = Number(parseInt(topTrans) - parseInt(topTrans2)) + 'px';
+                        topTrans = Number(parseInt(topTrans2) - parseInt(topTrans)) + 'px';
                     }
-                    
-                    $v.style.top = $stepTop + 'px';
-                    $v.style.left = $itemLeft + 'px';
-
-                    $v.style.transform = 'translate3d('+leftTrans+', '+topTrans+', 0px)';
+                    if($display == 'none'){
+                        $v.style.opacity = 1;
+                        //$v.style.display = '';
+                        $v.style.transform = 'translate3d(0px, 0px, 0px)';
+                    }else{
+                        $v.style.transform = 'translate3d('+leftTrans+', '+topTrans+', 0px)';
+                    }
                     $v.style.transitionProperty = 'opacity, transform';
                     $v.style.transitionDuration = '0.4s';
                     $v.style.transitionDelay = '0ms';
                 }else{
-                    $v.style.top = $stepTop + 'px';
-                    $v.style.left = $itemLeft + 'px';
                     $v.style.opacity = 0;
                     $v.style.transform = 'scale(0.001)';
                     $v.style.transitionProperty = 'opacity, transform';
@@ -397,9 +390,30 @@ class NextMixinJs{
                     $v.style.transitionDelay = '0ms';
                 }
                
-              // end another style
+                // end another style
+                if( $target1 == -1){
+                    $v.style.top = $stepTop + 'px';
+                    $v.style.left = $itemLeft + 'px';
+                }else{
+                  clearTimeout($timeOut);
+                  var $timeOut = setTimeout(function($v, $stepTop, $itemLeft) {
+                        $v.style.top = $stepTop + 'px';
+                        $v.style.left = $itemLeft + 'px';
+                        if($v.classList.contains($targetClass) || $targetClass == '*'){
+                            $v.style.transform = '';
+                            $v.style.opacity = '';
+                        } else {
+                            //$v.style.display = 'none';
+                            $v.style.opacity = 0;
+                            $v.style.transform = 'scale(0)';
+                        }
+                        $v.style.transitionProperty = '';
+                        $v.style.transitionDuration = '';
+                        $v.style.transitionDelay = '';
+                    }, 500, $v, $stepTop, $itemLeft);
+                }
 
-
+               
                 if($v.classList.contains($targetClass) || $targetClass == '*'){
                     $start += $widthRatio;
                     let $avg = Math.floor($start % $columns);
@@ -411,6 +425,7 @@ class NextMixinJs{
                     } else{
                         $itemLeft += $itWidth + $gutter;
                         let $e = ($items[$totalItem]) ? $items[$totalItem] : '';
+                        console.log($e);
                         if( $e ){
                             let $next = Math.floor(($e.getAttribute('njs-width')) ? $e.getAttribute('njs-width') : 1);
                             let $nextTotal = Number($start + $next);
@@ -422,32 +437,21 @@ class NextMixinJs{
                             } 
                         } else {
                             $stepTop += NextMixinJs.instance().maxValue($maxHeight);
+                            $start = 0;
+                            $maxHeight = [];
                         } 
                     }
                     
-                    $totalHeight = Math.floor($stepTop) ;
+                    $totalHeight = Math.floor($stepTop);
+                    
                 }
 
-                setTimeout(function(){
-                    $v.style.opacity = '';
-                    $v.style.transform = '';
-                    $v.style.transitionProperty = '';
-                    $v.style.transitionDuration = '';
-                    $v.style.transitionDelay = '';
-                    if($v.classList.contains($targetClass) || $targetClass == '*'){
-                        $v.style.display = '';
-                    } else {
-                        $v.style.display = 'none';
-                    }
-                }, 500);
-
                 $totalItem++;
-               
             });
         }
         
         $itemCon.style.height = '100%';
-        $itemCon.style.minHeight = Math.floor($totalHeight)  + 'px';
+        $itemCon.style.minHeight = Math.floor($totalHeight - $gutter)  + 'px';
     }
 
     maxValue(arr) {
