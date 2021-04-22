@@ -114,7 +114,7 @@ var $nJsAccrodion = {
                         clearTimeout($timeOut);
                         var $timeOut = setTimeout(function($v1){
                             $v1.style.height = '0px';
-                        }, 300, $panel);
+                        }, 200, $panel);
 
                         clearTimeout($timeOut1);
                         var $timeOut1 = setTimeout(function($v1){
@@ -122,7 +122,7 @@ var $nJsAccrodion = {
                             $v1.style.height = '';
                             $v1.style.display = 'none';
                             $v1.style.transition = '';
-                        }, 700, $panel);
+                        }, 500, $panel);
                     }
                 }else{
                     if( $targetTab != $targetTabSelf){
@@ -173,14 +173,14 @@ var $nJsAccrodion = {
             clearTimeout($timeOut);
             var $timeOut = setTimeout(function($v1, $clientItem){
                 $v1.style.height = $clientItem.height+'px';
-            }, 300, $v, $clientItem);
+            }, 200, $v, $clientItem);
 
             clearTimeout($timeOut1);
             var $timeOut1 = setTimeout(function($v1){
                 $v1.style.overflow = '';
                 $v1.style.height = '';
                 $v1.style.transition = '';
-            }, 700, $v);
+            }, 500, $v);
 
         }else{
             $v.style.overflow = 'hidden';
@@ -192,7 +192,7 @@ var $nJsAccrodion = {
             clearTimeout($timeOut);
             var $timeOut = setTimeout(function($v1){
                 $v1.style.height = '0px';
-            }, 300, $v);
+            }, 200, $v);
 
             clearTimeout($timeOut1);
             var $timeOut1 = setTimeout(function($v1){
@@ -200,7 +200,7 @@ var $nJsAccrodion = {
                 $v1.style.height = '';
                 $v1.style.display = 'none';
                 $v1.style.transition = '';
-            }, 700, $v);
+            }, 500, $v);
         }
     }
 
