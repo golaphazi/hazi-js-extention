@@ -9,6 +9,7 @@ function app_home( e){
 }
 
 /*start header section*/
+/*
 let $header = nJs.el(
     $div,
     'header',
@@ -178,9 +179,8 @@ let $header = nJs.el(
         // end main header
     ]
 );
+*/
 
-
-/*Footer render*/ 
 
 let $footer = nJs.el(
     $div,
@@ -212,7 +212,10 @@ let $footer = nJs.el(
                             'div',
                             {
                                 class: $prefix+'right-side',
-                                content: 'Right Site'
+                                content: 'Right Site',
+                                'event' : {
+                                    'TextRender' : { data: 'test', data2: 'test 2'}
+                                }
                             }
                         ]
                     },
@@ -280,7 +283,7 @@ let $footer = nJs.el(
     ]
 );
 
-
+/*
 nJs.el( document.querySelector('.app-menu-ul'),
     'div',
     {
@@ -292,8 +295,9 @@ nJs.el( document.querySelector('.app-menu-ul'),
     ],
     'after'
 );
-
+*/
 // add element by arrow
+/*
 nJs.addElement(
     [
         [
@@ -335,8 +339,10 @@ nJs.addElement(
     ]
 );
 
+*/
 
 
+/*
 
 let $parent = nJs.parents(document.querySelector('.app-menu-ul'), '.app-header');
 //console.log($parent);
@@ -354,6 +360,7 @@ nJs.removeClass( document.querySelector('.app-menu-ul'), ['golap', 'fsdfsf hazi1
 
 // find
 let $find = nJs.find('.app-menu-ul');
+*/
 
 // ajax
 /*
@@ -372,6 +379,7 @@ nJs.ajax(
 )
 */
 // get
+/*
 nJs.get('./ajax.txt', 
     {
         'header' : {
@@ -387,7 +395,7 @@ nJs.get('./ajax.txt',
       document.querySelector(".app-header h1").innerHTML = this.responseText;
     }
 };
-
+*/
 
 // get json
 /*
@@ -407,4 +415,4 @@ nLJs.parallax(
 
 //var $this = $n('.app-logo');
 
-//console.log( $this.data('depth') );
+

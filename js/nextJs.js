@@ -60,7 +60,7 @@ class NextExt{
     }
 
     nx_append($append, $element, $props, $type = 'append'){
-        let $attr = ['content', 'contenthtml', 'contentHTML', 'innerhtml', 'innerHTML', 'innerText', 'contentText', 'trigger', 'removetrigger'];
+        let $attr = ['content', 'contenthtml', 'contentHTML', 'innerhtml', 'innerHTML', 'innerText', 'contentText', 'trigger', 'removetrigger', 'render'];
         if($append){
             let $e = document.createElement($element);
             if( Object.entries($props) ){ 
@@ -75,6 +75,8 @@ class NextExt{
                             NextExt.instance().addTrigger($e, $v);
                         } else if ($k == 'removetrigger'){
                             NextExt.instance().removeTrigger($e, $v);
+                        } else if ($k == 'event'){
+                            NextExt.instance().eventRegister($e, $v);
                         } else{
                             $e.innerHTML = $v;
                         }
@@ -409,6 +411,14 @@ class NextExt{
         return;
     }
 
+    eventRegister( $e, $atta){
+        if( Object.entries($atta) ){ 
+            for (const [$k, $v] of Object.entries($atta)) {
+                var evt = new CustomEvent($k, $v);
+                window.dispatchEvent(evt);
+            }
+        }
+    }
     // instance of class
     static instance() {
         return new NextExt();
@@ -469,3 +479,4 @@ var $n = function( $el ){
 
     };
 }
+

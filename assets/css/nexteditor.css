@@ -1,0 +1,19 @@
+
+.njs-editor-panel{
+	border:2px solid #8d8484;
+	height:100%;
+	width: 100%;
+}
+.njs-editor-panel > .njseditor-panel-controls{
+	display: flex;
+}
+.njs-editor-panel > .njseditor-panel-controls > *{
+    margin: 5px;
+}
+.njs-editor-panel > .njseditor-panel-editor{
+	display: block;
+}
+iframe.njseditor-iframe-editor{
+	height:100%;
+	width:100%;
+}
