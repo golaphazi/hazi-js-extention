@@ -3,6 +3,7 @@
 	border:1px solid #8d8484;
 	height:100%;
 	width: 100%;
+    position: relative;
 }
 .njs-editor-panel > .njseditor-panel-controls{
 	display: flex;
@@ -10,6 +11,8 @@
     border-top-width: 0px;
     border-left-width: 0px;
     border-right-width: 0px;
+    padding: 0px 5px;
+    background-color: whitesmoke;
 }
 .njs-editor-panel > .njseditor-panel-controls > *{
     margin: 5px;
@@ -45,6 +48,19 @@ iframe.njseditor-iframe-editor{
     align-items: center;
     justify-content: center;
 	padding: 5px;
+    border-radius: 2px;
+}
+.njs-editor-control .njs-button.njs-button-highlight > i{
+    background-color: black;
+    color: white;
+}
+.njseditor-panel-controls .njs-button.njs-undo,
+.njseditor-panel-controls .njs-button.njs-redo{
+    position: absolute;
+    right: 5px;
+}
+.njseditor-panel-controls .njs-button.njs-undo{
+    right: 32px;
 }
 
 .njs-editor-control .njs-button:not(.njs-disabled):hover, 
@@ -76,6 +92,10 @@ a.njseditor-panel-controls .njs-button:not(.njs-disabled):hover
     box-shadow: 0 1px 2px 1px rgba(0,0,0,0.15);
     min-width: 33px;
 }
+.njs-editor-control .njs-popup.njs-button-fontcolor,
+.njs-editor-control .njs-popup.njs-button-highlight{
+    min-width: 150px;
+}
 .njs-editor-control .njs-popup.njs-open{
 	display: block;
 }
@@ -95,6 +115,8 @@ a.njseditor-panel-controls .njs-button:not(.njs-disabled):hover
 
 .njs-editor-control .njs-popup .njs-list li > button{
     width: 100%;
+    cursor: pointer;
+    font-size: 14px;
 }
 .njs-editor-control .njs-popup .njs-list li .njs-no-pointer{
     justify-content: left;
@@ -106,6 +128,33 @@ a.njseditor-panel-controls .njs-button:not(.njs-disabled):hover
     pointer-events: none;
 }
 
+.njs-editor-control .njs-popup.njs-button-fontcolor .njs-list,
+.njs-editor-control .njs-popup.njs-button-highlight .njs-list{
+    flex-direction: row;
+    flex-wrap: wrap;
+}
+
+.njs-editor-control .njs-popup.njs-button-fontcolor .njs-list li,
+.njs-editor-control .njs-popup.njs-button-highlight .njs-list li{
+    margin: 3px;
+    border: 1px solid #e5e5e5;
+    border-radius: 5px;
+    cursor: pointer;
+    overflow: hidden;
+}
+
+.njs-editor-control .njs-popup.njs-button-fontcolor .njs-list li > button,
+.njs-editor-control .njs-popup.njs-button-highlight .njs-list li > button{
+    height: 24px;
+    width: 24px;
+    border-radius: 2px;
+}
+
+.njs-editor-control .njs-popup.njs-button-fontcolor .njs-list li:hover,
+.njs-editor-control .njs-popup.njs-button-highlight .njs-list li:hover{
+    border-color: rgb(177, 177, 236);
+}
+
 
 .njs-toolbar__separator{
     display: inline-block;
@@ -114,4 +163,14 @@ a.njseditor-panel-controls .njs-button:not(.njs-disabled):hover
     min-width: 1px;
     background: #ccc;
     margin: 5px 0;
+}
+
+.njseditor-iframe-editor blockquote {
+    overflow: hidden;
+    padding-right: 1.5em;
+    padding-left: 1.5em;
+    margin-left: 0;
+    margin-right: 0;
+    font-style: italic;
+    border-left: 5px solid #ccc;
 }

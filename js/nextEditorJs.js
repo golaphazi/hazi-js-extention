@@ -72,6 +72,12 @@ var $nJsEditorCont = {
                         $buttonEl.innerHTML = '<span style="font-family:'+$vat+';">' + $vat + '</span>';
                         $buttonEl.setAttribute('njs-value', $vat);
                         $attr.class += ' njs-no-pointer';
+                    }else if( $key == 'fontcolor' || $key == 'highlight') {
+                        $buttonEl.style.backgroundColor = $kat;
+                        $attr.class += ' njs-no-pointer';
+                    }  else if( $key == 'fontsize' ) {
+                        $buttonEl.innerHTML = $vat;
+                        $attr.class += ' njs-no-pointer';
                     }else {
                         $buttonEl.innerHTML = $vat;
                     }
@@ -195,10 +201,13 @@ var $nJsEditorCont = {
                     }
                     
                 }
-                var $seperator = document.createElement('span');
-                $seperator.classList.add('njs-toolbar__separator');
-
-                $el.appendChild($seperator);
+                if($type != 'rollback'){
+                    var $seperator = document.createElement('span');
+                    $seperator.classList.add('njs-toolbar__separator');
+    
+                    $el.appendChild($seperator);
+                }
+                
             }
             
         }
@@ -215,11 +224,19 @@ var $nJsEditorCont = {
                     'action' : {'click' : $nJsEditor.fontfamilyAction },
                     'data' : $nJsEditor.getFontFamily()
                 },
-               
-                /*'fontcolor' : {'type' : 'input', 'attr' : { type: 'color'}, 'title' : 'Font Color', 'icon' : '', 'html' : '', 'action' : {'change' : $nJsEditor.fontcolorAction }},
-                'highlight' : {'type' : 'input', 'attr' : { type: 'color'}, 'title' : 'Highlight Color', 'icon' : '', 'html' : '', 'action' : {'change' : $nJsEditor.highlightAction }},
-                'fontfamily' : {'type' : 'select', 'attr' : { class: 'njs-fontfamily'}, 'title' : 'Font', 'icon' : '', 'html' : '', 'action' : {'change' : $nJsEditor.fontfamilyAction }},
-                'increase' : {'title' : 'Increase Font', 'icon' : 'fa fa-font', 'html' : '', 'action' : {'click' : $nJsEditor.increaseAction }},*/
+                'fontsize' : {'attr' : { class: 'njs-fontsize'}, 'title' : 'Font Size', 'icon' : 'fa fa-text-height', 'html' : 'Select once', 
+                    'action' : {'click' : $nJsEditor.increaseAction },
+                    'data' : $nJsEditor.getFontSize()
+                },
+                'fontcolor' : {'attr' : { class: 'njs-fontcolor'}, 'title' : 'Font Color', 'icon' : 'fa fa-text-width', 'html' : 'Select once', 
+                    'action' : {'click' : $nJsEditor.fontcolorAction },
+                    'data' : $nJsEditor.getFontColor()
+                },
+                'highlight' : {'attr' : { class: 'njs-fontcolor'}, 'title' : 'Highlight Color', 'icon' : 'fa fa-font', 'html' : 'Select once', 
+                    'action' : {'click' : $nJsEditor.highlightAction },
+                    'data' : $nJsEditor.getFontColor()
+                },
+                
             },
             'normal' : {
                 'paragraph' : {'title' : 'Paragraph', 'icon' : 'fa fa-paragraph', 'html' : 'br', 'action' : {'click' : $nJsEditor.paragraphAction }},
@@ -230,7 +247,7 @@ var $nJsEditorCont = {
             },
             'link' : {
                 'link' : {'title' : 'Inset / Edit Link', 'icon' : 'fa fa-link', 'html' : '', 'action' : {'click' : $nJsEditor.linkAction }},
-                'unlink' : {'title' : 'Remove Link', 'icon' : 'fa fa-chain-broken', 'html' : '', 'action' : {'click' : $nJsEditor.unlinkAction }},
+                'unlink' : {'title' : 'Remove Link', 'icon' : 'fa fa-unlink', 'html' : '', 'action' : {'click' : $nJsEditor.unlinkAction }},
             },
             'align' : {
                 'alignment' : {'attr' : { class: 'njs-align'}, 'title' : 'Align', 'icon' : 'fa fa-align-left', 'html' : '', 
@@ -247,10 +264,20 @@ var $nJsEditorCont = {
                 'ordered' : {'title' : 'Number List', 'icon' : 'fa fa-list-ol', 'html' : '', 'action' : {'click' : $nJsEditor.orderedAction }},
                 'unordered' : {'title' : 'Bulleted List', 'icon' : 'fa fa-list-ul', 'html' : '', 'action' : {'click' : $nJsEditor.unorderedAction }},
             },
+
+            'copy_cut' : {
+                'copy' : {'title' : 'Copy', 'icon' : 'fa fa-copy', 'html' : '', 'action' : {'click' : $nJsEditor.copyAction }},
+                'cut' : {'title' : 'Cut', 'icon' : 'fa fa-cut', 'html' : '', 'action' : {'click' : $nJsEditor.cutAction }},
+                'paste' : {'title' : 'Paste', 'icon' : 'fa fa-paste', 'html' : '', 'action' : {'click' : $nJsEditor.pasteAction }},
+            },
             
             'math' : {
                 'sup' : {'title' : 'Sup', 'icon' : 'fa fa-superscript', 'html' : '', 'action' : {'click' : $nJsEditor.supAction }},
                 'sub' : {'title' : 'Sub', 'icon' : 'fa fa-subscript', 'html' : '', 'action' : {'click' : $nJsEditor.subAction }},
+            },
+            'rollback' : {
+                'undo' : {'title' : 'Undo', 'icon' : 'fa fa-undo', 'html' : '', 'action' : {'click' : $nJsEditor.undoAction }},
+                'redo' : {'title' : 'Redo', 'icon' : 'fa fa-repeat', 'html' : '', 'action' : {'click' : $nJsEditor.redoAction }},
             }
 
         };
@@ -302,12 +329,15 @@ var $nJsEditor = {
                 $controls.classList.add('njseditor-panel-controls');
 
                 // render control
-                $nJsEditorCont.renTitle($controls, $k, 'normal');
                 $nJsEditorCont.renTitle($controls, $k, 'title');
+                
+                $nJsEditorCont.renTitle($controls, $k, 'normal');
                 $nJsEditorCont.renTitle($controls, $k, 'link');
                 $nJsEditorCont.renTitle($controls, $k, 'align');
                 $nJsEditorCont.renTitle($controls, $k, 'order');
+                $nJsEditorCont.renTitle($controls, $k, 'copy_cut');
                 $nJsEditorCont.renTitle($controls, $k, 'math');
+                $nJsEditorCont.renTitle($controls, $k, 'rollback');
 
                 $new.appendChild($controls);
                 
@@ -348,6 +378,38 @@ var $nJsEditor = {
         return ["Times New Roman", "Consolas", "Tahoma", "Monospace", "Cursive", "Sans-Serif", "Calibri", "Arial"];
     },
 
+    getFontSize: function(){
+        return {
+            '1' : 'Tiny',
+            '2' : 'Small',
+            '3' : 'Default',
+            '4' : 'Medium',
+            '5' : 'Large',
+            '6' : 'Big',
+            '7' : 'Huge',
+        };
+    },
+
+    getFontColor: function(){
+        return {
+            'rgb(0, 0, 0)' : 'Black',
+            'rgb(77, 77, 77)' : 'Dim grey',
+            'rgb(153, 153, 153)' : 'Grey',
+            'rgb(230, 230, 230)' : 'Light grey',
+            'rgb(255, 255, 255)' : 'White',
+            'rgb(230, 76, 76)' : 'Red',
+            'rgb(230, 153, 76)' : 'Orange',
+            'rgb(230, 230, 76)' : 'Yellow',
+            'rgb(153, 230, 76)' : 'Light green',
+            'rgb(76, 230, 76)' : 'Green',
+            'rgb(76, 230, 153)' : 'Aquamarine',
+            'rgb(76, 230, 230)' : 'Turquoise',
+            'rgb(76, 153, 230)' : 'Light blue',
+            'rgb(76, 76, 230)' : 'Blue',
+            'rgb(153, 76, 230)' : 'Purple',
+        };
+    },
+
     getFormatFont: function(){
         return {
             'p' : 'Paragraph',
@@ -357,6 +419,7 @@ var $nJsEditor = {
             'h4' : 'Heading 4',
             'h5' : 'Heading 5',
             'h6' : 'Heading 6',
+            'blockquote' : 'Blockquote',
         };
     },
     
@@ -658,7 +721,7 @@ var $nJsEditor = {
         var $editor = window.frames['njseditor-mode-' + $k].document;
         if($editor){
             $editor.execCommand("styleWithCSS", true, null);
-            $editor.execCommand("ForeColor", false, $e.target.value);
+            $editor.execCommand("ForeColor", false, $e.target.getAttribute('njs-value'));
             $nJsEditor.setValue($k, $editor );
         }
     },
@@ -672,7 +735,7 @@ var $nJsEditor = {
         var $editor = window.frames['njseditor-mode-' + $k].document;
         if($editor){
             $editor.execCommand("styleWithCSS", true, null);
-            $editor.execCommand("BackColor", false, $e.target.value);
+            $editor.execCommand("BackColor", false, $e.target.getAttribute('njs-value'));
             $nJsEditor.setValue($k, $editor );
         }
     },
@@ -714,7 +777,72 @@ var $nJsEditor = {
         var $editor = window.frames['njseditor-mode-' + $k].document;
         if($editor){
             $editor.execCommand("styleWithCSS", true, null);
-            $editor.execCommand("increaseFontSize", false, "");
+            $editor.execCommand("fontSize", false, $e.target.getAttribute('njs-value'));
+            $nJsEditor.setValue($k, $editor );
+        }
+    },
+    undoAction: function( $e ){
+        $e.preventDefault();
+        var $this = this;
+        var $k = $this.getAttribute('njs-control-id');
+        if( !$k ){
+            return;
+        }
+        var $editor = window.frames['njseditor-mode-' + $k].document;
+        if($editor){
+            $editor.execCommand("undo", false, null);
+            $nJsEditor.setValue($k, $editor );
+        }
+    },
+    redoAction: function( $e ){
+        $e.preventDefault();
+        var $this = this;
+        var $k = $this.getAttribute('njs-control-id');
+        if( !$k ){
+            return;
+        }
+        var $editor = window.frames['njseditor-mode-' + $k].document;
+        if($editor){
+            $editor.execCommand("redo", false, null);
+            $nJsEditor.setValue($k, $editor );
+        }
+    },
+    copyAction: function( $e ){
+        $e.preventDefault();
+        var $this = this;
+        var $k = $this.getAttribute('njs-control-id');
+        if( !$k ){
+            return;
+        }
+        var $editor = window.frames['njseditor-mode-' + $k].document;
+        if($editor){
+            $editor.execCommand("copy");
+            $nJsEditor.setValue($k, $editor );
+        }
+    },
+    cutAction: function( $e ){
+        $e.preventDefault();
+        var $this = this;
+        var $k = $this.getAttribute('njs-control-id');
+        if( !$k ){
+            return;
+        }
+        var $editor = window.frames['njseditor-mode-' + $k].document;
+        if($editor){
+            $editor.execCommand("cut");
+            $nJsEditor.setValue($k, $editor );
+        }
+    },
+    pasteAction: function( $e ){
+        $e.preventDefault();
+        var $this = this;
+        var $k = $this.getAttribute('njs-control-id');
+        if( !$k ){
+            return;
+        }
+        var $editor = window.frames['njseditor-mode-' + $k].document;
+        if($editor){
+            $editor.execCommand("paste");
             $nJsEditor.setValue($k, $editor );
         }
     },
