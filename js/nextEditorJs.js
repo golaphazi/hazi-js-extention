@@ -7,6 +7,264 @@
 * Author: ThemeDev
 * Developer: Hazi
 */
+var $nJsEditorCont = {
+    init: function(){
+
+    },
+    createDropDown : function( $el, $k, $key, $v ){
+        var $heading = document.createElement('div');
+        $heading.setAttribute('class', 'njs-editor-control njs-editor-' + $key);
+        $heading.setAttribute('title', ($v.title) ?? '' );
+
+        var $button = document.createElement('button');
+        $button.setAttribute('class', 'njs-button njs-button-dropdown njs-button-'+$key+' fa fa-angle-down');
+        $button.setAttribute('type', 'button');
+        
+        var $icon = ($v.icon) ?? '';
+        var $html = ($v.html) ?? '';
+        if( $icon != ''){
+            var $iconEl = document.createElement('i');
+            $iconEl.setAttribute('class', $icon);
+            $button.appendChild($iconEl);
+        } else if( $html != ''){
+            $button.setAttribute('njs-default', $html);
+            $button.innerHTML = $html;
+        }
+        $heading.appendChild($button);
+
+        var $dropdown = document.createElement('div');
+        $dropdown.setAttribute('class', 'njs-popup njs-popup-dropdown njs-button-'+$key);
+        var $ul = document.createElement('ul');
+        $ul.setAttribute('class', 'njs-list');
+
+        var $typeEl = ($v.type) ?? 'button';
+        var $data = ($v.data) ?? false;
+        var $act = ($v.action) ?? false;
+        var $attr = ($v.attr) ?? { type: 'button'};
+
+        if( typeof $data === 'object' && $data !== null ){
+            for (const [$kat, $vat] of Object.entries($data)) {
+                var $li = document.createElement('li');
+
+                $typeEl = ($vat.type) ?? $typeEl;
+                var $buttonEl = document.createElement($typeEl);
+                var $title;
+                
+                if( typeof $vat === 'object' && $vat !== null ){
+                    $attr = ($vat.attr) ?? $attr;
+                    $act = ($vat.action) ?? $act;
+                    $title = ($vat.title) ?? '';
+                    $key = $kat;
+                    var $iconB = ($vat.icon) ?? '';
+                    var $htmlV = ($vat.html) ?? '';
+                    if( $iconB != ''){
+                        $attr.class += ' ' + $iconB;
+                    } else{
+                        $buttonEl.innerHTML = $htmlV;
+                    }
+                } else {
+                    $title = $vat;
+                    $buttonEl.setAttribute('njs-value', $kat);
+                    if( $key == 'heading' ){
+                        $buttonEl.innerHTML = '<' + $kat + '>' + $vat + '</' + $kat + '>';
+                        $attr.class += ' njs-no-pointer';
+                    } else if( $key == 'fontfamily' ) {
+                        $buttonEl.innerHTML = '<span style="font-family:'+$vat+';">' + $vat + '</span>';
+                        $buttonEl.setAttribute('njs-value', $vat);
+                        $attr.class += ' njs-no-pointer';
+                    }else {
+                        $buttonEl.innerHTML = $vat;
+                    }
+                    
+                }
+
+                if( typeof $attr === 'object' && $attr !== null ){
+                    for (const [$atk, $atv] of Object.entries($attr)) {
+                        $buttonEl.setAttribute($atk, $atv );
+                    }
+                }
+                if( typeof $act === 'object' && $act !== null ){
+                    for (const [$ka, $va] of Object.entries($act)) {
+                        if( $ka == ''){
+                            continue;
+                        }
+                        
+                        var fn = $va;
+                        if( typeof fn === "function"){
+                            $buttonEl.addEventListener($ka, fn);
+                        }
+                    }
+                }
+
+                $buttonEl.classList.add('njs-button');
+                $buttonEl.setAttribute('title', $title);
+                $buttonEl.setAttribute('id', 'njs-'+$k + '-' + $key );
+                $buttonEl.setAttribute('njs-control-id', $k );
+                $buttonEl.setAttribute('njs-keys', $key );
+
+                $li.appendChild($buttonEl);
+
+                $ul.appendChild($li);
+            }
+        }
+
+        $dropdown.appendChild($ul);
+
+        $heading.appendChild($dropdown);
+        
+        $el.appendChild($heading);
+
+        $button.addEventListener('click', function( $e ){
+            $e.preventDefault();
+            var $this = this;
+
+            var $find = $this.parentElement.querySelector('.njs-popup');
+            $el.querySelectorAll('.njs-popup').forEach( $v => {
+                if( $v != $find){
+                    $v.classList.remove('njs-open');
+                }
+            });
+            $find.classList.toggle('njs-open');
+        });
+        return $ul;
+    },
+    createButton: function(  $el, $k, $key, $v){
+        if( !$el ){
+            return;
+        }
+        var $typeEl = ($v.type) ?? 'button';
+        var $action = document.createElement($typeEl);
+        $action.setAttribute('title', ($v.title) ?? '' );
+        $action.setAttribute('id', 'njs-'+$key + '-' + $k );
+        $action.setAttribute('njs-control-id', $k );
+        $action.setAttribute('njs-keys', $key );
+        
+        var $act = ($v.action) ?? false;
+        var $icon = ($v.icon) ?? '';
+        var $html = ($v.html) ?? '';
+        if( $icon != ''){
+            $action.setAttribute('class', $icon);
+        } else if( $html != ''){
+            $action.innerHTML = $html;
+        }
+
+        $action.classList.add('njs-button');
+        $action.classList.add('njs-' + $key);
+
+        
+        if( typeof $act === 'object' && $act !== null ){
+            for (const [$ka, $va] of Object.entries($act)) {
+                if( $ka == ''){
+                    continue;
+                }
+                
+                var fn = $va;
+                if( typeof fn === "function"){
+                    $action.addEventListener($ka, fn);
+                }
+            }
+        }
+
+        var $attr = ($v.attr) ?? { type: 'button'};
+        if( typeof $attr === 'object' && $attr !== null ){
+            for (const [$kat, $vat] of Object.entries($attr)) {
+                $action.setAttribute($kat, $vat );
+            }
+        }
+        
+        $el.appendChild($action);
+        return $action;
+    },
+    renTitle: function( $el, $k, $type){
+
+        if( !$el ){
+            return;
+        }
+
+        var $items = $nJsEditorCont.getType( $type );
+        if($items){
+
+            if( Object.entries($items) ){
+                for (const [$k1, $v] of Object.entries($items)) {
+
+                    var $data = ($v.data) ?? false;
+                    if( $data ){
+                        $nJsEditorCont.createDropDown($el, $k, $k1, $v);
+                    } else {
+                        $nJsEditorCont.createButton($el, $k, $k1, $v);
+                    }
+                    
+                }
+                var $seperator = document.createElement('span');
+                $seperator.classList.add('njs-toolbar__separator');
+
+                $el.appendChild($seperator);
+            }
+            
+        }
+    },
+    getType: function( t ){
+       
+        var $types = {
+            'title' : {
+                'heading' : {'attr' : { class: 'njs-heading'}, 'title' : 'Heading', 'icon' : 'fa fa-header', 'html' : 'Select once', 
+                    'action' : {'click' : $nJsEditor.headingAction },
+                    'data' : $nJsEditor.getFormatFont()
+                },
+                'fontfamily' : {'attr' : { class: 'njs-fontfamily'}, 'title' : 'Font Family', 'icon' : 'fa fa-font', 'html' : 'Select once', 
+                    'action' : {'click' : $nJsEditor.fontfamilyAction },
+                    'data' : $nJsEditor.getFontFamily()
+                },
+               
+                /*'fontcolor' : {'type' : 'input', 'attr' : { type: 'color'}, 'title' : 'Font Color', 'icon' : '', 'html' : '', 'action' : {'change' : $nJsEditor.fontcolorAction }},
+                'highlight' : {'type' : 'input', 'attr' : { type: 'color'}, 'title' : 'Highlight Color', 'icon' : '', 'html' : '', 'action' : {'change' : $nJsEditor.highlightAction }},
+                'fontfamily' : {'type' : 'select', 'attr' : { class: 'njs-fontfamily'}, 'title' : 'Font', 'icon' : '', 'html' : '', 'action' : {'change' : $nJsEditor.fontfamilyAction }},
+                'increase' : {'title' : 'Increase Font', 'icon' : 'fa fa-font', 'html' : '', 'action' : {'click' : $nJsEditor.increaseAction }},*/
+            },
+            'normal' : {
+                'paragraph' : {'title' : 'Paragraph', 'icon' : 'fa fa-paragraph', 'html' : 'br', 'action' : {'click' : $nJsEditor.paragraphAction }},
+                'bold' : {'title' : 'Bold', 'icon' : 'fa fa-bold', 'html' : '', 'action' : {'click' : $nJsEditor.boldAction }},
+                'italic' : {'title' : 'Italic', 'icon' : 'fa fa-italic', 'html' : '', 'action' : {'click' : $nJsEditor.italicAction }},
+                'underline' : {'title' : 'Underline', 'icon' : 'fa fa-underline', 'html' : '', 'action' : {'click' : $nJsEditor.underlineAction }},
+                'strike' : {'title' : 'Strike', 'icon' : 'fa fa-strikethrough', 'html' : '', 'action' : {'click' : $nJsEditor.strikeAction }},
+            },
+            'link' : {
+                'link' : {'title' : 'Inset / Edit Link', 'icon' : 'fa fa-link', 'html' : '', 'action' : {'click' : $nJsEditor.linkAction }},
+                'unlink' : {'title' : 'Remove Link', 'icon' : 'fa fa-chain-broken', 'html' : '', 'action' : {'click' : $nJsEditor.unlinkAction }},
+            },
+            'align' : {
+                'alignment' : {'attr' : { class: 'njs-align'}, 'title' : 'Align', 'icon' : 'fa fa-align-left', 'html' : '', 
+                    'data' : {
+                        'left' : {'title' : 'Left Align', 'icon' : 'fa fa-align-left', 'html' : '', 'action' : {'click' : $nJsEditor.leftAction }},
+                        'center' : {'title' : 'Center Align', 'icon' : 'fa fa-align-center', 'html' : '', 'action' : {'click' : $nJsEditor.centerAction }},
+                        'right' : {'title' : 'Right Align', 'icon' : 'fa fa-align-right', 'html' : '', 'action' : {'click' : $nJsEditor.rightAction }},
+                        'justify' : {'title' : 'Justify Align', 'icon' : 'fa fa-align-justify', 'html' : '', 'action' : {'click' : $nJsEditor.justifyAction }},
+                    }
+                },
+                
+            },
+            'order' : {
+                'ordered' : {'title' : 'Number List', 'icon' : 'fa fa-list-ol', 'html' : '', 'action' : {'click' : $nJsEditor.orderedAction }},
+                'unordered' : {'title' : 'Bulleted List', 'icon' : 'fa fa-list-ul', 'html' : '', 'action' : {'click' : $nJsEditor.unorderedAction }},
+            },
+            
+            'math' : {
+                'sup' : {'title' : 'Sup', 'icon' : 'fa fa-superscript', 'html' : '', 'action' : {'click' : $nJsEditor.supAction }},
+                'sub' : {'title' : 'Sub', 'icon' : 'fa fa-subscript', 'html' : '', 'action' : {'click' : $nJsEditor.subAction }},
+            }
+
+        };
+        return ($types[t]) ?? false;
+    },
+    setClickPopupData: function( $el ){
+        if( !$el){
+            return;
+        }
+        $el.querySelectorAll('.njs-popup').forEach( $v => {
+            $v.classList.remove('njs-open');
+        });
+    }
+};
 
 var $nJsEditor = {
 
@@ -27,106 +285,59 @@ var $nJsEditor = {
                 if( $control != ''){
                     $v.setAttribute('njs-' + $type, JSON.stringify($control)); 
                 }
-                
-                let $items = $v.getAttribute('njs-' + $type);
-                if( !$items ){
-                    $items = $nJsEditor.getType( $type );
-                }
-
+              
                 // parent
                 var $parentEl = $v.parentElement;
                 var $appendEl = $parentEl.querySelector('.njseditor-'+ $k);
 
+                var $mode = ($sett.displayMode) ? $sett.displayMode : 'white';
                 var $panelClass = ($sett.panelClass) ? $sett.panelClass : 'njs-editor-panel';
                 var $new = document.createElement('div');
                 $new.classList.add($panelClass);
                 $new.classList.add('njseditor-panel-'+ $k);
+                $new.classList.add('njseditor-mode-'+ $mode);
                 $new.setAttribute('njs-panel', 'njseditor-'+ $k);
+                
+                var $controls = document.createElement('div');
+                $controls.classList.add('njseditor-panel-controls');
 
-                if( Object.entries($items) ){
-                    var $controls = document.createElement('div');
-                    $controls.classList.add('njseditor-panel-controls');
-                    
-                    for (const [$kk, $vv] of Object.entries($items)) {
-                        var $typeEl = ($vv.type) ?? 'button';
-                        var $action = document.createElement($typeEl);
-                        $action.setAttribute('title', ($vv.title) ?? '' );
-                        $action.setAttribute('id', 'njs-'+$kk + '-' + $k );
-                        $action.setAttribute('njs-control-id', $k );
-                        $action.setAttribute('njs-keys', $kk );
-                        
-                        var $act = ($vv.action) ?? false;
-                        var $icon = ($vv.icon) ?? '';
-                        var $html = ($vv.html) ?? '';
-                        if( $icon != ''){
-                            $action.setAttribute('class', $icon);
-                        } else if( $html != ''){
-                            $action.innerHTML = $html;
-                        }
+                // render control
+                $nJsEditorCont.renTitle($controls, $k, 'normal');
+                $nJsEditorCont.renTitle($controls, $k, 'title');
+                $nJsEditorCont.renTitle($controls, $k, 'link');
+                $nJsEditorCont.renTitle($controls, $k, 'align');
+                $nJsEditorCont.renTitle($controls, $k, 'order');
+                $nJsEditorCont.renTitle($controls, $k, 'math');
 
-                        $action.classList.add('njs-controls');
-                        $action.classList.add('njs-' + $kk);
+                $new.appendChild($controls);
+                
+                var $editorPanel = document.createElement('div');
+                $editorPanel.classList.add('njseditor-panel-editor');
 
-                        
-                        if( Object.entries($act) ){
-                            for (const [$ka, $va] of Object.entries($act)) {
-                                if( $ka == ''){
-                                    continue;
-                                }
-                                
-                                var fn = $va;
-                                if( typeof fn === "function"){
-                                    $action.addEventListener($ka, fn);
-                                }
-                            }
-                        }
+                var $editorMode = document.createElement('iframe');
+                $editorMode.classList.add('njseditor-iframe-editor');
+                $editorMode.setAttribute('id', 'njseditor-mode-' + $k);
+                $editorMode.setAttribute('name', 'njseditor-mode-' + $k);
+                $editorMode.setAttribute('frameborder', 0);
+                
+                $editorMode.setAttribute('style', 'height: 100%; width: 100%; position: relative;');
+                $editorPanel.appendChild($editorMode);
 
-                        var $attr = ($vv.attr) ?? { type: 'button'};
-                        if( Object.entries($attr) ){
-                            for (const [$kat, $vat] of Object.entries($attr)) {
-                                $action.setAttribute($kat, $vat );
-                            }
-                        }
-                        $controls.appendChild($action);
+                window.addEventListener("load", function( $e ){
+                    $e.preventDefault();
+                    var $editor = window.frames['njseditor-mode-' + $k].document;
+                    if( $editor){
+                        $editor.body.innerHTML = $v.value;
+                        $editor.designMode = "on";
+                        $editor.body.setAttribute('njs-control-id', $k);
+                        $editor.addEventListener('keyup', $nJsEditor.editorKeyup);
                     }
-
-                    $new.appendChild($controls);
-
-                    var $editorPanel = document.createElement('div');
-                    $editorPanel.classList.add('njseditor-panel-editor');
-
-                    var $editorMode = document.createElement('iframe');
-                    $editorMode.classList.add('njseditor-iframe-editor');
-                    $editorMode.setAttribute('id', 'njseditor-mode-' + $k);
-                    $editorMode.setAttribute('name', 'njseditor-mode-' + $k);
-                    $editorMode.setAttribute('frameborder', 0);
                     
-                    $editorMode.setAttribute('style', 'height: 100%; width: 100%; position: relative;');
-                    $editorPanel.appendChild($editorMode);
+                });
 
-                    window.addEventListener("load", function( $e ){
-                        $e.preventDefault();
-                        var $editor = window.frames['njseditor-mode-' + $k].document;
-                        if( $editor){
-                            $editor.body.innerHTML = $v.value;
-                            $editor.designMode = "on";
-                            $editor.body.setAttribute('njs-control-id', $k);
-                            $editor.addEventListener('keyup', $nJsEditor.editorKeyup);
-                        }
-                        
-                    });
-
-                    $new.appendChild($editorPanel);
-
-                }
+                $new.appendChild($editorPanel);
+                
                 $parentEl.insertBefore($new, $appendEl);
-
-                 // font render 
-                var $elFont = $new.querySelectorAll( '.njs-fontfamily' );
-                $nJsEditor.setFontFamily($elFont);
-
-                var $elHeading = $new.querySelectorAll( '.njs-heading' );
-                $nJsEditor.setHeading($elHeading);
 
             });
 
@@ -146,7 +357,6 @@ var $nJsEditor = {
             'h4' : 'Heading 4',
             'h5' : 'Heading 5',
             'h6' : 'Heading 6',
-            'blockquote' : 'Blockquote',
         };
     },
     
@@ -181,68 +391,12 @@ var $nJsEditor = {
             });
         }
     },
-    getType: function( $type ){
-        let $types = {
-            'basic' : {
-                'paragraph' : {'title' : 'Paragraph', 'icon' : 'fa fa-paragraph', 'html' : 'br', 'action' : {'click' : $nJsEditor.paragraphAction }},
-                'bold' : {'title' : 'Bold', 'icon' : 'fa fa-bold', 'html' : '', 'action' : {'click' : $nJsEditor.boldAction }},
-                'italic' : {'title' : 'Italic', 'icon' : 'fa fa-italic', 'html' : '', 'action' : {'click' : $nJsEditor.italicAction }},
-                
-                'link' : {'title' : 'Inset / Edit Link', 'icon' : 'fa fa-link', 'html' : '', 'action' : {'click' : $nJsEditor.linkAction }},
-                'unlink' : {'title' : 'Remove Link', 'icon' : 'fa fa-chain-broken', 'html' : '', 'action' : {'click' : $nJsEditor.unlinkAction }},
-                'underline' : {'title' : 'Underline', 'icon' : 'fa fa-underline', 'html' : '', 'action' : {'click' : $nJsEditor.underlineAction }},
-                
-                'sup' : {'title' : 'Sup', 'icon' : 'fa fa-superscript', 'html' : '', 'action' : {'click' : $nJsEditor.supAction }},
-                'sub' : {'title' : 'Sub', 'icon' : 'fa fa-subscript', 'html' : '', 'action' : {'click' : $nJsEditor.subAction }},
-                'strike' : {'title' : 'Strike', 'icon' : 'fa fa-strikethrough', 'html' : '', 'action' : {'click' : $nJsEditor.strikeAction }},
-                
-                'left' : {'title' : 'Left Align', 'icon' : 'fa fa-align-left', 'html' : '', 'action' : {'click' : $nJsEditor.leftAction }},
-                'center' : {'title' : 'Center Align', 'icon' : 'fa fa-align-center', 'html' : '', 'action' : {'click' : $nJsEditor.centerAction }},
-                'right' : {'title' : 'Right Align', 'icon' : 'fa fa-align-right', 'html' : '', 'action' : {'click' : $nJsEditor.rightAction }},
-                'justify' : {'title' : 'Justify Align', 'icon' : 'fa fa-align-justify', 'html' : '', 'action' : {'click' : $nJsEditor.justifyAction }},
-                
-                'ordered' : {'title' : 'Number List', 'icon' : 'fa fa-list-ol', 'html' : '', 'action' : {'click' : $nJsEditor.orderedAction }},
-                'unordered' : {'title' : 'Bulleted List', 'icon' : 'fa fa-list-ul', 'html' : '', 'action' : {'click' : $nJsEditor.unorderedAction }},
-                
-                'fontcolor' : {'type' : 'input', 'attr' : { type: 'color'}, 'title' : 'Font Color', 'icon' : '', 'html' : '', 'action' : {'change' : $nJsEditor.fontcolorAction }},
-                'highlight' : {'type' : 'input', 'attr' : { type: 'color'}, 'title' : 'Highlight Color', 'icon' : '', 'html' : '', 'action' : {'change' : $nJsEditor.highlightAction }},
-                
-                'fontfamily' : {'type' : 'select', 'attr' : { class: 'njs-fontfamily'}, 'title' : 'Font', 'icon' : '', 'html' : '', 'action' : {'change' : $nJsEditor.fontfamilyAction }},
-                'heading' : {'type' : 'select', 'attr' : { class: 'njs-heading'}, 'title' : 'Heading', 'icon' : '', 'html' : '', 'action' : {'change' : $nJsEditor.headingAction }},
-                
-                'increase' : {'title' : 'Increase Font', 'icon' : 'fa fa-font', 'html' : '', 'action' : {'click' : $nJsEditor.increaseAction }},
-                
-            },
-            'classic' : [
-
-            ],
-            'advance' : [
-
-            ]
-        };
-        switch($type){
-            case 'basic':
-                return ($types.basic) ? $types.basic : [];
-            break;
-
-            case 'classic':
-                return ($types.classic) ? $types.classic : [];
-            break;
-
-            case 'advance':
-                return ($types.advance) ? $types.advance : [];
-            break;
-
-            default: 
-                return ($types.basic) ? $types.basic : [];
-            break;
-        }
-        
-    },
+    
     getSettings: function( $el ){
         let $default = {
             type: 'basic', // css, class
-            panelClass : 'njs-editor-panel'
+            panelClass : 'njs-editor-panel',
+            displayMode: 'white', //// dark, white
         };
 
         let $settings = $el.getAttribute('njs-settings');
@@ -255,6 +409,7 @@ var $nJsEditor = {
         let $neSettings = {};
         $neSettings.type = ($settings.type) ? $settings.type : $default.type;
         $neSettings.panelClass = ($settings.panelClass) ? $settings.panelClass : $default.panelClass;
+        $neSettings.displayMode = ($settings.displayMode) ? $settings.displayMode : $default.displayMode;
         
         return $neSettings;
     },
@@ -263,6 +418,7 @@ var $nJsEditor = {
         if( $el ){
             $el.innerHTML =  $editor.body.innerHTML;
         }
+        $nJsEditorCont.setClickPopupData( document.querySelector('.njseditor-panel-' + $k) );
     },
     getValue: function($el, $name ){
         if( $el ){
@@ -530,7 +686,7 @@ var $nJsEditor = {
         var $editor = window.frames['njseditor-mode-' + $k].document;
         if($editor){
             $editor.execCommand("styleWithCSS", true, null);
-            $editor.execCommand("FontName", false, $e.target.value);
+            $editor.execCommand("FontName", false, $e.target.getAttribute('njs-value'));
             $nJsEditor.setValue($k, $editor );
         }
     },
@@ -544,7 +700,7 @@ var $nJsEditor = {
         var $editor = window.frames['njseditor-mode-' + $k].document;
         if($editor){
             $editor.execCommand("styleWithCSS", true, null);
-            $editor.execCommand("formatblock", false, $e.target.value);
+            $editor.execCommand("formatblock", false, $e.target.getAttribute('njs-value'));
             $nJsEditor.setValue($k, $editor );
         }
     },

@@ -1,14 +1,19 @@
 
 .njs-editor-panel{
-	border:2px solid #8d8484;
+	border:1px solid #8d8484;
 	height:100%;
 	width: 100%;
 }
 .njs-editor-panel > .njseditor-panel-controls{
 	display: flex;
+    border: 1px solid #8d8484;
+    border-top-width: 0px;
+    border-left-width: 0px;
+    border-right-width: 0px;
 }
 .njs-editor-panel > .njseditor-panel-controls > *{
     margin: 5px;
+    margin-left: 0px;
 }
 .njs-editor-panel > .njseditor-panel-editor{
 	display: block;
@@ -16,4 +21,97 @@
 iframe.njseditor-iframe-editor{
 	height:100%;
 	width:100%;
+}
+
+.njs-editor-control{
+	position: relative;
+}
+
+.njs-editor-control .njs-button,
+.njseditor-panel-controls .njs-button{
+	white-space: nowrap;
+    cursor: default;
+    vertical-align: middle;
+    text-align: center;
+    min-width: 27px;
+    line-height: 1;
+    font-size: inherit;
+    border: 1px solid transparent;
+    transition: box-shadow .2s ease-in-out,border .2s ease-in-out;
+    -webkit-appearance: none;
+	background: transparent;
+	position: relative;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+	padding: 5px;
+}
+
+.njs-editor-control .njs-button:not(.njs-disabled):hover, 
+a.njs-editor-control .njs-button:not(.njs-disabled):hover,
+.njseditor-panel-controls .njs-button:not(.njs-disabled):hover, 
+a.njseditor-panel-controls .njs-button:not(.njs-disabled):hover 
+{
+    background: #eeeeee;
+}
+
+.njs-editor-control .njs-button.fa-angle-down,
+.njs-editor-control .njs-button.fa-angle-up{
+	min-width: auto;
+    padding-right: 16px;
+}
+.njs-editor-control .njs-button.fa-angle-down::before,
+.njs-editor-control .njs-button.fa-angle-up::before{
+	position: absolute;
+    right: 2px;
+    top: 6px;
+}
+
+.njs-editor-control .njs-popup{
+    position: absolute;
+    display: none;
+    z-index: 999;
+    background: #fff;
+    border: 1px solid #ccc;
+    box-shadow: 0 1px 2px 1px rgba(0,0,0,0.15);
+    min-width: 33px;
+}
+.njs-editor-control .njs-popup.njs-open{
+	display: block;
+}
+
+
+.njs-editor-control .njs-popup .njs-list{
+    list-style: none;
+    margin: 0px;
+    padding: 0;
+    user-select: none;
+    display: flex;
+    flex-direction: column;
+}
+.njs-editor-control .njs-popup .njs-list li{
+    display: block;
+}
+
+.njs-editor-control .njs-popup .njs-list li > button{
+    width: 100%;
+}
+.njs-editor-control .njs-popup .njs-list li .njs-no-pointer{
+    justify-content: left;
+}
+.njs-editor-control .njs-popup .njs-list li .njs-no-pointer > *{
+    margin: 0px;
+    padding: 0px;
+    user-select: none;
+    pointer-events: none;
+}
+
+
+.njs-toolbar__separator{
+    display: inline-block;
+    align-self: stretch;
+    width: 1px;
+    min-width: 1px;
+    background: #ccc;
+    margin: 5px 0;
 }
