@@ -434,39 +434,7 @@ var $nJsEditor = {
             'blockquote' : 'Blockquote',
         };
     },
-    
-    setFontFamily: function( $el ){
-        if( $el.length > 0){
-            var $fonts = $nJsEditor.getFontFamily();
-            $el.forEach( $v => {
-                var $i = 0;
-                for(; $i < $fonts.length; $i++){
-                    var $reF = document.createElement('option');
-                    $reF.setAttribute('value', $fonts[$i]);
-                    $reF.innerHTML = $fonts[$i];
-                    $reF.style.fontFamily = $fonts[$i];
-                    $v.appendChild($reF);
-                }
-            });
-        }
-    },
-    setHeading: function( $el ){
-        if( $el.length > 0){
-            $el.forEach( $v => {
-                var $fonts = $nJsEditor.getFormatFont();
-                
-                if( Object.entries($fonts) ){
-                    for (const [$k, $v1] of Object.entries($fonts)) {
-                        var $reF = document.createElement('option');
-                        $reF.setAttribute('value', $k);
-                        $reF.innerHTML = $v1;
-                        $v.appendChild($reF);
-                    }
-                }
-            });
-        }
-    },
-    
+   
     getSettings: function( $el ){
         let $default = {
             type: 'basic', // css, class
@@ -879,11 +847,33 @@ var $nJsEditor = {
         if( !$k ){
             return;
         }
-        console.log('Externam');
         var $editor = window.frames['njseditor-mode-' + $k].document;
         if($editor){
+            var $el = document.querySelector('.njseditor-panel-' + $k);
+            var $popup = $nJsEditor.createLinkBox($el);
+
+            var $select = $editor.getSelection().getRangeAt(0);
+            var $offsetLeft = ($select.startOffset) ?? 0;
+            var $offsetTop = ($select.endContainer.parentElement.offsetTop) ?? 0;
+            $offsetLeft += 10;
+            $offsetTop += 50;
+            //var $selectCOn = $select.extractContents();
+
+            /*var $span = document.createElement("span");
+            $span.setAttribute('style', 'color: yellow; text-decoration: underline; text-underline-offset: 0.15em; text-underline-position: under;');
+            $span.appendChild($selectCOn);
+            $select.insertNode($span);*/
+
+            console.log( 'Editor:', $select );
+            console.log( 'Top:', $offsetTop );
+            console.log( 'Left:', $offsetLeft );
+            //console.log( 'span:', $span );
+            
+            $popup.style.top = $offsetTop + 'px';
+            $popup.style.left = $offsetLeft  + 'px';
+
             //$editor.execCommand("delete", null, false);
-            $nJsEditor.setValue($k, $editor );
+            //$nJsEditor.setValue($k, $editor );
         }
     },
     uploadfileAction: function( $e ){
@@ -901,7 +891,17 @@ var $nJsEditor = {
         }
     },
 
-    
+    createLinkBox: function( $el ){
+        if( !$el ){
+            return;
+        }
+        var $popup = document.createElement('div');
+        $popup.setAttribute('class', 'njs-editor-overpopup');
+        $popup.innerText = 'Hello';
+
+        $el.appendChild($popup);
+        return $popup;
+    }
 
 
 

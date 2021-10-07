@@ -86,7 +86,7 @@ a.njseditor-panel-controls .njs-button:not(.njs-disabled):hover
 .njs-editor-control .njs-popup{
     position: absolute;
     display: none;
-    z-index: 999;
+    z-index: 997;
     background: #fff;
     border: 1px solid #ccc;
     box-shadow: 0 1px 2px 1px rgba(0,0,0,0.15);
@@ -179,4 +179,15 @@ a.njseditor-panel-controls .njs-button:not(.njs-disabled):hover
     margin-right: 0;
     font-style: italic;
     border-left: 5px solid #ccc;
+}
+
+.njs-editor-overpopup{
+    position: absolute;
+    z-index: 999;
+    background: #fff;
+    border: 1px solid #ccc;
+    box-shadow: 0 1px 2px 1px rgba(0,0,0,0.15);
+    min-width: 150px;
+    top: 45px;
+    left: 0px;
 }
