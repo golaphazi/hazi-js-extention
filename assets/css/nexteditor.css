@@ -118,6 +118,12 @@ a.njseditor-panel-controls .njs-button:not(.njs-disabled):hover
     cursor: pointer;
     font-size: 14px;
 }
+.njs-editor-control .njs-popup .njs-list li > button.njs-files {
+   text-indent: 10px;
+}
+.njs-editor-control .njs-popup .njs-list li > button.njs-files:before {
+    text-indent: 0px;
+ }
 .njs-editor-control .njs-popup .njs-list li .njs-no-pointer{
     justify-content: left;
 }

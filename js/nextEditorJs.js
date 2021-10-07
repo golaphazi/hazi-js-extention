@@ -62,6 +62,10 @@ var $nJsEditorCont = {
                     } else{
                         $buttonEl.innerHTML = $htmlV;
                     }
+                    if( $key == 'extlink' || $key == 'uploadfile') {
+                        $buttonEl.innerHTML += $title;
+                        $attr.class += ' njs-no-pointer';
+                    } 
                 } else {
                     $title = $vat;
                     $buttonEl.setAttribute('njs-value', $kat);
@@ -75,10 +79,10 @@ var $nJsEditorCont = {
                     }else if( $key == 'fontcolor' || $key == 'highlight') {
                         $buttonEl.style.backgroundColor = $kat;
                         $attr.class += ' njs-no-pointer';
-                    }  else if( $key == 'fontsize' ) {
+                    } else if( $key == 'fontsize' ) {
                         $buttonEl.innerHTML = $vat;
                         $attr.class += ' njs-no-pointer';
-                    }else {
+                    } else {
                         $buttonEl.innerHTML = $vat;
                     }
                     
@@ -248,6 +252,12 @@ var $nJsEditorCont = {
             'link' : {
                 'link' : {'title' : 'Inset / Edit Link', 'icon' : 'fa fa-link', 'html' : '', 'action' : {'click' : $nJsEditor.linkAction }},
                 'unlink' : {'title' : 'Remove Link', 'icon' : 'fa fa-unlink', 'html' : '', 'action' : {'click' : $nJsEditor.unlinkAction }},
+                'upload' : {'attr' : { class: 'njs-files'}, 'title' : 'Upload Files', 'icon' : 'fa fa-image', 'html' : '', 
+                    'data' : {
+                        'extlink' : {'title' : 'External Link', 'icon' : 'fa fa-chain', 'html' : '', 'action' : {'click' : $nJsEditor.extlinkAction }},
+                        'uploadfile' : {'title' : 'Upload files', 'icon' : 'fa fa-file-image-o', 'html' : '', 'action' : {'click' : $nJsEditor.uploadfileAction }},
+                    }
+                },
             },
             'align' : {
                 'alignment' : {'attr' : { class: 'njs-align'}, 'title' : 'Align', 'icon' : 'fa fa-align-left', 'html' : '', 
@@ -269,6 +279,7 @@ var $nJsEditorCont = {
                 'copy' : {'title' : 'Copy', 'icon' : 'fa fa-copy', 'html' : '', 'action' : {'click' : $nJsEditor.copyAction }},
                 'cut' : {'title' : 'Cut', 'icon' : 'fa fa-cut', 'html' : '', 'action' : {'click' : $nJsEditor.cutAction }},
                 'paste' : {'title' : 'Paste', 'icon' : 'fa fa-paste', 'html' : '', 'action' : {'click' : $nJsEditor.pasteAction }},
+                'delete' : {'title' : 'Delete', 'icon' : 'fa fa-trash-o', 'html' : '', 'action' : {'click' : $nJsEditor.deleteAction }},
             },
             
             'math' : {
@@ -278,7 +289,8 @@ var $nJsEditorCont = {
             'rollback' : {
                 'undo' : {'title' : 'Undo', 'icon' : 'fa fa-undo', 'html' : '', 'action' : {'click' : $nJsEditor.undoAction }},
                 'redo' : {'title' : 'Redo', 'icon' : 'fa fa-repeat', 'html' : '', 'action' : {'click' : $nJsEditor.redoAction }},
-            }
+            },
+            
 
         };
         return ($types[t]) ?? false;
@@ -332,9 +344,9 @@ var $nJsEditor = {
                 $nJsEditorCont.renTitle($controls, $k, 'title');
                 
                 $nJsEditorCont.renTitle($controls, $k, 'normal');
-                $nJsEditorCont.renTitle($controls, $k, 'link');
                 $nJsEditorCont.renTitle($controls, $k, 'align');
                 $nJsEditorCont.renTitle($controls, $k, 'order');
+                $nJsEditorCont.renTitle($controls, $k, 'link');
                 $nJsEditorCont.renTitle($controls, $k, 'copy_cut');
                 $nJsEditorCont.renTitle($controls, $k, 'math');
                 $nJsEditorCont.renTitle($controls, $k, 'rollback');
@@ -720,6 +732,7 @@ var $nJsEditor = {
         }
         var $editor = window.frames['njseditor-mode-' + $k].document;
         if($editor){
+            
             $editor.execCommand("styleWithCSS", true, null);
             $editor.execCommand("ForeColor", false, $e.target.getAttribute('njs-value'));
             $nJsEditor.setValue($k, $editor );
@@ -846,6 +859,51 @@ var $nJsEditor = {
             $nJsEditor.setValue($k, $editor );
         }
     },
+    deleteAction: function( $e ){
+        $e.preventDefault();
+        var $this = this;
+        var $k = $this.getAttribute('njs-control-id');
+        if( !$k ){
+            return;
+        }
+        var $editor = window.frames['njseditor-mode-' + $k].document;
+        if($editor){
+            $editor.execCommand("delete", null, false);
+            $nJsEditor.setValue($k, $editor );
+        }
+    },
+    extlinkAction: function( $e ){
+        $e.preventDefault();
+        var $this = this;
+        var $k = $this.getAttribute('njs-control-id');
+        if( !$k ){
+            return;
+        }
+        console.log('Externam');
+        var $editor = window.frames['njseditor-mode-' + $k].document;
+        if($editor){
+            //$editor.execCommand("delete", null, false);
+            $nJsEditor.setValue($k, $editor );
+        }
+    },
+    uploadfileAction: function( $e ){
+        $e.preventDefault();
+        var $this = this;
+        var $k = $this.getAttribute('njs-control-id');
+        if( !$k ){
+            return;
+        }
+        console.log('Upload');
+        var $editor = window.frames['njseditor-mode-' + $k].document;
+        if($editor){
+            //$editor.execCommand("delete", null, false);
+            $nJsEditor.setValue($k, $editor );
+        }
+    },
+
+    
+
+
 
 };
 
