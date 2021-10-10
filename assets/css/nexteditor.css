@@ -191,3 +191,7 @@ a.njseditor-panel-controls .njs-button:not(.njs-disabled):hover
     top: 45px;
     left: 0px;
 }
+.njs-fake-link-selection{
+    background-color: rgb(31 177 255 / 30%);
+    position: relative;
+}

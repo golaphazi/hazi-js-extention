@@ -851,26 +851,64 @@ var $nJsEditor = {
         if($editor){
             var $el = document.querySelector('.njseditor-panel-' + $k);
             var $popup = $nJsEditor.createLinkBox($el);
-
+            
             var $select = $editor.getSelection().getRangeAt(0);
-            var $offsetLeft = ($select.startOffset) ?? 0;
-            var $offsetTop = ($select.endContainer.parentElement.offsetTop) ?? 0;
-            $offsetLeft += 10;
-            $offsetTop += 50;
-            //var $selectCOn = $select.extractContents();
 
-            /*var $span = document.createElement("span");
-            $span.setAttribute('style', 'color: yellow; text-decoration: underline; text-underline-offset: 0.15em; text-underline-position: under;');
+            /*if($select.rangeCount > 0) $select.removeAllRanges();
+
+            var $selections = $editor.querySelectorAll(".njs-fake-link-selection");
+            for(var i = 0; i < $selections.length; i++) {
+                var range = document.createRange();
+                range.selectNode($selections[i]);
+                $selections.addRange(range);
+            }*/
+
+            //var $offsetLeft = ($select.endContainer.offsetLeft) ?? 0;
+            //var $offsetTop = ($select.endContainer.offsetTop) ?? 0;
+            //$offsetLeft += 10;
+            //$offsetTop += 50;
+            
+            // remove fake link
+            /*var $link = $select.startContainer.parentElement.querySelectorAll('.njs-fake-link-selection');
+            if( $link.length > 0){
+                $link.forEach( $v => {
+                    var $html = $v.innerHTML;
+                    console.log( $html );
+                    var $newNode = document.createTextNode('');
+                    $newNode.innerHTML = $html;
+
+                    $select.deleteContents();
+                    $select.insertNode($newNode);
+                });
+            }*/
+            //console.log( 'Editor:', $select );
+
+            
+            var $selectCOn = $select.extractContents();
+            var $span = document.createElement("span");
+            $span.setAttribute('class', 'njs-fake-link-selection');
             $span.appendChild($selectCOn);
-            $select.insertNode($span);*/
+            $select.insertNode($span);
 
-            console.log( 'Editor:', $select );
-            console.log( 'Top:', $offsetTop );
-            console.log( 'Left:', $offsetLeft );
-            //console.log( 'span:', $span );
+            var $offsetLeft = ($span.offsetLeft) ?? 0;
+            var $offsetTop = ($span.offsetTop) ?? 0;
+            $offsetTop += 60;
             
             $popup.style.top = $offsetTop + 'px';
             $popup.style.left = $offsetLeft  + 'px';
+
+            /*var $link = $select.startContainer.parentElement.querySelectorAll('.njs-fake-link-selection');
+            if( $link.length > 0){
+                $link.forEach( $v => {
+                    var $html = $v.innerHTML;
+                    console.log( $html );
+                    var $newNode = document.createTextNode('');
+                    $newNode.replaceWholeText($html);
+                    $select.deleteContents();
+                    $select.insertNode($newNode);
+                });
+            }*/
+            $select.toString();
 
             //$editor.execCommand("delete", null, false);
             //$nJsEditor.setValue($k, $editor );
@@ -892,13 +930,16 @@ var $nJsEditor = {
     },
 
     createLinkBox: function( $el ){
-        if( !$el ){
+        if( !$el){
             return;
+        }
+        var $check = $el.querySelector('.njs-editor-overpopup');
+        if($check){
+            return $check;
         }
         var $popup = document.createElement('div');
         $popup.setAttribute('class', 'njs-editor-overpopup');
         $popup.innerText = 'Hello';
-
         $el.appendChild($popup);
         return $popup;
     }
