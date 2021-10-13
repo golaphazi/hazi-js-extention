@@ -459,6 +459,7 @@ var $nJsEditor = {
     setValue: function($k, $editor ){
         var $el = document.querySelector('.njseditor-'+$k+'[njs-editor="njseditor-'+$k+'"]');
         if( $el ){
+            
             $el.innerHTML =  $editor.body.innerHTML;
         }
         $nJsEditorCont.setClickPopupData( document.querySelector('.njseditor-panel-' + $k) );
@@ -850,7 +851,7 @@ var $nJsEditor = {
         var $editor = window.frames['njseditor-mode-' + $k].document;
         if($editor){
             var $el = document.querySelector('.njseditor-panel-' + $k);
-            var $popup = $nJsEditor.createLinkBox($el);
+            var $popup = $nJsEditor.createLinkBox($el, 'image');
             
             var $select = $editor.getSelection().getRangeAt(0);
 
@@ -892,26 +893,25 @@ var $nJsEditor = {
 
             var $offsetLeft = ($span.offsetLeft) ?? 0;
             var $offsetTop = ($span.offsetTop) ?? 0;
-            $offsetTop += 60;
+            $offsetTop += 70;
             
             $popup.style.top = $offsetTop + 'px';
             $popup.style.left = $offsetLeft  + 'px';
 
-            /*var $link = $select.startContainer.parentElement.querySelectorAll('.njs-fake-link-selection');
+            //$nJsEditor.setValue($k, $editor );
+
+            var $link = $editor.querySelectorAll('span.njs-fake-link-selection');
             if( $link.length > 0){
                 $link.forEach( $v => {
                     var $html = $v.innerHTML;
                     console.log( $html );
-                    var $newNode = document.createTextNode('');
+                    /*var $newNode = document.createTextNode('');
                     $newNode.replaceWholeText($html);
                     $select.deleteContents();
-                    $select.insertNode($newNode);
+                    $select.insertNode($newNode);*/
                 });
-            }*/
-            $select.toString();
+            }
 
-            //$editor.execCommand("delete", null, false);
-            //$nJsEditor.setValue($k, $editor );
         }
     },
     uploadfileAction: function( $e ){
@@ -929,17 +929,40 @@ var $nJsEditor = {
         }
     },
 
-    createLinkBox: function( $el ){
+    createLinkBox: function( $el, $type = 'link'){
         if( !$el){
             return;
         }
         var $check = $el.querySelector('.njs-editor-overpopup');
         if($check){
-            return $check;
+            $check.remove();
         }
         var $popup = document.createElement('div');
         $popup.setAttribute('class', 'njs-editor-overpopup');
-        $popup.innerText = 'Hello';
+
+        var $con = document.createElement('div');
+        $con.setAttribute('class', 'njs-overpopup-continer');
+        //$popup.innerText = 'Hello';
+        if( $type == 'image'){
+            var $input = document.createElement('input');
+            $input.setAttribute('class', 'njs-popup-get-link njs-popup-link-image');
+            $con.appendChild($input);
+        } else {
+            var $input = document.createElement('input');
+            $input.setAttribute('class', 'njs-popup-get-link njs-popup-link-href');
+            $con.appendChild($input);
+        }
+
+        var $add = document.createElement('button');
+            $add.setAttribute('class', 'njs-button njs-popup-button-add fa fa-check');
+            $con.appendChild($add);
+
+        var $remove = document.createElement('button');
+            $remove.setAttribute('class', 'njs-button njs-popup-button-remove fa fa-close');
+            $con.appendChild($remove);
+
+        $popup.appendChild($con);
+
         $el.appendChild($popup);
         return $popup;
     }

@@ -183,15 +183,85 @@ a.njseditor-panel-controls .njs-button:not(.njs-disabled):hover
 
 .njs-editor-overpopup{
     position: absolute;
-    z-index: 999;
+    z-index: 997;
     background: #fff;
     border: 1px solid #ccc;
     box-shadow: 0 1px 2px 1px rgba(0,0,0,0.15);
     min-width: 150px;
     top: 45px;
     left: 0px;
+    padding: 10px;
 }
 .njs-fake-link-selection{
     background-color: rgb(31 177 255 / 30%);
     position: relative;
+}
+.njs-editor-overpopup:after, .njs-editor-overpopup:before {
+    width: 0;
+    height: 0;
+    border-style: solid;
+    content: "";
+    position: absolute;
+    left: 10%;
+    margin-left: 0;
+    top: -8px;
+    z-index: 999;
+}
+.njs-editor-overpopup:after, .njs-editor-overpopup:before {
+    border-left-width: 7px;
+    border-bottom-width: 7px;
+    border-right-width: 7px;
+    border-top-width: 0;
+
+    border-left-color: transparent;
+    border-right-color: transparent;
+    border-top-color: transparent;
+}
+
+.njs-editor-overpopup:before {
+    border-bottom-color: #ccc;
+}
+
+.njs-editor-overpopup:after {
+    border-bottom-color: #ffffff;
+    margin-top: 1px;
+}
+
+.njs-editor-overpopup > .njs-overpopup-continer{
+    display: flex;
+}
+
+.njs-overpopup-continer .njs-popup-get-link {
+    background: hsl(0deg 0% 100%);
+    border: 1px solid hsl(0deg 0% 78%);
+    padding: 5px 10px;
+    min-width: 100px;
+    min-height: 20px;
+    transition: box-shadow .1s ease-in-out,border .1s ease-in-out;
+    
+}
+
+.njs-overpopup-continer > button.njs-button{
+    white-space: nowrap;
+    cursor: default;
+    vertical-align: middle;
+    text-align: center;
+    min-width: 27px;
+    line-height: 1;
+    font-size: inherit;
+    border: 1px solid transparent;
+    transition: box-shadow .2s ease-in-out,border .2s ease-in-out;
+    -webkit-appearance: none;
+    background: transparent;
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 5px;
+    border-radius: 2px;
+    margin-left: 10px;
+}
+
+.njs-overpopup-continer > button.njs-button:hover{
+    background: #eeeeee;
 }
