@@ -17,7 +17,7 @@ var $nJsEditorCont = {
         $heading.setAttribute('title', ($v.title) ?? '' );
 
         var $button = document.createElement('button');
-        $button.setAttribute('class', 'njs-button njs-button-dropdown njs-button-'+$key+' fa fa-angle-down');
+        $button.setAttribute('class', 'njs-button njs-button-dropdown njs-button-'+$key+' njsicon njsicon-ctrl');
         $button.setAttribute('type', 'button');
         
         var $icon = ($v.icon) ?? '';
@@ -58,7 +58,7 @@ var $nJsEditorCont = {
                     var $iconB = ($vat.icon) ?? '';
                     var $htmlV = ($vat.html) ?? '';
                     if( $iconB != ''){
-                        $attr.class += ' ' + $iconB;
+                        $attr.class = ' ' + $iconB;
                     } else{
                         $buttonEl.innerHTML = $htmlV;
                     }
@@ -66,6 +66,17 @@ var $nJsEditorCont = {
                         $buttonEl.innerHTML += $title;
                         $attr.class += ' njs-no-pointer';
                     } 
+                    if( $key == 'uploadfile' ){
+                        var $files = document.createElement('input');
+                        $files.setAttribute('type', 'file');
+                        $files.setAttribute('id', 'njs-file-hidden-' + $k);
+                        $files.setAttribute('class', 'njs-file-hidden');
+                        $files.setAttribute('njs-control-id', $k );
+                        $files.setAttribute('multiple', '' );
+                        $files.setAttribute('accept','image/png, image/jpeg, image/gif' );
+
+                        $li.appendChild($files);
+                    }
                 } else {
                     $title = $vat;
                     $buttonEl.setAttribute('njs-value', $kat);
@@ -220,75 +231,76 @@ var $nJsEditorCont = {
        
         var $types = {
             'title' : {
-                'heading' : {'attr' : { class: 'njs-heading'}, 'title' : 'Heading', 'icon' : 'fa fa-header', 'html' : 'Select once', 
+                'heading' : {'attr' : { class: 'njs-heading'}, 'title' : 'Heading', 'icon' : 'njsicon njsicon-sort-alpha-asc', 'html' : 'Select once', 
                     'action' : {'click' : $nJsEditor.headingAction },
                     'data' : $nJsEditor.getFormatFont()
                 },
-                'fontfamily' : {'attr' : { class: 'njs-fontfamily'}, 'title' : 'Font Family', 'icon' : 'fa fa-font', 'html' : 'Select once', 
+                'fontfamily' : {'attr' : { class: 'njs-fontfamily'}, 'title' : 'Font Family', 'icon' : 'njsicon njsicon-font', 'html' : 'Select once', 
                     'action' : {'click' : $nJsEditor.fontfamilyAction },
                     'data' : $nJsEditor.getFontFamily()
                 },
-                'fontsize' : {'attr' : { class: 'njs-fontsize'}, 'title' : 'Font Size', 'icon' : 'fa fa-text-height', 'html' : 'Select once', 
+                'fontsize' : {'attr' : { class: 'njs-fontsize'}, 'title' : 'Font Size', 'icon' : 'njsicon njsicon-font-size', 'html' : 'Select once', 
                     'action' : {'click' : $nJsEditor.increaseAction },
                     'data' : $nJsEditor.getFontSize()
                 },
-                'fontcolor' : {'attr' : { class: 'njs-fontcolor'}, 'title' : 'Font Color', 'icon' : 'fa fa-text-width', 'html' : 'Select once', 
+                'fontcolor' : {'attr' : { class: 'njs-fontcolor'}, 'title' : 'Font Color', 'icon' : 'njsicon njsicon-text-color', 'html' : 'Select once', 
                     'action' : {'click' : $nJsEditor.fontcolorAction },
                     'data' : $nJsEditor.getFontColor()
                 },
-                'highlight' : {'attr' : { class: 'njs-fontcolor'}, 'title' : 'Highlight Color', 'icon' : 'fa fa-font', 'html' : 'Select once', 
+                'highlight' : {'attr' : { class: 'njs-fontcolor'}, 'title' : 'Highlight Color', 'icon' : 'njsicon njsicon-text-color', 'html' : 'Select once', 
                     'action' : {'click' : $nJsEditor.highlightAction },
                     'data' : $nJsEditor.getFontColor()
                 },
                 
             },
             'normal' : {
-                'paragraph' : {'title' : 'Paragraph', 'icon' : 'fa fa-paragraph', 'html' : 'br', 'action' : {'click' : $nJsEditor.paragraphAction }},
-                'bold' : {'title' : 'Bold', 'icon' : 'fa fa-bold', 'html' : '', 'action' : {'click' : $nJsEditor.boldAction }},
-                'italic' : {'title' : 'Italic', 'icon' : 'fa fa-italic', 'html' : '', 'action' : {'click' : $nJsEditor.italicAction }},
-                'underline' : {'title' : 'Underline', 'icon' : 'fa fa-underline', 'html' : '', 'action' : {'click' : $nJsEditor.underlineAction }},
-                'strike' : {'title' : 'Strike', 'icon' : 'fa fa-strikethrough', 'html' : '', 'action' : {'click' : $nJsEditor.strikeAction }},
+                'paragraph' : {'title' : 'Paragraph', 'icon' : 'njsicon njsicon-pilcrow', 'html' : 'br', 'action' : {'click' : $nJsEditor.paragraphAction }},
+                'bold' : {'title' : 'Bold', 'icon' : 'njsicon njsicon-bold', 'html' : '', 'action' : {'click' : $nJsEditor.boldAction }},
+                'italic' : {'title' : 'Italic', 'icon' : 'njsicon njsicon-italic', 'html' : '', 'action' : {'click' : $nJsEditor.italicAction }},
+                'underline' : {'title' : 'Underline', 'icon' : 'njsicon njsicon-underline', 'html' : '', 'action' : {'click' : $nJsEditor.underlineAction }},
+                'strike' : {'title' : 'Strike', 'icon' : 'njsicon njsicon-strikethrough', 'html' : '', 'action' : {'click' : $nJsEditor.strikeAction }},
             },
             'link' : {
-                'link' : {'title' : 'Inset / Edit Link', 'icon' : 'fa fa-link', 'html' : '', 'action' : {'click' : $nJsEditor.linkAction }},
-                'unlink' : {'title' : 'Remove Link', 'icon' : 'fa fa-unlink', 'html' : '', 'action' : {'click' : $nJsEditor.unlinkAction }},
-                'upload' : {'attr' : { class: 'njs-files'}, 'title' : 'Upload Files', 'icon' : 'fa fa-image', 'html' : '', 
+                'link_action' : {'title' : 'Inset / Edit Link', 'icon' : 'njsicon njsicon-link', 'html' : '', 'action' : {'click' : $nJsEditor.linkAction }},
+                'unlink' : {'title' : 'Remove Link', 'icon' : 'njsicon njsicon-shuffle', 'html' : '', 'action' : {'click' : $nJsEditor.unlinkAction }},
+                'upload' : {'attr' : { class: 'njs-files'}, 'title' : 'Upload Files', 'icon' : 'njsicon njsicon-image', 'html' : '', 
                     'data' : {
-                        'extlink' : {'title' : 'External Link', 'icon' : 'fa fa-chain', 'html' : '', 'action' : {'click' : $nJsEditor.extlinkAction }},
-                        'uploadfile' : {'title' : 'Upload files', 'icon' : 'fa fa-file-image-o', 'html' : '', 'action' : {'click' : $nJsEditor.uploadfileAction }},
+                        'extlink' : {'title' : 'External Link', 'icon' : 'njsicon njsicon-attachment', 'html' : '', 'action' : {'click' : $nJsEditor.extlinkAction }},
+                        'uploadfile' : {'title' : 'Upload files', 'icon' : 'njsicon njsicon-upload2', 'html' : '', 'action' : {'click' : $nJsEditor.uploadfileAction }},
                     }
                 },
+                'code' : {'title' : 'Inset HTML', 'icon' : 'njsicon njsicon-embed2', 'html' : '', 'action' : {'click' : $nJsEditor.codeAction }}
             },
             'align' : {
-                'alignment' : {'attr' : { class: 'njs-align'}, 'title' : 'Align', 'icon' : 'fa fa-align-left', 'html' : '', 
+                'alignment' : {'attr' : { class: 'njs-align'}, 'title' : 'Align', 'icon' : 'njsicon njsicon-paragraph-left', 'html' : '', 
                     'data' : {
-                        'left' : {'title' : 'Left Align', 'icon' : 'fa fa-align-left', 'html' : '', 'action' : {'click' : $nJsEditor.leftAction }},
-                        'center' : {'title' : 'Center Align', 'icon' : 'fa fa-align-center', 'html' : '', 'action' : {'click' : $nJsEditor.centerAction }},
-                        'right' : {'title' : 'Right Align', 'icon' : 'fa fa-align-right', 'html' : '', 'action' : {'click' : $nJsEditor.rightAction }},
-                        'justify' : {'title' : 'Justify Align', 'icon' : 'fa fa-align-justify', 'html' : '', 'action' : {'click' : $nJsEditor.justifyAction }},
+                        'left' : {'title' : 'Left Align', 'icon' : 'njsicon njsicon-paragraph-left', 'html' : '', 'action' : {'click' : $nJsEditor.leftAction }},
+                        'center' : {'title' : 'Center Align', 'icon' : 'njsicon njsicon-paragraph-center', 'html' : '', 'action' : {'click' : $nJsEditor.centerAction }},
+                        'right' : {'title' : 'Right Align', 'icon' : 'njsicon njsicon-paragraph-right', 'html' : '', 'action' : {'click' : $nJsEditor.rightAction }},
+                        'justify' : {'title' : 'Justify Align', 'icon' : 'njsicon njsicon-paragraph-justify', 'html' : '', 'action' : {'click' : $nJsEditor.justifyAction }},
                     }
                 },
                 
             },
             'order' : {
-                'ordered' : {'title' : 'Number List', 'icon' : 'fa fa-list-ol', 'html' : '', 'action' : {'click' : $nJsEditor.orderedAction }},
-                'unordered' : {'title' : 'Bulleted List', 'icon' : 'fa fa-list-ul', 'html' : '', 'action' : {'click' : $nJsEditor.unorderedAction }},
+                'ordered' : {'title' : 'Number List', 'icon' : 'njsicon njsicon-list-numbered', 'html' : '', 'action' : {'click' : $nJsEditor.orderedAction }},
+                'unordered' : {'title' : 'Bulleted List', 'icon' : 'njsicon njsicon-list2', 'html' : '', 'action' : {'click' : $nJsEditor.unorderedAction }},
             },
 
             'copy_cut' : {
-                'copy' : {'title' : 'Copy', 'icon' : 'fa fa-copy', 'html' : '', 'action' : {'click' : $nJsEditor.copyAction }},
-                'cut' : {'title' : 'Cut', 'icon' : 'fa fa-cut', 'html' : '', 'action' : {'click' : $nJsEditor.cutAction }},
-                'paste' : {'title' : 'Paste', 'icon' : 'fa fa-paste', 'html' : '', 'action' : {'click' : $nJsEditor.pasteAction }},
-                'delete' : {'title' : 'Delete', 'icon' : 'fa fa-trash-o', 'html' : '', 'action' : {'click' : $nJsEditor.deleteAction }},
+                'copy' : {'title' : 'Copy', 'icon' : 'njsicon njsicon-copy', 'html' : '', 'action' : {'click' : $nJsEditor.copyAction }},
+                'cut' : {'title' : 'Cut', 'icon' : 'njsicon njsicon-scissors', 'html' : '', 'action' : {'click' : $nJsEditor.cutAction }},
+                'paste' : {'title' : 'Paste', 'icon' : 'njsicon njsicon-paste', 'html' : '', 'action' : {'click' : $nJsEditor.pasteAction }},
+                'delete' : {'title' : 'Delete', 'icon' : 'njsicon njsicon-bin', 'html' : '', 'action' : {'click' : $nJsEditor.deleteAction }},
             },
             
             'math' : {
-                'sup' : {'title' : 'Sup', 'icon' : 'fa fa-superscript', 'html' : '', 'action' : {'click' : $nJsEditor.supAction }},
-                'sub' : {'title' : 'Sub', 'icon' : 'fa fa-subscript', 'html' : '', 'action' : {'click' : $nJsEditor.subAction }},
+                'sup' : {'title' : 'Sup', 'icon' : 'njsicon njsicon-superscript2', 'html' : '', 'action' : {'click' : $nJsEditor.supAction }},
+                'sub' : {'title' : 'Sub', 'icon' : 'njsicon njsicon-subscript2', 'html' : '', 'action' : {'click' : $nJsEditor.subAction }},
             },
             'rollback' : {
-                'undo' : {'title' : 'Undo', 'icon' : 'fa fa-undo', 'html' : '', 'action' : {'click' : $nJsEditor.undoAction }},
-                'redo' : {'title' : 'Redo', 'icon' : 'fa fa-repeat', 'html' : '', 'action' : {'click' : $nJsEditor.redoAction }},
+                'undo' : {'title' : 'Undo', 'icon' : 'njsicon njsicon-undo', 'html' : '', 'action' : {'click' : $nJsEditor.undoAction }},
+                'redo' : {'title' : 'Redo', 'icon' : 'njsicon njsicon-redo', 'html' : '', 'action' : {'click' : $nJsEditor.redoAction }},
             },
             
 
@@ -301,6 +313,15 @@ var $nJsEditorCont = {
         }
         $el.querySelectorAll('.njs-popup').forEach( $v => {
             $v.classList.remove('njs-open');
+        });
+    },
+
+    removePopupModal: function( $el ){
+        if( !$el){
+            return;
+        }
+        $el.querySelectorAll('.njs-editor-overpopup').forEach( $v => {
+            $v.remove();
         });
     }
 };
@@ -381,6 +402,19 @@ var $nJsEditor = {
                 
                 $parentEl.insertBefore($new, $appendEl);
 
+                $new.querySelectorAll('.njseditor-panel-controls > [title]').forEach( $vt => {
+                    if( !$vt.querySelector('.njs-tooltip') ){
+                        var $tooltip = document.createElement('span');
+                        $tooltip.classList.add('njs-tooltip');
+                        $tooltip.innerText = $vt.getAttribute('title');
+                        $vt.appendChild($tooltip);
+                        $vt.setAttribute('data-title', $vt.getAttribute('title'));
+                        $vt.removeAttribute('title');
+                    }
+                    
+                });
+
+                $nJsEditor.autoiframeHeight( $new );
             });
 
            
@@ -389,7 +423,15 @@ var $nJsEditor = {
     getFontFamily: function(){
         return ["Times New Roman", "Consolas", "Tahoma", "Monospace", "Cursive", "Sans-Serif", "Calibri", "Arial"];
     },
-
+    autoiframeHeight: function( $el ){
+        if( !$el ){
+            return;
+        }
+        $el.querySelectorAll('iframe').forEach( $v => {
+            //$v.style.width  = $v.contentWindow.document.body.scrollWidth + 'px';
+            $v.style.height = $v.contentWindow.document.body.scrollHeight + 'px';
+        });
+    },
     getFontSize: function(){
         return {
             '1' : 'Tiny',
@@ -459,10 +501,11 @@ var $nJsEditor = {
     setValue: function($k, $editor ){
         var $el = document.querySelector('.njseditor-'+$k+'[njs-editor="njseditor-'+$k+'"]');
         if( $el ){
-            
             $el.innerHTML =  $editor.body.innerHTML;
         }
         $nJsEditorCont.setClickPopupData( document.querySelector('.njseditor-panel-' + $k) );
+
+        $nJsEditor.autoiframeHeight( document.querySelector('[njs-panel="njseditor-'+$k+'"]') );
     },
     getValue: function($el, $name ){
         if( $el ){
@@ -531,11 +574,45 @@ var $nJsEditor = {
         }
         var $editor = window.frames['njseditor-mode-' + $k].document;
         if($editor){
-            $editor.execCommand("styleWithCSS", true, null);
+            var $el = document.querySelector('.njseditor-panel-' + $k);
+            var $popup = $nJsEditor.createLinkBox($el, 'link', $k);
             
-            var url = prompt("Enter a URL", "http://");
-		    $editor.execCommand("CreateLink", false, url);
-            $nJsEditor.setValue($k, $editor );
+            var $select = $editor.getSelection().getRangeAt(0);
+            var $selectCOn = $select.extractContents();
+            var $span = document.createElement("span");
+            $span.setAttribute('class', 'njs-fake-link-selection');
+            $span.appendChild($selectCOn);
+            $select.insertNode($span);
+
+            var $offsetLeft = ($span.offsetLeft) ?? 0;
+            var $offsetTop = ($span.offsetTop) ?? 0;
+            $offsetTop += 70;
+            
+            $popup.style.top = $offsetTop + 'px';
+            $popup.style.left = $offsetLeft  + 'px';
+
+            var $link = $editor.querySelectorAll('span.njs-fake-link-selection');
+            if( $link.length > 0){
+                $link.forEach( $v => {
+                    var $html = $v.innerHTML;
+                    var $newNode = document.createTextNode($html);
+                    $select.deleteContents();
+                    $select.insertNode($newNode);
+                });
+            }
+
+            var $addButton = $popup.querySelector('.njs-popup-button-add');
+            if( $addButton ){
+                var $linkAddress = $popup.querySelector('.njs-popup-get-link');
+                $addButton.addEventListener('click', function( $e ){
+                    $editor.execCommand("CreateLink", null, $linkAddress.value);
+                    $nJsEditor.setValue($k, $editor );
+                    $nJsEditorCont.removePopupModal( document.querySelector('.njseditor-panel-' + $k) );
+                });
+            }
+            
+            $nJsEditorCont.setClickPopupData( document.querySelector('.njseditor-panel-' + $k) );
+
         }
     },
     unlinkAction: function( $e ){
@@ -550,6 +627,56 @@ var $nJsEditor = {
             $editor.execCommand("styleWithCSS", true, null);
             $editor.execCommand("Unlink", false, null);
             $nJsEditor.setValue($k, $editor );
+        }
+    },
+    codeAction: function( $e ){
+        $e.preventDefault();
+        var $this = this;
+        var $k = $this.getAttribute('njs-control-id');
+        if( !$k ){
+            return;
+        }
+        var $editor = window.frames['njseditor-mode-' + $k].document;
+        if($editor){
+            var $el = document.querySelector('.njseditor-panel-' + $k);
+            var $popup = $nJsEditor.createLinkBox($el, 'code', $k);
+            
+            var $select = $editor.getSelection().getRangeAt(0);
+            var $selectCOn = $select.extractContents();
+            var $span = document.createElement("span");
+            $span.setAttribute('class', 'njs-fake-link-selection');
+            $span.appendChild($selectCOn);
+            $select.insertNode($span);
+
+            var $offsetLeft = ($span.offsetLeft) ?? 0;
+            var $offsetTop = ($span.offsetTop) ?? 0;
+            $offsetTop += 70;
+            
+            $popup.style.top = $offsetTop + 'px';
+            $popup.style.left = $offsetLeft  + 'px';
+
+            var $link = $editor.querySelectorAll('span.njs-fake-link-selection');
+            if( $link.length > 0){
+                $link.forEach( $v => {
+                    var $html = $v.innerHTML;
+                    var $newNode = document.createTextNode($html);
+                    $select.deleteContents();
+                    $select.insertNode($newNode);
+                });
+            }
+
+            var $addButton = $popup.querySelector('.njs-popup-button-add');
+            if( $addButton ){
+                var $linkAddress = $popup.querySelector('.njs-popup-get-link');
+                $addButton.addEventListener('click', function( $e ){
+                    $editor.execCommand("insertHTML", null, $linkAddress.value);
+                    $nJsEditor.setValue($k, $editor );
+                    $nJsEditorCont.removePopupModal( document.querySelector('.njseditor-panel-' + $k) );
+                });
+            }
+            
+            $nJsEditorCont.setClickPopupData( document.querySelector('.njseditor-panel-' + $k) );
+
         }
     },
     underlineAction: function( $e ){
@@ -851,40 +978,9 @@ var $nJsEditor = {
         var $editor = window.frames['njseditor-mode-' + $k].document;
         if($editor){
             var $el = document.querySelector('.njseditor-panel-' + $k);
-            var $popup = $nJsEditor.createLinkBox($el, 'image');
+            var $popup = $nJsEditor.createLinkBox($el, 'image', $k);
             
             var $select = $editor.getSelection().getRangeAt(0);
-
-            /*if($select.rangeCount > 0) $select.removeAllRanges();
-
-            var $selections = $editor.querySelectorAll(".njs-fake-link-selection");
-            for(var i = 0; i < $selections.length; i++) {
-                var range = document.createRange();
-                range.selectNode($selections[i]);
-                $selections.addRange(range);
-            }*/
-
-            //var $offsetLeft = ($select.endContainer.offsetLeft) ?? 0;
-            //var $offsetTop = ($select.endContainer.offsetTop) ?? 0;
-            //$offsetLeft += 10;
-            //$offsetTop += 50;
-            
-            // remove fake link
-            /*var $link = $select.startContainer.parentElement.querySelectorAll('.njs-fake-link-selection');
-            if( $link.length > 0){
-                $link.forEach( $v => {
-                    var $html = $v.innerHTML;
-                    console.log( $html );
-                    var $newNode = document.createTextNode('');
-                    $newNode.innerHTML = $html;
-
-                    $select.deleteContents();
-                    $select.insertNode($newNode);
-                });
-            }*/
-            //console.log( 'Editor:', $select );
-
-            
             var $selectCOn = $select.extractContents();
             var $span = document.createElement("span");
             $span.setAttribute('class', 'njs-fake-link-selection');
@@ -898,20 +994,35 @@ var $nJsEditor = {
             $popup.style.top = $offsetTop + 'px';
             $popup.style.left = $offsetLeft  + 'px';
 
-            //$nJsEditor.setValue($k, $editor );
-
             var $link = $editor.querySelectorAll('span.njs-fake-link-selection');
             if( $link.length > 0){
                 $link.forEach( $v => {
                     var $html = $v.innerHTML;
-                    console.log( $html );
-                    /*var $newNode = document.createTextNode('');
-                    $newNode.replaceWholeText($html);
+                    var $newNode = document.createTextNode($html);
                     $select.deleteContents();
-                    $select.insertNode($newNode);*/
+                    $select.insertNode($newNode);
                 });
             }
 
+            var $addButton = $popup.querySelector('.njs-popup-button-add');
+            if( $addButton ){
+                var $linkAddress = $popup.querySelector('.njs-popup-get-link');
+                $addButton.addEventListener('click', function( $e ){
+                    $editor.execCommand("insertImage", null, $linkAddress.value);
+                    $nJsEditor.setValue($k, $editor );
+                    $nJsEditorCont.removePopupModal( document.querySelector('.njseditor-panel-' + $k) );
+                });
+            }
+
+            /*
+            range = document.createRange();
+            newNode = document.createElement("p");
+            newNode.appendChild(document.createTextNode("New Node Inserted Here"));
+            range.selectNode(document.getElementsByTagName("div").item(0));
+            range.insertNode(newNode);
+            */
+
+            $nJsEditorCont.setClickPopupData( document.querySelector('.njseditor-panel-' + $k) );
         }
     },
     uploadfileAction: function( $e ){
@@ -921,15 +1032,39 @@ var $nJsEditor = {
         if( !$k ){
             return;
         }
-        console.log('Upload');
+        
         var $editor = window.frames['njseditor-mode-' + $k].document;
         if($editor){
-            //$editor.execCommand("delete", null, false);
-            $nJsEditor.setValue($k, $editor );
+            
+            var $files = document.querySelector('#njs-file-hidden-' + $k);
+            if( $files && document.createEvent ){
+                var evt = document.createEvent("MouseEvents");
+                evt.initEvent("click", true, false);
+                $files.dispatchEvent(evt);
+
+                $files.addEventListener('change', function( $e){
+                    $e.preventDefault();
+                    
+                    var files = $e.target.files, file;
+                    if (files && files.length > 0) {
+                        for(file of files){
+                            var reader = new FileReader();
+                            reader.onload = function( e ) {
+                              $editor.execCommand("insertImage", null, e.target.result);
+                            };
+                            reader.readAsDataURL(file);
+                        }
+                        $nJsEditor.setValue($k, $editor );
+                    }
+                });
+                
+            }
+            
+            $nJsEditorCont.setClickPopupData( document.querySelector('.njseditor-panel-' + $k) );
         }
     },
 
-    createLinkBox: function( $el, $type = 'link'){
+    createLinkBox: function( $el, $type = 'link', $k){
         if( !$el){
             return;
         }
@@ -940,25 +1075,50 @@ var $nJsEditor = {
         var $popup = document.createElement('div');
         $popup.setAttribute('class', 'njs-editor-overpopup');
 
+        var $label = document.createElement('label');
+        $label.setAttribute('class', 'njs-editor-overpopup-label');
+        if( $type == 'image'){
+            $label.innerText = ' Insert Image';
+        } else if($type == 'code'){
+            $label.innerText = ' Insert HTML';
+        } else {
+            $label.innerText = ' Insert Link';
+        }
+        $popup.appendChild($label);
+
         var $con = document.createElement('div');
         $con.setAttribute('class', 'njs-overpopup-continer');
-        //$popup.innerText = 'Hello';
         if( $type == 'image'){
             var $input = document.createElement('input');
             $input.setAttribute('class', 'njs-popup-get-link njs-popup-link-image');
+            $input.setAttribute('njs-control-id', $k);
+            $input.setAttribute('placeholder', 'Enter url');
             $con.appendChild($input);
-        } else {
+        } else if($type == 'code'){
+            var $input = document.createElement('textarea');
+            $input.setAttribute('class', 'njs-popup-get-link njs-popup-link-code');
+            $input.setAttribute('njs-control-id', $k);
+            $input.setAttribute('placeholder', 'Enter code');
+            $con.appendChild($input);
+        }else {
             var $input = document.createElement('input');
             $input.setAttribute('class', 'njs-popup-get-link njs-popup-link-href');
+            $input.setAttribute('njs-control-id', $k);
+            $input.setAttribute('placeholder', 'Enter link');
             $con.appendChild($input);
         }
 
         var $add = document.createElement('button');
-            $add.setAttribute('class', 'njs-button njs-popup-button-add fa fa-check');
+            $add.setAttribute('class', 'njs-button njs-popup-button-add njsicon njsicon-checkmark');
+            $add.setAttribute('njs-control-id', $k);
             $con.appendChild($add);
 
         var $remove = document.createElement('button');
-            $remove.setAttribute('class', 'njs-button njs-popup-button-remove fa fa-close');
+            $remove.setAttribute('class', 'njs-button njs-popup-button-remove njsicon njsicon-cross');
+            $remove.setAttribute('njs-control-id', $k);
+            $remove.addEventListener('click', function( $e ){
+                $nJsEditorCont.removePopupModal( document.querySelector('.njseditor-panel-' + $k) );
+            });
             $con.appendChild($remove);
 
         $popup.appendChild($con);

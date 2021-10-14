@@ -1,9 +1,15 @@
 
 .njs-editor-panel{
-	border:1px solid #8d8484;
-	height:100%;
-	width: 100%;
+	border: 1px solid #8d8484;
+    height: 100%;
+    width: 100%;
     position: relative;
+    font-family: monospace;
+    font-size: 15px;
+}
+.njs-editor-panel button{
+    font-family: monospace;
+    font-size: 13px;
 }
 .njs-editor-panel > .njseditor-panel-controls{
 	display: flex;
@@ -38,7 +44,7 @@ iframe.njseditor-iframe-editor{
     text-align: center;
     min-width: 27px;
     line-height: 1;
-    font-size: inherit;
+    font-size: 16px;
     border: 1px solid transparent;
     transition: box-shadow .2s ease-in-out,border .2s ease-in-out;
     -webkit-appearance: none;
@@ -49,9 +55,12 @@ iframe.njseditor-iframe-editor{
     justify-content: center;
 	padding: 5px;
     border-radius: 2px;
+    position: relative;
+    font-family: 'FontAwesome';
+    color: #838383;
 }
 .njs-editor-control .njs-button.njs-button-highlight > i{
-    background-color: black;
+    background-color: #838383;
     color: white;
 }
 .njseditor-panel-controls .njs-button.njs-undo,
@@ -69,18 +78,59 @@ a.njs-editor-control .njs-button:not(.njs-disabled):hover,
 a.njseditor-panel-controls .njs-button:not(.njs-disabled):hover 
 {
     background: #eeeeee;
+    color: #000;
 }
-
-.njs-editor-control .njs-button.fa-angle-down,
-.njs-editor-control .njs-button.fa-angle-up{
+.njs-tooltip {
+    visibility: hidden;
+    opacity: 0;
+    z-index: 9;
+}
+.njseditor-panel-controls .njs-tooltip{
+    position: absolute;
+    left: 0;
+    top: 34px;
+    pointer-events: none;
+    background-color: #000;
+    padding: 5px;
+    border-radius: 5px;
+    color: #fff;
+    display: block;
+    font-family: monospace;
+    font-size: 13px;
+}
+.njseditor-panel-controls .njs-tooltip:after {
+    content: "";
+    width: 0;
+    height: 0;
+    position: absolute;
+    transition: opacity .2s ease-in-out .2s;
+    border-style: solid;
+    left: 10%;
+    top: -5px;
+    border-left-color: transparent;
+    border-bottom-color: #000;
+    border-right-color: transparent;
+    border-top-color: transparent;
+    border-left-width: 6px;
+    border-bottom-width: 6px;
+    border-right-width: 6px;
+    border-top-width: 0;
+}
+.njseditor-panel-controls > [data-title]:hover .njs-tooltip{
+    visibility: visible;
+    opacity: 1;
+}
+.njs-editor-control .njs-button.njsicon-ctrl,
+.njs-editor-control .njs-button.njsicon-circle-up{
 	min-width: auto;
     padding-right: 16px;
 }
-.njs-editor-control .njs-button.fa-angle-down::before,
-.njs-editor-control .njs-button.fa-angle-up::before{
+.njs-editor-control .njs-button.njsicon-ctrl::before,
+.njs-editor-control .njs-button.njsicon-circle-up::before{
 	position: absolute;
-    right: 2px;
-    top: 6px;
+    right: 1px;
+    top: 3px;
+    transform: rotateX(180deg);
 }
 
 .njs-editor-control .njs-popup{
@@ -91,6 +141,7 @@ a.njseditor-panel-controls .njs-button:not(.njs-disabled):hover
     border: 1px solid #ccc;
     box-shadow: 0 1px 2px 1px rgba(0,0,0,0.15);
     min-width: 33px;
+    top: 32px;
 }
 .njs-editor-control .njs-popup.njs-button-fontcolor,
 .njs-editor-control .njs-popup.njs-button-highlight{
@@ -100,6 +151,24 @@ a.njseditor-panel-controls .njs-button:not(.njs-disabled):hover
 	display: block;
 }
 
+.njs-editor-control .njs-popup:after {
+    content: "";
+    width: 0;
+    height: 0;
+    position: absolute;
+    transition: opacity .2s ease-in-out .2s;
+    border-style: solid;
+    left: 3%;
+    top: -6px;
+    border-left-color: transparent;
+    border-bottom-color: #fff;
+    border-right-color: transparent;
+    border-top-color: transparent;
+    border-left-width: 6px;
+    border-bottom-width: 6px;
+    border-right-width: 6px;
+    border-top-width: 0px;
+}
 
 .njs-editor-control .njs-popup .njs-list{
     list-style: none;
@@ -113,10 +182,20 @@ a.njseditor-panel-controls .njs-button:not(.njs-disabled):hover
     display: block;
 }
 
-.njs-editor-control .njs-popup .njs-list li > button{
+.njs-editor-panel .njs-popup .njs-list li button{
+    font-family: monospace;
+    font-size: 13px;
+    text-indent: 3px !important;
+}
+.njs-editor-panel .njs-popup .njs-list li button::before{
+    font-size: 16px;
+}
+
+.njs-editor-control .njs-popup .njs-list li > button.fa::before{
     width: 100%;
     cursor: pointer;
     font-size: 14px;
+    font-family: 'FontAwesome';
 }
 .njs-editor-control .njs-popup .njs-list li > button.njs-files {
    text-indent: 10px;
@@ -229,6 +308,7 @@ a.njseditor-panel-controls .njs-button:not(.njs-disabled):hover
 
 .njs-editor-overpopup > .njs-overpopup-continer{
     display: flex;
+    margin-top: 10px;
 }
 
 .njs-overpopup-continer .njs-popup-get-link {
@@ -238,7 +318,12 @@ a.njseditor-panel-controls .njs-button:not(.njs-disabled):hover
     min-width: 100px;
     min-height: 20px;
     transition: box-shadow .1s ease-in-out,border .1s ease-in-out;
-    
+}
+
+.njs-overpopup-continer .njs-popup-get-link:focus {
+    outline: none;
+    border: 1px solid hsl(208deg 79% 51%);
+    box-shadow: 0 0 0 3px #bcdefb;
 }
 
 .njs-overpopup-continer > button.njs-button{
@@ -260,8 +345,27 @@ a.njseditor-panel-controls .njs-button:not(.njs-disabled):hover
     padding: 5px;
     border-radius: 2px;
     margin-left: 10px;
+    font-family: 'FontAwesome';
+}
+
+.njs-overpopup-continer > button.njs-popup-button-add{
+    color: #008a00;
+}
+.njs-overpopup-continer > button.njs-popup-button-remove{
+    color: #db3700;
 }
 
 .njs-overpopup-continer > button.njs-button:hover{
     background: #eeeeee;
+}
+
+.njs-editor-overpopup > .njs-editor-overpopup-label{
+    line-height: 1.5em;
+    font-weight: 600;
+}
+
+.njs-file-hidden{
+    opacity: 0;
+    position: absolute;
+    visibility: hidden;
 }
