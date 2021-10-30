@@ -215,6 +215,16 @@ class NextExt{
         return ($el.parentElement) ? $el.parentElement : null;
     }
 
+    getParentClss( $el, $f ){
+        if( $el.classList.contains( $f ) ){
+            return $el;
+        }
+        if( $el.parentElement ){
+            return NextExt.instance().getParentClss( $el.parentElement, $f);
+        }
+        return false;
+    }
+
     // get Class
     getClass($el){
         return ($el.classList) ? $el.classList : null;
@@ -431,6 +441,7 @@ var nJs = {
     el: NextExt.createElement,
     parents: NextExt.instance().getParents,
     parent: NextExt.instance().getParent,
+    parentCls: NextExt.instance().getParentClss,
     getClass: NextExt.instance().getClass,
     addClass: NextExt.instance().addClass,
     removeClass: NextExt.instance().removeClass,
