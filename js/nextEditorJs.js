@@ -395,6 +395,7 @@ var $nJsEditor = {
                     var $editor = window.frames['njseditor-mode-' + $k].document;
                     if( $editor){
                         $editor.body.innerHTML = $v.value;
+                        $nJsEditor.setRezise('img', $k);
                         $editor.designMode = "on";
                         $editor.execCommand("defaultParagraphSeparator", false, "p");
                         $editor.body.setAttribute('njs-control-id', $k);
@@ -1120,6 +1121,7 @@ var $nJsEditor = {
                             var reader = new FileReader();
                             reader.onload = function( e ) {
                               $editor.execCommand("insertImage", null, e.target.result);
+                              $nJsEditor.setRezise('img', $k);
                             };
                             reader.readAsDataURL(file);
                         }
