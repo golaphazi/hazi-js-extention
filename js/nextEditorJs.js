@@ -269,7 +269,11 @@ var $nJsEditorCont = {
                         'uploadfile' : {'title' : 'Upload files', 'icon' : 'njsicon njsicon-upload2', 'html' : '', 'action' : {'click' : $nJsEditor.uploadfileAction }},
                     }
                 },
-                'code' : {'title' : 'Inset HTML', 'icon' : 'njsicon njsicon-embed2', 'html' : '', 'action' : {'click' : $nJsEditor.codeAction }}
+                'code' : {'title' : 'Inset HTML', 'icon' : 'njsicon njsicon-embed2', 'html' : '', 'action' : {'click' : $nJsEditor.codeAction }},
+                'table' : {'attr' : { class: 'njs-table'}, 'title' : 'Insert', 'icon' : 'njsicon njsicon-table2', 'html' : 'Select once', 
+                    'action' : {'click' : $nJsEditor.tableInsertAction },
+                    'data' : $nJsEditor.getTableCell()
+                },
             },
             'align' : {
                 'alignment' : {'attr' : { class: 'njs-align'}, 'title' : 'Align', 'icon' : 'njsicon njsicon-paragraph-left', 'html' : '', 
@@ -392,6 +396,7 @@ var $nJsEditor = {
                     if( $editor){
                         $editor.body.innerHTML = $v.value;
                         $editor.designMode = "on";
+                        $editor.execCommand("defaultParagraphSeparator", false, "p");
                         $editor.body.setAttribute('njs-control-id', $k);
                         $editor.addEventListener('keyup', $nJsEditor.editorKeyup);
                     }
@@ -428,8 +433,9 @@ var $nJsEditor = {
             return;
         }
         $el.querySelectorAll('iframe').forEach( $v => {
-            //$v.style.width  = $v.contentWindow.document.body.scrollWidth + 'px';
-            $v.style.height = $v.contentWindow.document.body.scrollHeight + 'px';
+            if( $v.contentWindow.document.body.scrollHeight > 100){
+                $v.style.height = $v.contentWindow.document.body.scrollHeight + 'px';
+            }
         });
     },
     getFontSize: function(){
@@ -463,6 +469,35 @@ var $nJsEditor = {
             'rgb(153, 76, 230)' : 'Purple',
         };
     },
+    getTableCell: function(){
+        return {
+            '1-1' : '1:1',
+            '1-2' : '1:2',
+            '1-3' : '1:3',
+            '1-4' : '1:4',
+            '1-5' : '1:5',
+            '2-1' : '2:1',
+            '2-2' : '2:2',
+            '2-3' : '2:3',
+            '2-4' : '2:4',
+            '2-5' : '2:5',
+            '3-1' : '3:1',
+            '3-2' : '3:2',
+            '3-3' : '3:3',
+            '3-4' : '3:4',
+            '3-5' : '3:5',
+            '4-1' : '4:1',
+            '4-2' : '4:2',
+            '4-3' : '4:3',
+            '4-4' : '4:4',
+            '4-5' : '4:5',
+            '5-1' : '5:1',
+            '5-2' : '5:2',
+            '5-3' : '5:3',
+            '5-4' : '5:4',
+            '5-5' : '5:5'
+        };
+    },
 
     getFormatFont: function(){
         return {
@@ -476,7 +511,9 @@ var $nJsEditor = {
             'blockquote' : 'Blockquote',
         };
     },
-   
+    getUnqueid : function(){
+        return Math.random().toString(36).substr(2);
+    },
     getSettings: function( $el ){
         let $default = {
             type: 'basic', // css, class
@@ -521,6 +558,7 @@ var $nJsEditor = {
         }
         var $editor = window.frames['njseditor-mode-' + $k].document;
         if($editor){
+            
             $nJsEditor.setValue($k, $editor );
         }
     },
@@ -848,6 +886,45 @@ var $nJsEditor = {
             $nJsEditor.setValue($k, $editor );
         }
     },
+    tableInsertAction: function( $e ){
+        $e.preventDefault();
+        var $this = this;
+        var $k = $this.getAttribute('njs-control-id');
+        if( !$k ){
+            return;
+        }
+        var $editor = window.frames['njseditor-mode-' + $k].document;
+        if($editor){
+            let $data = $e.target.getAttribute('njs-value');
+            let $sp = $data.split('-');
+
+            let $table = document.createElement('table');
+            let $id = $nJsEditor.getUnqueid();
+            $table.setAttribute('id', $id);
+            $table.setAttribute('border', '0');
+            $table.setAttribute('cellpadding', '0');
+            $table.setAttribute('cellspacing', '0');
+            $table.setAttribute('align', 'left');
+            $table.setAttribute('style', 'min-width: 100%;border-collapse: collapse;');
+            
+            for(var i = 0; i < $sp[0]; i++){
+                let $row = document.createElement('tr');
+                $row.contentEditable = false;
+                for(var j = 0; j < $sp[1]; j++){
+                    let $col = document.createElement('td');
+                    $col.innerHTML = 'td-' + j;
+                    $col.contentEditable = true;
+                    $row.appendChild($col);
+                }
+                $table.appendChild($row);
+            }
+
+            $editor.execCommand("styleWithCSS", true, null);
+            
+            $editor.execCommand("insertHTML", null, $table.outerHTML);
+            $nJsEditor.setValue($k, $editor );
+        }
+    },
     fontfamilyAction: function( $e ){
         $e.preventDefault();
         var $this = this;
@@ -1009,19 +1086,11 @@ var $nJsEditor = {
                 var $linkAddress = $popup.querySelector('.njs-popup-get-link');
                 $addButton.addEventListener('click', function( $e ){
                     $editor.execCommand("insertImage", null, $linkAddress.value);
+                    $nJsEditor.setRezise('img', $k);
                     $nJsEditor.setValue($k, $editor );
                     $nJsEditorCont.removePopupModal( document.querySelector('.njseditor-panel-' + $k) );
                 });
             }
-
-            /*
-            range = document.createRange();
-            newNode = document.createElement("p");
-            newNode.appendChild(document.createTextNode("New Node Inserted Here"));
-            range.selectNode(document.getElementsByTagName("div").item(0));
-            range.insertNode(newNode);
-            */
-
             $nJsEditorCont.setClickPopupData( document.querySelector('.njseditor-panel-' + $k) );
         }
     },
@@ -1079,6 +1148,8 @@ var $nJsEditor = {
         $label.setAttribute('class', 'njs-editor-overpopup-label');
         if( $type == 'image'){
             $label.innerText = ' Insert Image';
+        } else if($type == 'image_re'){
+            $label.innerText = ' Resize Box';
         } else if($type == 'code'){
             $label.innerText = ' Insert HTML';
         } else {
@@ -1094,7 +1165,18 @@ var $nJsEditor = {
             $input.setAttribute('njs-control-id', $k);
             $input.setAttribute('placeholder', 'Enter url');
             $con.appendChild($input);
-        } else if($type == 'code'){
+        } else if($type == 'image_re'){
+            var $input = document.createElement('input');
+            $input.setAttribute('class', 'njs-popup-get-link njs-popup-link-image-re njs-img-width');
+            $input.setAttribute('njs-control-id', $k);
+            $input.setAttribute('placeholder', 'W: 100px');
+            $con.appendChild($input);
+            var $input = document.createElement('input');
+            $input.setAttribute('class', 'njs-popup-get-link njs-popup-link-image-re njs-img-height');
+            $input.setAttribute('njs-control-id', $k);
+            $input.setAttribute('placeholder', 'H: 100px');
+            $con.appendChild($input);
+        }else if($type == 'code'){
             var $input = document.createElement('textarea');
             $input.setAttribute('class', 'njs-popup-get-link njs-popup-link-code');
             $input.setAttribute('njs-control-id', $k);
@@ -1109,6 +1191,7 @@ var $nJsEditor = {
         }
 
         var $add = document.createElement('button');
+            $add.setAttribute('type', 'button');
             $add.setAttribute('class', 'njs-button njs-popup-button-add njsicon njsicon-checkmark');
             $add.setAttribute('njs-control-id', $k);
             $con.appendChild($add);
@@ -1125,6 +1208,71 @@ var $nJsEditor = {
 
         $el.appendChild($popup);
         return $popup;
+    },
+    setRezise: function( $tag, $k){
+        var $editor = window.frames['njseditor-mode-' + $k].document;
+        if($editor){
+            let $tags = $editor.querySelectorAll($tag);
+            if( $tags.length > 0){
+                $tags.forEach( $v => {
+                    $v.classList.add('njs-rezise-options');
+                    $v.classList.add('njs-rezise-' + $tag);
+                    $v.setAttribute('njs-control-id', $k);
+                    $v.removeEventListener('click', $nJsEditor.resizeOption);
+                    $v.addEventListener('click', $nJsEditor.resizeOption);
+                });
+            }
+            
+        }
+    },
+    resizeOption: function( $e ){
+        $e.preventDefault();
+        let $this = this;
+        let $k = $this.getAttribute('njs-control-id');
+        var $el = document.querySelector('.njseditor-panel-' + $k);
+        var $popup = $nJsEditor.createLinkBox($el, 'image_re', $k);
+            
+        var $editor = window.frames['njseditor-mode-' + $k].document;
+
+        var $select = $editor.getSelection().getRangeAt(0);
+        var $selectCOn = $select.extractContents();
+        var $span = document.createElement("span");
+        $span.setAttribute('class', 'njs-fake-link-selection');
+        $span.appendChild($selectCOn);
+        $select.insertNode($span);
+
+        var $offsetLeft = ($this.offsetLeft) ?? 0;
+        var $offsetTop = ($this.offsetTop) ?? 0;
+        $offsetTop += 70;
+        
+        $popup.style.top = $offsetTop + 'px';
+        $popup.style.left = $offsetLeft  + 'px';
+
+        var $link = $editor.querySelectorAll('span.njs-fake-link-selection');
+        if( $link.length > 0){
+            $link.forEach( $v => {
+                var $html = $v.innerHTML;
+                var $newNode = document.createTextNode($html);
+                $select.deleteContents();
+                $select.insertNode($newNode);
+            });
+        }
+
+        var $addButton = $popup.querySelector('.njs-popup-button-add');
+        if( $addButton ){
+            var $width = $popup.querySelector('.njs-img-width');
+            var $height = $popup.querySelector('.njs-img-height');
+            $addButton.addEventListener('click', function( $e ){
+                
+                if( $width.value != ''){
+                    $this.style.width = $width.value;
+                }
+                if( $height.value != ''){
+                    $this.style.height = $height.value;
+                }
+                $nJsEditor.setValue($k, $editor );
+            });
+        }
     }
 
 
