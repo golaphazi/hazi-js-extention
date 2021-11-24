@@ -270,7 +270,7 @@ var $nJsEditorCont = {
                     }
                 },
                 'code' : {'title' : 'Inset HTML', 'icon' : 'njsicon njsicon-embed2', 'html' : '', 'action' : {'click' : $nJsEditor.codeAction }},
-                'table' : {'attr' : { class: 'njs-table'}, 'title' : 'Insert', 'icon' : 'njsicon njsicon-table2', 'html' : 'Select once', 
+                'table' : {'attr' : { class: 'njs-table'}, 'title' : 'Insert Table', 'icon' : 'njsicon njsicon-table2', 'html' : 'Select once', 
                     'action' : {'click' : $nJsEditor.tableInsertAction },
                     'data' : $nJsEditor.getTableCell()
                 },
