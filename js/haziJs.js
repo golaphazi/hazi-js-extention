@@ -1,13 +1,13 @@
 "use strict";
 /**
-* Name: NextJs
+* Name: HaziJs
 * Desc: A Simple and Lightweight JavScript Framework.
 * version: 1.0.0
-* Package: @NextJs
-* Author: ThemeDev
+* Package: @HaziJs
+* Author: https://github.com/golaphazi
 * Developer: Hazi
 */
-class NextExt{
+class HaziExt{
     constructor( $el = ''){
         if( $el === ''){
             return;
@@ -21,7 +21,7 @@ class NextExt{
             return null;
         }
 
-        $el = NextExt.instance().nx_append($append, $element, $props, $type);
+        $el = HaziExt.instance().nx_append($append, $element, $props, $type);
         
         if( Array.isArray($child) && $child.length > 0){
             $child.forEach(function($data, $c){
@@ -32,7 +32,7 @@ class NextExt{
                     $chieldNew = ($chiNew[2]) ? $chiNew[2] : '';
                     $typeNew = ($chiNew[3]) ? $chiNew[3] : 'append';
 
-                    NextExt.createElement($el, $eleNew, $propsNew, $chieldNew, $typeNew);
+                    HaziExt.createElement($el, $eleNew, $propsNew, $chieldNew, $typeNew);
                     
                 }
             });
@@ -52,7 +52,7 @@ class NextExt{
                     $props = ($data[2]) ? $data[2] : '';
                     $child = ($data[3]) ? $data[3] : [];
                     $typeNew = ($data[4]) ? $data[4] : 'append';
-                    NextExt.createElement($append, $eleTag, $props, $child, $typeNew);
+                    HaziExt.createElement($append, $eleTag, $props, $child, $typeNew);
                 }
                
             });
@@ -72,11 +72,11 @@ class NextExt{
                         if( ['content', 'innertext', 'innerText', 'contentText'].indexOf($k) > -1){
                             $e.innerText = $v;
                         } else if ($k == 'trigger'){
-                            NextExt.instance().addTrigger($e, $v);
+                            HaziExt.instance().addTrigger($e, $v);
                         } else if ($k == 'removetrigger'){
-                            NextExt.instance().removeTrigger($e, $v);
+                            HaziExt.instance().removeTrigger($e, $v);
                         } else if ($k == 'event'){
-                            NextExt.instance().eventRegister($e, $v);
+                            HaziExt.instance().eventRegister($e, $v);
                         } else{
                             $e.innerHTML = $v;
                         }
@@ -105,15 +105,15 @@ class NextExt{
     }
     // append
     appendEle($append, $element, $props){
-        return NextExt.instance().nx_append($append, $element, $props, 'append');
+        return HaziExt.instance().nx_append($append, $element, $props, 'append');
     }
     // after
     afterEle($append, $element, $props){
-        return NextExt.instance().nx_append($append, $element, $props, 'after');
+        return HaziExt.instance().nx_append($append, $element, $props, 'after');
     }
     // before
     beforeEle($append, $element, $props){
-        return NextExt.instance().nx_append($append, $element, $props, 'before');
+        return HaziExt.instance().nx_append($append, $element, $props, 'before');
     }
     removeTrigger($element, $props){
         if( Object.entries($props) ){
@@ -163,7 +163,7 @@ class NextExt{
     }
 
     getJson($url){
-        var xhr = NextExt.instance().httpRequest();
+        var xhr = HaziExt.instance().httpRequest();
         xhr.open('GET', $url);
         xhr.send();
         return xhr;
@@ -191,7 +191,7 @@ class NextExt{
             if( Array.isArray($parent) && $parent.length > 0){
                 $parent.forEach(function($v){
                     if($v){
-                        NextExt.instance().getParents($v,$find);
+                        HaziExt.instance().getParents($v,$find);
                     }
                 });
             } else {
@@ -202,7 +202,7 @@ class NextExt{
                     if($chFind.length > 0 ){
                         return $chFind;
                     } else {
-                       return NextExt.instance().getParents($el, $find);
+                       return HaziExt.instance().getParents($el, $find);
                     }
                     
                 }
@@ -220,7 +220,7 @@ class NextExt{
             return $el;
         }
         if( $el.parentElement ){
-            return NextExt.instance().getParentClss( $el.parentElement, $f);
+            return HaziExt.instance().getParentClss( $el.parentElement, $f);
         }
         return false;
     }
@@ -238,7 +238,7 @@ class NextExt{
                     if($v.trim() != ''){
                         let $split = $v.trim().split(" ");
                         if($split.length > 1){
-                            return NextExt.instance().addClass($el, $split);
+                            return HaziExt.instance().addClass($el, $split);
                         } else {
                             $el.classList.add($v.trim());
                         } 
@@ -247,7 +247,7 @@ class NextExt{
             } else {
                 let $split = $class.trim().split(" ");
                 if($split.length > 1){
-                    return NextExt.instance().addClass($el, $split);
+                    return HaziExt.instance().addClass($el, $split);
                 }else{
                     $el.classList.add($class);
                 }
@@ -263,7 +263,7 @@ class NextExt{
                     if($v.trim() != ''){
                         let $split = $v.trim().split(" ");
                         if($split.length > 1){
-                            return NextExt.instance().removeClass($el, $split);
+                            return HaziExt.instance().removeClass($el, $split);
                         } else {
                             $el.classList.remove($v.trim());
                         } 
@@ -272,7 +272,7 @@ class NextExt{
             } else {
                 let $split = $class.trim().split(" ");
                 if($split.length > 1){
-                    return NextExt.instance().removeClass($el, $split);
+                    return HaziExt.instance().removeClass($el, $split);
                 }else{
                     $el.classList.remove($class);
                 }
@@ -288,7 +288,7 @@ class NextExt{
                     if($v.trim() != ''){
                         let $split = $v.trim().split(" ");
                         if($split.length > 1){
-                            return NextExt.instance().toggleClass($el, $split);
+                            return HaziExt.instance().toggleClass($el, $split);
                         } else {
                             $el.classList.toggle($v.trim());
                         } 
@@ -297,7 +297,7 @@ class NextExt{
             } else {
                 let $split = $class.trim().split(" ");
                 if($split.length > 1){
-                    return NextExt.instance().toggleClass($el, $split);
+                    return HaziExt.instance().toggleClass($el, $split);
                 }else{
                     $el.classList.toggle($class);
                 } 
@@ -343,12 +343,12 @@ class NextExt{
     ajaxRequest($params){
         let $method = ($params.method) ? $params.method : 'GET';
 
-        var $ajax =  NextExt.instance().httpRequest();
-        $ajax.open($method, NextExt.instance().buildUrl($params), true);
-        NextExt.instance().header($ajax, $params);
+        var $ajax =  HaziExt.instance().httpRequest();
+        $ajax.open($method, HaziExt.instance().buildUrl($params), true);
+        HaziExt.instance().header($ajax, $params);
         
         if( $method == 'post' || $method == 'POST'){
-            let $data = NextExt.instance().dataSend($params);
+            let $data = HaziExt.instance().dataSend($params);
             $ajax.send($data);
         } else {
             $ajax.send();
@@ -358,20 +358,20 @@ class NextExt{
 
     // get request
     getRequest( $action, $params ){
-        var $ajax =  NextExt.instance().httpRequest();
+        var $ajax =  HaziExt.instance().httpRequest();
         $params.action = ($params.action) ? $params.action : $action;
-        $ajax.open("GET", NextExt.instance().buildUrl($params), true);
-        NextExt.instance().header($ajax, $params);
+        $ajax.open("GET", HaziExt.instance().buildUrl($params), true);
+        HaziExt.instance().header($ajax, $params);
         $ajax.send();
        return $ajax;
     }
 
     //post request
     postRequest($action, $params){
-        var $ajax =  NextExt.instance().httpRequest();
+        var $ajax =  HaziExt.instance().httpRequest();
         $action = ($params.action) ? $params.action : $action;
         $ajax.open("POST", $action , true);
-        let $data = NextExt.instance().dataSend($params);
+        let $data = HaziExt.instance().dataSend($params);
         $ajax.send($data);
        return $ajax;
     }
@@ -431,42 +431,42 @@ class NextExt{
     }
     // instance of class
     static instance() {
-        return new NextExt();
+        return new HaziExt();
     }
 }
 
 
 // decelar class veriable
-var nJs = {
-    el: NextExt.createElement,
-    parents: NextExt.instance().getParents,
-    parent: NextExt.instance().getParent,
-    parentCls: NextExt.instance().getParentClss,
-    getClass: NextExt.instance().getClass,
-    addClass: NextExt.instance().addClass,
-    removeClass: NextExt.instance().removeClass,
-    toggleClass: NextExt.instance().toggleClass,
-    getAttr: NextExt.instance().getAttr,
-    setAttr: NextExt.instance().setAttr,
-    checkAttr: NextExt.instance().checkAttr,
-    append: NextExt.instance().appendEle,
-    after: NextExt.instance().afterEle,
-    before: NextExt.instance().beforeEle,
-    addElement: NextExt.instance().addElement,
-    find: NextExt.instance().find,
-    ajax: NextExt.instance().ajaxRequest,
-    get: NextExt.instance().getRequest,
-    post: NextExt.instance().postRequest,
-    json: NextExt.instance().getJson,
-    jsonToStr: NextExt.instance().jsonToStr,
-    strToJson: NextExt.instance().strToJson,
+var hJs = {
+    el: HaziExt.createElement,
+    parents: HaziExt.instance().getParents,
+    parent: HaziExt.instance().getParent,
+    parentCls: HaziExt.instance().getParentClss,
+    getClass: HaziExt.instance().getClass,
+    addClass: HaziExt.instance().addClass,
+    removeClass: HaziExt.instance().removeClass,
+    toggleClass: HaziExt.instance().toggleClass,
+    getAttr: HaziExt.instance().getAttr,
+    setAttr: HaziExt.instance().setAttr,
+    checkAttr: HaziExt.instance().checkAttr,
+    append: HaziExt.instance().appendEle,
+    after: HaziExt.instance().afterEle,
+    before: HaziExt.instance().beforeEle,
+    addElement: HaziExt.instance().addElement,
+    find: HaziExt.instance().find,
+    ajax: HaziExt.instance().ajaxRequest,
+    get: HaziExt.instance().getRequest,
+    post: HaziExt.instance().postRequest,
+    json: HaziExt.instance().getJson,
+    jsonToStr: HaziExt.instance().jsonToStr,
+    strToJson: HaziExt.instance().strToJson,
     
 };
 
 // function declar 
 
 var $n = function( $el ){
-    $el = new NextExt($el);
+    $el = new HaziExt($el);
     if(!$el){
         return null;
     }

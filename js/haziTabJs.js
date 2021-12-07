@@ -1,14 +1,14 @@
 "use strict";
 /**
-* Name: NextJs
+* Name: HaziJs
 * Desc: A Simple and Lightweight JavScript Framework.
 * version: 1.0.0
-* Package: @NextJs
-* Author: ThemeDev
+* Package: @HaziJs
+* Author: https://github.com/golaphazi
 * Developer: Hazi
 */
-// nJs Tab
-var $nJsTab = {
+// hJs Tab
+var $hJsTab = {
 
     init: function( $selector, $settings = ''){
         let $tabs = document.querySelectorAll($selector);
@@ -21,14 +21,14 @@ var $nJsTab = {
 
                 
                 // set Settings
-                let $sett = $nJsTab.getSettings( $v );
+                let $sett = $hJsTab.getSettings( $v );
                 var $tabType = ($sett.type) ? $sett.type : 'css';
                 // tab
                 var $tabSelector = ($sett.tabSelector) ? $sett.tabSelector : '.njs-tab';
                 $v.querySelectorAll($tabSelector).forEach(function( $target, $key){
                     $target.setAttribute('njs-tab-target', 'njstab-'+ $k);
-                    $target.removeEventListener('click', $nJsTab.toggleTab);
-                    $target.addEventListener('click', $nJsTab.toggleTab);
+                    $target.removeEventListener('click', $hJsTab.toggleTab);
+                    $target.addEventListener('click', $hJsTab.toggleTab);
 
                     if( !$target.getAttribute('njs-target')){
                         $target.setAttribute('njs-target', '.njstab-content'+ $k + '-' +$key);
@@ -59,9 +59,9 @@ var $nJsTab = {
 
         let $el = document.querySelector('[njs-tab='+$targetTab+']');
         if($el){
-            $nJsTab.actionRemove($el);
+            $hJsTab.actionRemove($el);
 
-            let $sett = $nJsTab.getSettings( $el );
+            let $sett = $hJsTab.getSettings( $el );
             var $tabType = ($sett.type) ? $sett.type : 'css';
 
             var $tabActive = ($sett.tabActiveClass) ? $sett.tabActiveClass : 'njs-active';
@@ -86,7 +86,7 @@ var $nJsTab = {
 
     actionRemove: function( $el ){
         if($el){
-            let $sett = $nJsTab.getSettings( $el );
+            let $sett = $hJsTab.getSettings( $el );
             var $tabType = ($sett.type) ? $sett.type : 'css';
 
             var $tabSelector = ($sett.tabSelector) ? $sett.tabSelector : '.njs-tab';
@@ -140,4 +140,4 @@ var $nJsTab = {
 };
 
 // tab calling
-//$nJsTab.init('#nx-tab-style');
+//$hJsTab.init('#nx-tab-style');

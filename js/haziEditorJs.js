@@ -1,13 +1,13 @@
 "use strict";
 /**
-* Name: NextJs
+* Name: HaziJs
 * Desc: A Simple and Lightweight JavScript Framework.
 * version: 1.0.0
-* Package: @NextJs
-* Author: ThemeDev
+* Package: @HaziJs
+* Author: https://github.com/golaphazi
 * Developer: Hazi
 */
-var $nJsEditorCont = {
+var $hJsEditorCont = {
     init: function(){
 
     },
@@ -202,7 +202,7 @@ var $nJsEditorCont = {
             return;
         }
 
-        var $items = $nJsEditorCont.getType( $type );
+        var $items = $hJsEditorCont.getType( $type );
         if($items){
 
             if( Object.entries($items) ){
@@ -210,9 +210,9 @@ var $nJsEditorCont = {
 
                     var $data = ($v.data) ?? false;
                     if( $data ){
-                        $nJsEditorCont.createDropDown($el, $k, $k1, $v);
+                        $hJsEditorCont.createDropDown($el, $k, $k1, $v);
                     } else {
-                        $nJsEditorCont.createButton($el, $k, $k1, $v);
+                        $hJsEditorCont.createButton($el, $k, $k1, $v);
                     }
                     
                 }
@@ -232,79 +232,79 @@ var $nJsEditorCont = {
         var $types = {
             'title' : {
                 'heading' : {'attr' : { class: 'njs-heading'}, 'title' : 'Heading', 'icon' : 'njsicon njsicon-sort-alpha-asc', 'html' : 'Select once', 
-                    'action' : {'click' : $nJsEditor.headingAction },
-                    'data' : $nJsEditor.getFormatFont()
+                    'action' : {'click' : $hJsEditor.headingAction },
+                    'data' : $hJsEditor.getFormatFont()
                 },
                 'fontfamily' : {'attr' : { class: 'njs-fontfamily'}, 'title' : 'Font Family', 'icon' : 'njsicon njsicon-font', 'html' : 'Select once', 
-                    'action' : {'click' : $nJsEditor.fontfamilyAction },
-                    'data' : $nJsEditor.getFontFamily()
+                    'action' : {'click' : $hJsEditor.fontfamilyAction },
+                    'data' : $hJsEditor.getFontFamily()
                 },
                 'fontsize' : {'attr' : { class: 'njs-fontsize'}, 'title' : 'Font Size', 'icon' : 'njsicon njsicon-font-size', 'html' : 'Select once', 
-                    'action' : {'click' : $nJsEditor.increaseAction },
-                    'data' : $nJsEditor.getFontSize()
+                    'action' : {'click' : $hJsEditor.increaseAction },
+                    'data' : $hJsEditor.getFontSize()
                 },
                 'fontcolor' : {'attr' : { class: 'njs-fontcolor'}, 'title' : 'Font Color', 'icon' : 'njsicon njsicon-text-color', 'html' : 'Select once', 
-                    'action' : {'click' : $nJsEditor.fontcolorAction },
-                    'data' : $nJsEditor.getFontColor()
+                    'action' : {'click' : $hJsEditor.fontcolorAction },
+                    'data' : $hJsEditor.getFontColor()
                 },
                 'highlight' : {'attr' : { class: 'njs-fontcolor'}, 'title' : 'Highlight Color', 'icon' : 'njsicon njsicon-text-color', 'html' : 'Select once', 
-                    'action' : {'click' : $nJsEditor.highlightAction },
-                    'data' : $nJsEditor.getFontColor()
+                    'action' : {'click' : $hJsEditor.highlightAction },
+                    'data' : $hJsEditor.getFontColor()
                 },
                 
             },
             'normal' : {
-                'paragraph' : {'title' : 'Paragraph', 'icon' : 'njsicon njsicon-pilcrow', 'html' : 'br', 'action' : {'click' : $nJsEditor.paragraphAction }},
-                'bold' : {'title' : 'Bold', 'icon' : 'njsicon njsicon-bold', 'html' : '', 'action' : {'click' : $nJsEditor.boldAction }},
-                'italic' : {'title' : 'Italic', 'icon' : 'njsicon njsicon-italic', 'html' : '', 'action' : {'click' : $nJsEditor.italicAction }},
-                'underline' : {'title' : 'Underline', 'icon' : 'njsicon njsicon-underline', 'html' : '', 'action' : {'click' : $nJsEditor.underlineAction }},
-                'strike' : {'title' : 'Strike', 'icon' : 'njsicon njsicon-strikethrough', 'html' : '', 'action' : {'click' : $nJsEditor.strikeAction }},
+                'paragraph' : {'title' : 'Paragraph', 'icon' : 'njsicon njsicon-pilcrow', 'html' : 'br', 'action' : {'click' : $hJsEditor.paragraphAction }},
+                'bold' : {'title' : 'Bold', 'icon' : 'njsicon njsicon-bold', 'html' : '', 'action' : {'click' : $hJsEditor.boldAction }},
+                'italic' : {'title' : 'Italic', 'icon' : 'njsicon njsicon-italic', 'html' : '', 'action' : {'click' : $hJsEditor.italicAction }},
+                'underline' : {'title' : 'Underline', 'icon' : 'njsicon njsicon-underline', 'html' : '', 'action' : {'click' : $hJsEditor.underlineAction }},
+                'strike' : {'title' : 'Strike', 'icon' : 'njsicon njsicon-strikethrough', 'html' : '', 'action' : {'click' : $hJsEditor.strikeAction }},
             },
             'link' : {
-                'link_action' : {'title' : 'Inset / Edit Link', 'icon' : 'njsicon njsicon-link', 'html' : '', 'action' : {'click' : $nJsEditor.linkAction }},
-                'unlink' : {'title' : 'Remove Link', 'icon' : 'njsicon njsicon-shuffle', 'html' : '', 'action' : {'click' : $nJsEditor.unlinkAction }},
+                'link_action' : {'title' : 'Inset / Edit Link', 'icon' : 'njsicon njsicon-link', 'html' : '', 'action' : {'click' : $hJsEditor.linkAction }},
+                'unlink' : {'title' : 'Remove Link', 'icon' : 'njsicon njsicon-shuffle', 'html' : '', 'action' : {'click' : $hJsEditor.unlinkAction }},
                 'upload' : {'attr' : { class: 'njs-files'}, 'title' : 'Upload Files', 'icon' : 'njsicon njsicon-image', 'html' : '', 
                     'data' : {
-                        'extlink' : {'title' : 'External Link', 'icon' : 'njsicon njsicon-attachment', 'html' : '', 'action' : {'click' : $nJsEditor.extlinkAction }},
-                        'uploadfile' : {'title' : 'Upload files', 'icon' : 'njsicon njsicon-upload2', 'html' : '', 'action' : {'click' : $nJsEditor.uploadfileAction }},
+                        'extlink' : {'title' : 'External Link', 'icon' : 'njsicon njsicon-attachment', 'html' : '', 'action' : {'click' : $hJsEditor.extlinkAction }},
+                        'uploadfile' : {'title' : 'Upload files', 'icon' : 'njsicon njsicon-upload2', 'html' : '', 'action' : {'click' : $hJsEditor.uploadfileAction }},
                     }
                 },
-                'code' : {'title' : 'Inset HTML', 'icon' : 'njsicon njsicon-embed2', 'html' : '', 'action' : {'click' : $nJsEditor.codeAction }},
+                'code' : {'title' : 'Inset HTML', 'icon' : 'njsicon njsicon-embed2', 'html' : '', 'action' : {'click' : $hJsEditor.codeAction }},
                 'table' : {'attr' : { class: 'njs-table'}, 'title' : 'Insert Table', 'icon' : 'njsicon njsicon-table2', 'html' : 'Select once', 
-                    'action' : {'click' : $nJsEditor.tableInsertAction },
-                    'data' : $nJsEditor.getTableCell()
+                    'action' : {'click' : $hJsEditor.tableInsertAction },
+                    'data' : $hJsEditor.getTableCell()
                 },
             },
             'align' : {
                 'alignment' : {'attr' : { class: 'njs-align'}, 'title' : 'Align', 'icon' : 'njsicon njsicon-paragraph-left', 'html' : '', 
                     'data' : {
-                        'left' : {'title' : 'Left Align', 'icon' : 'njsicon njsicon-paragraph-left', 'html' : '', 'action' : {'click' : $nJsEditor.leftAction }},
-                        'center' : {'title' : 'Center Align', 'icon' : 'njsicon njsicon-paragraph-center', 'html' : '', 'action' : {'click' : $nJsEditor.centerAction }},
-                        'right' : {'title' : 'Right Align', 'icon' : 'njsicon njsicon-paragraph-right', 'html' : '', 'action' : {'click' : $nJsEditor.rightAction }},
-                        'justify' : {'title' : 'Justify Align', 'icon' : 'njsicon njsicon-paragraph-justify', 'html' : '', 'action' : {'click' : $nJsEditor.justifyAction }},
+                        'left' : {'title' : 'Left Align', 'icon' : 'njsicon njsicon-paragraph-left', 'html' : '', 'action' : {'click' : $hJsEditor.leftAction }},
+                        'center' : {'title' : 'Center Align', 'icon' : 'njsicon njsicon-paragraph-center', 'html' : '', 'action' : {'click' : $hJsEditor.centerAction }},
+                        'right' : {'title' : 'Right Align', 'icon' : 'njsicon njsicon-paragraph-right', 'html' : '', 'action' : {'click' : $hJsEditor.rightAction }},
+                        'justify' : {'title' : 'Justify Align', 'icon' : 'njsicon njsicon-paragraph-justify', 'html' : '', 'action' : {'click' : $hJsEditor.justifyAction }},
                     }
                 },
                 
             },
             'order' : {
-                'ordered' : {'title' : 'Number List', 'icon' : 'njsicon njsicon-list-numbered', 'html' : '', 'action' : {'click' : $nJsEditor.orderedAction }},
-                'unordered' : {'title' : 'Bulleted List', 'icon' : 'njsicon njsicon-list2', 'html' : '', 'action' : {'click' : $nJsEditor.unorderedAction }},
+                'ordered' : {'title' : 'Number List', 'icon' : 'njsicon njsicon-list-numbered', 'html' : '', 'action' : {'click' : $hJsEditor.orderedAction }},
+                'unordered' : {'title' : 'Bulleted List', 'icon' : 'njsicon njsicon-list2', 'html' : '', 'action' : {'click' : $hJsEditor.unorderedAction }},
             },
 
             'copy_cut' : {
-                'copy' : {'title' : 'Copy', 'icon' : 'njsicon njsicon-copy', 'html' : '', 'action' : {'click' : $nJsEditor.copyAction }},
-                'cut' : {'title' : 'Cut', 'icon' : 'njsicon njsicon-scissors', 'html' : '', 'action' : {'click' : $nJsEditor.cutAction }},
-                'paste' : {'title' : 'Paste', 'icon' : 'njsicon njsicon-paste', 'html' : '', 'action' : {'click' : $nJsEditor.pasteAction }},
-                'delete' : {'title' : 'Delete', 'icon' : 'njsicon njsicon-bin', 'html' : '', 'action' : {'click' : $nJsEditor.deleteAction }},
+                'copy' : {'title' : 'Copy', 'icon' : 'njsicon njsicon-copy', 'html' : '', 'action' : {'click' : $hJsEditor.copyAction }},
+                'cut' : {'title' : 'Cut', 'icon' : 'njsicon njsicon-scissors', 'html' : '', 'action' : {'click' : $hJsEditor.cutAction }},
+                'paste' : {'title' : 'Paste', 'icon' : 'njsicon njsicon-paste', 'html' : '', 'action' : {'click' : $hJsEditor.pasteAction }},
+                'delete' : {'title' : 'Delete', 'icon' : 'njsicon njsicon-bin', 'html' : '', 'action' : {'click' : $hJsEditor.deleteAction }},
             },
             
             'math' : {
-                'sup' : {'title' : 'Sup', 'icon' : 'njsicon njsicon-superscript2', 'html' : '', 'action' : {'click' : $nJsEditor.supAction }},
-                'sub' : {'title' : 'Sub', 'icon' : 'njsicon njsicon-subscript2', 'html' : '', 'action' : {'click' : $nJsEditor.subAction }},
+                'sup' : {'title' : 'Sup', 'icon' : 'njsicon njsicon-superscript2', 'html' : '', 'action' : {'click' : $hJsEditor.supAction }},
+                'sub' : {'title' : 'Sub', 'icon' : 'njsicon njsicon-subscript2', 'html' : '', 'action' : {'click' : $hJsEditor.subAction }},
             },
             'rollback' : {
-                'undo' : {'title' : 'Undo', 'icon' : 'njsicon njsicon-undo', 'html' : '', 'action' : {'click' : $nJsEditor.undoAction }},
-                'redo' : {'title' : 'Redo', 'icon' : 'njsicon njsicon-redo', 'html' : '', 'action' : {'click' : $nJsEditor.redoAction }},
+                'undo' : {'title' : 'Undo', 'icon' : 'njsicon njsicon-undo', 'html' : '', 'action' : {'click' : $hJsEditor.undoAction }},
+                'redo' : {'title' : 'Redo', 'icon' : 'njsicon njsicon-redo', 'html' : '', 'action' : {'click' : $hJsEditor.redoAction }},
             },
             
 
@@ -330,7 +330,7 @@ var $nJsEditorCont = {
     }
 };
 
-var $nJsEditor = {
+var $hJsEditor = {
 
     init: function(  $selector, $settings = '', $control = ''){
         let $tabs = document.querySelectorAll($selector);
@@ -344,7 +344,7 @@ var $nJsEditor = {
                     $v.setAttribute('njs-settings', JSON.stringify($settings)); 
                 }
                 // set Settings
-                let $sett = $nJsEditor.getSettings( $v );
+                let $sett = $hJsEditor.getSettings( $v );
                 var $type = ($sett.type) ? $sett.type : 'basic';
                 if( $control != ''){
                     $v.setAttribute('njs-' + $type, JSON.stringify($control)); 
@@ -366,15 +366,15 @@ var $nJsEditor = {
                 $controls.classList.add('njseditor-panel-controls');
 
                 // render control
-                $nJsEditorCont.renTitle($controls, $k, 'title');
+                $hJsEditorCont.renTitle($controls, $k, 'title');
                 
-                $nJsEditorCont.renTitle($controls, $k, 'normal');
-                $nJsEditorCont.renTitle($controls, $k, 'align');
-                $nJsEditorCont.renTitle($controls, $k, 'order');
-                $nJsEditorCont.renTitle($controls, $k, 'link');
-                $nJsEditorCont.renTitle($controls, $k, 'copy_cut');
-                $nJsEditorCont.renTitle($controls, $k, 'math');
-                $nJsEditorCont.renTitle($controls, $k, 'rollback');
+                $hJsEditorCont.renTitle($controls, $k, 'normal');
+                $hJsEditorCont.renTitle($controls, $k, 'align');
+                $hJsEditorCont.renTitle($controls, $k, 'order');
+                $hJsEditorCont.renTitle($controls, $k, 'link');
+                $hJsEditorCont.renTitle($controls, $k, 'copy_cut');
+                $hJsEditorCont.renTitle($controls, $k, 'math');
+                $hJsEditorCont.renTitle($controls, $k, 'rollback');
 
                 $new.appendChild($controls);
                 
@@ -395,11 +395,11 @@ var $nJsEditor = {
                     var $editor = window.frames['njseditor-mode-' + $k].document;
                     if( $editor){
                         $editor.body.innerHTML = $v.value;
-                        $nJsEditor.setRezise('img', $k);
+                        $hJsEditor.setRezise('img', $k);
                         $editor.designMode = "on";
                         $editor.execCommand("defaultParagraphSeparator", false, "p");
                         $editor.body.setAttribute('njs-control-id', $k);
-                        $editor.addEventListener('keyup', $nJsEditor.editorKeyup);
+                        $editor.addEventListener('keyup', $hJsEditor.editorKeyup);
                     }
                     
                 });
@@ -420,7 +420,7 @@ var $nJsEditor = {
                     
                 });
 
-                $nJsEditor.autoiframeHeight( $new );
+                $hJsEditor.autoiframeHeight( $new );
             });
 
            
@@ -541,9 +541,9 @@ var $nJsEditor = {
         if( $el ){
             $el.innerHTML =  $editor.body.innerHTML;
         }
-        $nJsEditorCont.setClickPopupData( document.querySelector('.njseditor-panel-' + $k) );
+        $hJsEditorCont.setClickPopupData( document.querySelector('.njseditor-panel-' + $k) );
 
-        $nJsEditor.autoiframeHeight( document.querySelector('[njs-panel="njseditor-'+$k+'"]') );
+        $hJsEditor.autoiframeHeight( document.querySelector('[njs-panel="njseditor-'+$k+'"]') );
     },
     getValue: function($el, $name ){
         if( $el ){
@@ -560,7 +560,7 @@ var $nJsEditor = {
         var $editor = window.frames['njseditor-mode-' + $k].document;
         if($editor){
             
-            $nJsEditor.setValue($k, $editor );
+            $hJsEditor.setValue($k, $editor );
         }
     },
     paragraphAction: function( $e ){
@@ -573,7 +573,7 @@ var $nJsEditor = {
         var $editor = window.frames['njseditor-mode-' + $k].document;
         if($editor){
             $editor.execCommand("insertParagraph", false, null);
-            $nJsEditor.setValue($k, $editor );
+            $hJsEditor.setValue($k, $editor );
         }
     },
     boldAction: function( $e ){
@@ -587,7 +587,7 @@ var $nJsEditor = {
         if($editor){
             $editor.execCommand("styleWithCSS", true, null);
             $editor.execCommand("Bold", false, null);
-            $nJsEditor.setValue($k, $editor );
+            $hJsEditor.setValue($k, $editor );
         }
     },
     italicAction: function( $e ){
@@ -601,7 +601,7 @@ var $nJsEditor = {
         if($editor){
             $editor.execCommand("styleWithCSS", true, null);
             $editor.execCommand("Italic", false, null);
-            $nJsEditor.setValue($k, $editor );
+            $hJsEditor.setValue($k, $editor );
         }
     },
     linkAction: function( $e ){
@@ -614,7 +614,7 @@ var $nJsEditor = {
         var $editor = window.frames['njseditor-mode-' + $k].document;
         if($editor){
             var $el = document.querySelector('.njseditor-panel-' + $k);
-            var $popup = $nJsEditor.createLinkBox($el, 'link', $k);
+            var $popup = $hJsEditor.createLinkBox($el, 'link', $k);
             
             var $select = $editor.getSelection().getRangeAt(0);
             var $selectCOn = $select.extractContents();
@@ -645,12 +645,12 @@ var $nJsEditor = {
                 var $linkAddress = $popup.querySelector('.njs-popup-get-link');
                 $addButton.addEventListener('click', function( $e ){
                     $editor.execCommand("CreateLink", null, $linkAddress.value);
-                    $nJsEditor.setValue($k, $editor );
-                    $nJsEditorCont.removePopupModal( document.querySelector('.njseditor-panel-' + $k) );
+                    $hJsEditor.setValue($k, $editor );
+                    $hJsEditorCont.removePopupModal( document.querySelector('.njseditor-panel-' + $k) );
                 });
             }
             
-            $nJsEditorCont.setClickPopupData( document.querySelector('.njseditor-panel-' + $k) );
+            $hJsEditorCont.setClickPopupData( document.querySelector('.njseditor-panel-' + $k) );
 
         }
     },
@@ -665,7 +665,7 @@ var $nJsEditor = {
         if($editor){
             $editor.execCommand("styleWithCSS", true, null);
             $editor.execCommand("Unlink", false, null);
-            $nJsEditor.setValue($k, $editor );
+            $hJsEditor.setValue($k, $editor );
         }
     },
     codeAction: function( $e ){
@@ -678,7 +678,7 @@ var $nJsEditor = {
         var $editor = window.frames['njseditor-mode-' + $k].document;
         if($editor){
             var $el = document.querySelector('.njseditor-panel-' + $k);
-            var $popup = $nJsEditor.createLinkBox($el, 'code', $k);
+            var $popup = $hJsEditor.createLinkBox($el, 'code', $k);
             
             var $select = $editor.getSelection().getRangeAt(0);
             var $selectCOn = $select.extractContents();
@@ -709,12 +709,12 @@ var $nJsEditor = {
                 var $linkAddress = $popup.querySelector('.njs-popup-get-link');
                 $addButton.addEventListener('click', function( $e ){
                     $editor.execCommand("insertHTML", null, $linkAddress.value);
-                    $nJsEditor.setValue($k, $editor );
-                    $nJsEditorCont.removePopupModal( document.querySelector('.njseditor-panel-' + $k) );
+                    $hJsEditor.setValue($k, $editor );
+                    $hJsEditorCont.removePopupModal( document.querySelector('.njseditor-panel-' + $k) );
                 });
             }
             
-            $nJsEditorCont.setClickPopupData( document.querySelector('.njseditor-panel-' + $k) );
+            $hJsEditorCont.setClickPopupData( document.querySelector('.njseditor-panel-' + $k) );
 
         }
     },
@@ -729,7 +729,7 @@ var $nJsEditor = {
         if($editor){
             $editor.execCommand("styleWithCSS", true, null);
             $editor.execCommand("Underline", false, null);
-            $nJsEditor.setValue($k, $editor );
+            $hJsEditor.setValue($k, $editor );
         }
     },
     supAction: function( $e ){
@@ -743,7 +743,7 @@ var $nJsEditor = {
         if($editor){
             $editor.execCommand("styleWithCSS", true, null);
             $editor.execCommand("Superscript", false, null);
-            $nJsEditor.setValue($k, $editor );
+            $hJsEditor.setValue($k, $editor );
         }
     },
     subAction: function( $e ){
@@ -757,7 +757,7 @@ var $nJsEditor = {
         if($editor){
             $editor.execCommand("styleWithCSS", true, null);
             $editor.execCommand("Subscript", false, null);
-            $nJsEditor.setValue($k, $editor );
+            $hJsEditor.setValue($k, $editor );
         }
     },
     strikeAction: function( $e ){
@@ -771,7 +771,7 @@ var $nJsEditor = {
         if($editor){
             $editor.execCommand("styleWithCSS", true, null);
             $editor.execCommand("Strikethrough", false, null);
-            $nJsEditor.setValue($k, $editor );
+            $hJsEditor.setValue($k, $editor );
         }
     },
     leftAction: function( $e ){
@@ -785,7 +785,7 @@ var $nJsEditor = {
         if($editor){
             $editor.execCommand("styleWithCSS", true, null);
             $editor.execCommand("JustifyLeft", false, null);
-            $nJsEditor.setValue($k, $editor );
+            $hJsEditor.setValue($k, $editor );
         }
     },
     centerAction: function( $e ){
@@ -799,7 +799,7 @@ var $nJsEditor = {
         if($editor){
             $editor.execCommand("styleWithCSS", true, null);
             $editor.execCommand("JustifyCenter", false, null);
-            $nJsEditor.setValue($k, $editor );
+            $hJsEditor.setValue($k, $editor );
         }
     },
     rightAction: function( $e ){
@@ -813,7 +813,7 @@ var $nJsEditor = {
         if($editor){
             $editor.execCommand("styleWithCSS", true, null);
             $editor.execCommand("JustifyRight", false, null);
-            $nJsEditor.setValue($k, $editor );
+            $hJsEditor.setValue($k, $editor );
         }
     },
     justifyAction: function( $e ){
@@ -827,7 +827,7 @@ var $nJsEditor = {
         if($editor){
             $editor.execCommand("styleWithCSS", true, null);
             $editor.execCommand("justifyFull", false, null);
-            $nJsEditor.setValue($k, $editor );
+            $hJsEditor.setValue($k, $editor );
         }
     },
     orderedAction: function( $e ){
@@ -841,7 +841,7 @@ var $nJsEditor = {
         if($editor){
             $editor.execCommand("styleWithCSS", true, null);
             $editor.execCommand("InsertOrderedList", false, "newOL", + Math.round(Math.random() * 1000));
-            $nJsEditor.setValue($k, $editor );
+            $hJsEditor.setValue($k, $editor );
         }
     },
     unorderedAction: function( $e ){
@@ -855,7 +855,7 @@ var $nJsEditor = {
         if($editor){
             $editor.execCommand("styleWithCSS", true, null);
             $editor.execCommand("InsertUnorderedList", false, "newOL", + Math.round(Math.random() * 1000));
-            $nJsEditor.setValue($k, $editor );
+            $hJsEditor.setValue($k, $editor );
         }
     },
     fontcolorAction: function( $e ){
@@ -870,7 +870,7 @@ var $nJsEditor = {
             
             $editor.execCommand("styleWithCSS", true, null);
             $editor.execCommand("ForeColor", false, $e.target.getAttribute('njs-value'));
-            $nJsEditor.setValue($k, $editor );
+            $hJsEditor.setValue($k, $editor );
         }
     },
     highlightAction: function( $e ){
@@ -884,7 +884,7 @@ var $nJsEditor = {
         if($editor){
             $editor.execCommand("styleWithCSS", true, null);
             $editor.execCommand("BackColor", false, $e.target.getAttribute('njs-value'));
-            $nJsEditor.setValue($k, $editor );
+            $hJsEditor.setValue($k, $editor );
         }
     },
     tableInsertAction: function( $e ){
@@ -900,7 +900,7 @@ var $nJsEditor = {
             let $sp = $data.split('-');
 
             let $table = document.createElement('table');
-            let $id = $nJsEditor.getUnqueid();
+            let $id = $hJsEditor.getUnqueid();
             $table.setAttribute('id', $id);
             $table.setAttribute('border', '0');
             $table.setAttribute('cellpadding', '0');
@@ -923,7 +923,7 @@ var $nJsEditor = {
             $editor.execCommand("styleWithCSS", true, null);
             
             $editor.execCommand("insertHTML", null, $table.outerHTML);
-            $nJsEditor.setValue($k, $editor );
+            $hJsEditor.setValue($k, $editor );
         }
     },
     fontfamilyAction: function( $e ){
@@ -937,7 +937,7 @@ var $nJsEditor = {
         if($editor){
             $editor.execCommand("styleWithCSS", true, null);
             $editor.execCommand("FontName", false, $e.target.getAttribute('njs-value'));
-            $nJsEditor.setValue($k, $editor );
+            $hJsEditor.setValue($k, $editor );
         }
     },
     headingAction: function( $e ){
@@ -951,7 +951,7 @@ var $nJsEditor = {
         if($editor){
             $editor.execCommand("styleWithCSS", true, null);
             $editor.execCommand("formatblock", false, $e.target.getAttribute('njs-value'));
-            $nJsEditor.setValue($k, $editor );
+            $hJsEditor.setValue($k, $editor );
         }
     },
     increaseAction: function( $e ){
@@ -965,7 +965,7 @@ var $nJsEditor = {
         if($editor){
             $editor.execCommand("styleWithCSS", true, null);
             $editor.execCommand("fontSize", false, $e.target.getAttribute('njs-value'));
-            $nJsEditor.setValue($k, $editor );
+            $hJsEditor.setValue($k, $editor );
         }
     },
     undoAction: function( $e ){
@@ -978,7 +978,7 @@ var $nJsEditor = {
         var $editor = window.frames['njseditor-mode-' + $k].document;
         if($editor){
             $editor.execCommand("undo", false, null);
-            $nJsEditor.setValue($k, $editor );
+            $hJsEditor.setValue($k, $editor );
         }
     },
     redoAction: function( $e ){
@@ -991,7 +991,7 @@ var $nJsEditor = {
         var $editor = window.frames['njseditor-mode-' + $k].document;
         if($editor){
             $editor.execCommand("redo", false, null);
-            $nJsEditor.setValue($k, $editor );
+            $hJsEditor.setValue($k, $editor );
         }
     },
     copyAction: function( $e ){
@@ -1004,7 +1004,7 @@ var $nJsEditor = {
         var $editor = window.frames['njseditor-mode-' + $k].document;
         if($editor){
             $editor.execCommand("copy");
-            $nJsEditor.setValue($k, $editor );
+            $hJsEditor.setValue($k, $editor );
         }
     },
     cutAction: function( $e ){
@@ -1017,7 +1017,7 @@ var $nJsEditor = {
         var $editor = window.frames['njseditor-mode-' + $k].document;
         if($editor){
             $editor.execCommand("cut");
-            $nJsEditor.setValue($k, $editor );
+            $hJsEditor.setValue($k, $editor );
         }
     },
     pasteAction: function( $e ){
@@ -1030,7 +1030,7 @@ var $nJsEditor = {
         var $editor = window.frames['njseditor-mode-' + $k].document;
         if($editor){
             $editor.execCommand("paste");
-            $nJsEditor.setValue($k, $editor );
+            $hJsEditor.setValue($k, $editor );
         }
     },
     deleteAction: function( $e ){
@@ -1043,7 +1043,7 @@ var $nJsEditor = {
         var $editor = window.frames['njseditor-mode-' + $k].document;
         if($editor){
             $editor.execCommand("delete", null, false);
-            $nJsEditor.setValue($k, $editor );
+            $hJsEditor.setValue($k, $editor );
         }
     },
     extlinkAction: function( $e ){
@@ -1056,7 +1056,7 @@ var $nJsEditor = {
         var $editor = window.frames['njseditor-mode-' + $k].document;
         if($editor){
             var $el = document.querySelector('.njseditor-panel-' + $k);
-            var $popup = $nJsEditor.createLinkBox($el, 'image', $k);
+            var $popup = $hJsEditor.createLinkBox($el, 'image', $k);
             
             var $select = $editor.getSelection().getRangeAt(0);
             var $selectCOn = $select.extractContents();
@@ -1087,12 +1087,12 @@ var $nJsEditor = {
                 var $linkAddress = $popup.querySelector('.njs-popup-get-link');
                 $addButton.addEventListener('click', function( $e ){
                     $editor.execCommand("insertImage", null, $linkAddress.value);
-                    $nJsEditor.setRezise('img', $k);
-                    $nJsEditor.setValue($k, $editor );
-                    $nJsEditorCont.removePopupModal( document.querySelector('.njseditor-panel-' + $k) );
+                    $hJsEditor.setRezise('img', $k);
+                    $hJsEditor.setValue($k, $editor );
+                    $hJsEditorCont.removePopupModal( document.querySelector('.njseditor-panel-' + $k) );
                 });
             }
-            $nJsEditorCont.setClickPopupData( document.querySelector('.njseditor-panel-' + $k) );
+            $hJsEditorCont.setClickPopupData( document.querySelector('.njseditor-panel-' + $k) );
         }
     },
     uploadfileAction: function( $e ){
@@ -1121,17 +1121,17 @@ var $nJsEditor = {
                             var reader = new FileReader();
                             reader.onload = function( e ) {
                               $editor.execCommand("insertImage", null, e.target.result);
-                              $nJsEditor.setRezise('img', $k);
+                              $hJsEditor.setRezise('img', $k);
                             };
                             reader.readAsDataURL(file);
                         }
-                        $nJsEditor.setValue($k, $editor );
+                        $hJsEditor.setValue($k, $editor );
                     }
                 });
                 
             }
             
-            $nJsEditorCont.setClickPopupData( document.querySelector('.njseditor-panel-' + $k) );
+            $hJsEditorCont.setClickPopupData( document.querySelector('.njseditor-panel-' + $k) );
         }
     },
 
@@ -1202,7 +1202,7 @@ var $nJsEditor = {
             $remove.setAttribute('class', 'njs-button njs-popup-button-remove njsicon njsicon-cross');
             $remove.setAttribute('njs-control-id', $k);
             $remove.addEventListener('click', function( $e ){
-                $nJsEditorCont.removePopupModal( document.querySelector('.njseditor-panel-' + $k) );
+                $hJsEditorCont.removePopupModal( document.querySelector('.njseditor-panel-' + $k) );
             });
             $con.appendChild($remove);
 
@@ -1220,8 +1220,8 @@ var $nJsEditor = {
                     $v.classList.add('njs-rezise-options');
                     $v.classList.add('njs-rezise-' + $tag);
                     $v.setAttribute('njs-control-id', $k);
-                    $v.removeEventListener('click', $nJsEditor.resizeOption);
-                    $v.addEventListener('click', $nJsEditor.resizeOption);
+                    $v.removeEventListener('click', $hJsEditor.resizeOption);
+                    $v.addEventListener('click', $hJsEditor.resizeOption);
                 });
             }
             
@@ -1232,7 +1232,7 @@ var $nJsEditor = {
         let $this = this;
         let $k = $this.getAttribute('njs-control-id');
         var $el = document.querySelector('.njseditor-panel-' + $k);
-        var $popup = $nJsEditor.createLinkBox($el, 'image_re', $k);
+        var $popup = $hJsEditor.createLinkBox($el, 'image_re', $k);
             
         var $editor = window.frames['njseditor-mode-' + $k].document;
 
@@ -1272,7 +1272,7 @@ var $nJsEditor = {
                 if( $height.value != ''){
                     $this.style.height = $height.value;
                 }
-                $nJsEditor.setValue($k, $editor );
+                $hJsEditor.setValue($k, $editor );
             });
         }
     }
@@ -1282,4 +1282,4 @@ var $nJsEditor = {
 };
 
 // Accrodion calling
-$nJsEditor.init('.nx-editor-selector');
+$hJsEditor.init('.nx-editor-selector');

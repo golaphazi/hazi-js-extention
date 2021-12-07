@@ -10,7 +10,7 @@ function app_home( e){
 
 /*start header section*/
 /*
-let $header = nJs.el(
+let $header = hJs.el(
     $div,
     'header',
     {
@@ -182,7 +182,7 @@ let $header = nJs.el(
 */
 
 
-let $footer = nJs.el(
+let $footer = hJs.el(
     $div,
     'footer',
     {
@@ -284,7 +284,7 @@ let $footer = nJs.el(
 );
 
 /*
-nJs.el( document.querySelector('.app-menu-ul'),
+hJs.el( document.querySelector('.app-menu-ul'),
     'div',
     {
         class: 'top-div',
@@ -298,7 +298,7 @@ nJs.el( document.querySelector('.app-menu-ul'),
 */
 // add element by arrow
 /*
-nJs.addElement(
+hJs.addElement(
     [
         [
             '.app-menu-ul',
@@ -344,27 +344,27 @@ nJs.addElement(
 
 /*
 
-let $parent = nJs.parents(document.querySelector('.app-menu-ul'), '.app-header');
+let $parent = hJs.parents(document.querySelector('.app-menu-ul'), '.app-header');
 //console.log($parent);
 
 // add class
-nJs.addClass( document.querySelector('.app-menu-ul'), ['golap', 'mostafa', 'fsdfsf hazi']);
+hJs.addClass( document.querySelector('.app-menu-ul'), ['golap', 'mostafa', 'fsdfsf hazi']);
 
-let $getClaas = nJs.getClass( document.querySelector('.app-menu-ul'));
+let $getClaas = hJs.getClass( document.querySelector('.app-menu-ul'));
 
 //set attribute
-nJs.setAttr( document.querySelector('.app-menu-ul'), {golap: 'test', mostaf : 'fdff'});
+hJs.setAttr( document.querySelector('.app-menu-ul'), {golap: 'test', mostaf : 'fdff'});
 
 // remove class
-nJs.removeClass( document.querySelector('.app-menu-ul'), ['golap', 'fsdfsf hazi1']);
+hJs.removeClass( document.querySelector('.app-menu-ul'), ['golap', 'fsdfsf hazi1']);
 
 // find
-let $find = nJs.find('.app-menu-ul');
+let $find = hJs.find('.app-menu-ul');
 */
 
 // ajax
 /*
-nJs.ajax(
+hJs.ajax(
     {
         'action' : './ajax.txt',
         'method' : 'POST', 
@@ -380,7 +380,7 @@ nJs.ajax(
 */
 // get
 /*
-nJs.get('./ajax.txt', 
+hJs.get('./ajax.txt', 
     {
         'header' : {
             "Content-type" : 'application/x-www-form-urlencoded'
@@ -399,8 +399,8 @@ nJs.get('./ajax.txt',
 
 // get json
 /*
-nJs.json('http://localhost/next-js-extention/js/json/test.json').onload = function(res){
-    console.log( nJs.strToJson(this.response) );
+hJs.json('http://localhost/next-js-extention/js/json/test.json').onload = function(res){
+    console.log( hJs.strToJson(this.response) );
 };*/
 
 // set Parallax

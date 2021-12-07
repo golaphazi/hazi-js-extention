@@ -1,14 +1,14 @@
 "use strict";
 /**
-* Name: NextJs
+* Name: HaziJs
 * Desc: A Simple and Lightweight JavScript Framework.
 * version: 1.0.0
-* Package: @NextJs
-* Author: ThemeDev
+* Package: @HaziJs
+* Author: https://github.com/golaphazi
 * Developer: Hazi
 */
 
-var $nJsBackParallax = {
+var $hJsBackParallax = {
     init: function(  $selector, $settings = '' ){
         let $tabs = document.querySelectorAll($selector);
         if( $tabs ){
@@ -19,7 +19,7 @@ var $nJsBackParallax = {
                 }
 
                 // set Settings
-                let $sett = $nJsBackParallax.getSettings( $v );
+                let $sett = $hJsBackParallax.getSettings( $v );
                 var $ratio = ($sett.ratio) ? $sett.ratio : 0;
                 var $type = ($sett.type) ? $sett.type : 'background';
                 var $direction = ($sett.direction) ? $sett.direction : 'vertical';
@@ -52,7 +52,7 @@ var $nJsBackParallax = {
                 }
                
             });
-            window.addEventListener('scroll', $nJsBackParallax.onScroll);
+            window.addEventListener('scroll', $hJsBackParallax.onScroll);
         }
     },
     getSettings: function( $el ){
@@ -99,7 +99,7 @@ var $nJsBackParallax = {
         document.querySelectorAll('[njs-backparallax]').forEach(function($v){
             if($v){
                 // set Settings
-                let $sett = $nJsBackParallax.getSettings( $v );
+                let $sett = $hJsBackParallax.getSettings( $v );
                 var $ratio = ($sett.ratio) ? $sett.ratio : 0;
                 var $type = ($sett.type) ? $sett.type : 'background';
                 var $direction = ($sett.direction) ? $sett.direction : 'vertical';
@@ -139,4 +139,4 @@ var $nJsBackParallax = {
 };
 
 // Background Parallax calling
-$nJsBackParallax.init('.dl-backparalax-section');
+$hJsBackParallax.init('.dl-backparalax-section');

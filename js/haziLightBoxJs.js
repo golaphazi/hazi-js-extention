@@ -1,14 +1,14 @@
 "use strict";
 /**
-* Name: NextJs
+* Name: HaziJs
 * Desc: A Simple and Lightweight JavScript Framework.
 * version: 1.0.0
-* Package: @NextJs
-* Author: ThemeDev
+* Package: @HaziJs
+* Author: https://github.com/golaphazi
 * Developer: Hazi
 */
 
-var $nJsLightBox = {
+var $hJsLightBox = {
     clicked: 0,
     clickData: 0,
     wrap: null,
@@ -20,32 +20,32 @@ var $nJsLightBox = {
 
                 if( !$v.classList.contains('njs-ignore-lightbox')){
 
-                    let $data = $nJsLightBox.getData($v);
+                    let $data = $hJsLightBox.getData($v);
                     
                     if( $data === false){
                         let $child = $v.querySelectorAll('img:not(.njs-ignore-lightbox)');
                         if( $child.length == 1){
-                            let $src = $nJsLightBox.getData( $child[0]);
+                            let $src = $hJsLightBox.getData( $child[0]);
                             if( $src ){
                                 $v.setAttribute('njs-url', $src);
                                 if( !$v.getAttribute('njs-light-index') ){
                                     $v.setAttribute('njs-light-index', $i);
                                 }
-                                $v.removeEventListener('click', $nJsLightBox.onOpen);
-                                $v.addEventListener('click', $nJsLightBox.onOpen);
+                                $v.removeEventListener('click', $hJsLightBox.onOpen);
+                                $v.addEventListener('click', $hJsLightBox.onOpen);
                                 $i++;
                             }
                             
                         } else if( $child.length > 1){
                             $child.forEach( $v1 => {
-                                let $src =  $nJsLightBox.getData($v1);
+                                let $src =  $hJsLightBox.getData($v1);
                                 if( $src ){
                                     $v1.setAttribute('njs-url', $src);
                                     if( !$v1.getAttribute('njs-light-index') ){
                                         $v1.setAttribute('njs-light-index', $i);
                                     }
-                                    $v1.removeEventListener('click', $nJsLightBox.onOpen);
-                                    $v1.addEventListener('click', $nJsLightBox.onOpen);   
+                                    $v1.removeEventListener('click', $hJsLightBox.onOpen);
+                                    $v1.addEventListener('click', $hJsLightBox.onOpen);   
                                     $i++; 
                                 }
                             });
@@ -54,8 +54,8 @@ var $nJsLightBox = {
                         if( !$v.getAttribute('njs-light-index') ){
                             $v.setAttribute('njs-light-index', $i);
                         }
-                        $v.removeEventListener('click', $nJsLightBox.onOpen);
-                        $v.addEventListener('click', $nJsLightBox.onOpen);   
+                        $v.removeEventListener('click', $hJsLightBox.onOpen);
+                        $v.addEventListener('click', $hJsLightBox.onOpen);   
                         $i++; 
                     }
                 }
@@ -74,7 +74,7 @@ var $nJsLightBox = {
     onOpen: function( e ){
         e.preventDefault();
         let $this = this;
-        $nJsLightBox.renderContent(  $this );
+        $hJsLightBox.renderContent(  $this );
     },
     renderContent: function( $v ){
 
@@ -82,10 +82,10 @@ var $nJsLightBox = {
             $vl.classList.remove('njs-lightbox-open');
         });
        
-        let $url = $nJsLightBox.getData($v);
+        let $url = $hJsLightBox.getData($v);
         let $contentEl = ($v.getAttribute('njs-content')) ? $v.getAttribute('njs-content') : false;
 
-        let $el = $nJsLightBox.renderPopup();
+        let $el = $hJsLightBox.renderPopup();
         
         if( $el ){
             let $wrapConSub = $el.querySelector('.njs-lightboxCon-sub');
@@ -129,7 +129,7 @@ var $nJsLightBox = {
     },
     onClose: function( e  ){
         e.preventDefault();
-        let $el = $nJsLightBox.renderPopup();
+        let $el = $hJsLightBox.renderPopup();
         if( $el ){
             $el.remove();
         }
@@ -152,12 +152,12 @@ var $nJsLightBox = {
         
         let $wrap = document.createElement('div');
         $wrap.setAttribute('class', 'njs-lightbox-wrap');
-        $nJsLightBox.wrap = $wrap;
-        $wrap.addEventListener("mousedown", $nJsLightBox.onDragReady);
-        window.addEventListener("mouseup", $nJsLightBox.onDragFinish);
+        $hJsLightBox.wrap = $wrap;
+        $wrap.addEventListener("mousedown", $hJsLightBox.onDragReady);
+        window.addEventListener("mouseup", $hJsLightBox.onDragFinish);
         /*or touched (for touch screens:*/
-        $wrap.addEventListener("touchstart", $nJsLightBox.onDragReady);
-        window.addEventListener("touchend", $nJsLightBox.onDragFinish);
+        $wrap.addEventListener("touchstart", $hJsLightBox.onDragReady);
+        window.addEventListener("touchend", $hJsLightBox.onDragFinish);
 
         let $wrapCon = document.createElement('div');
         $wrapCon.setAttribute('class', 'njs-lightboxCon-outer');
@@ -177,8 +177,8 @@ var $nJsLightBox = {
         $close.setAttribute('title', 'Close');
         $close.setAttribute('class', 'njs-close-bt');
         $close.innerText = '-';
-        $close.removeEventListener('click', $nJsLightBox.onClose);
-        $close.addEventListener('click', $nJsLightBox.onClose);
+        $close.removeEventListener('click', $hJsLightBox.onClose);
+        $close.addEventListener('click', $hJsLightBox.onClose);
 
         $wrapCon.appendChild($close);
 
@@ -192,8 +192,8 @@ var $nJsLightBox = {
         $arr_buttonl.setAttribute('njs-type', 'prev');
         $arr_buttonl.innerText = 'Previous';
 
-        $arr_buttonl.removeEventListener('click', $nJsLightBox.onControl);
-        $arr_buttonl.addEventListener('click', $nJsLightBox.onControl);
+        $arr_buttonl.removeEventListener('click', $hJsLightBox.onControl);
+        $arr_buttonl.addEventListener('click', $hJsLightBox.onControl);
 
         $wrapConArr.appendChild($arr_buttonl);
 
@@ -204,8 +204,8 @@ var $nJsLightBox = {
         $arr_buttonr.setAttribute('class', 'next njs-arr-bt');
         $arr_buttonr.setAttribute('njs-type', 'next');
         $arr_buttonr.innerText = 'Next';
-        $arr_buttonr.removeEventListener('click', $nJsLightBox.onControl);
-        $arr_buttonr.addEventListener('click', $nJsLightBox.onControl);
+        $arr_buttonr.removeEventListener('click', $hJsLightBox.onControl);
+        $arr_buttonr.addEventListener('click', $hJsLightBox.onControl);
         $wrapConArr.appendChild($arr_buttonr);
 
         $wrapCon.appendChild($wrapConArr);
@@ -240,22 +240,22 @@ var $nJsLightBox = {
                 }
                 let $nextOpen = document.querySelector('[njs-light-index="'+$index+'"]');
                 if( $nextOpen ){
-                    $nJsLightBox.renderContent( $nextOpen );
+                    $hJsLightBox.renderContent( $nextOpen );
                 }
             }
         }
     },
     onDrag: function(  e ){
         e.preventDefault();
-        if ($nJsLightBox.clicked == 0) return false;
+        if ($hJsLightBox.clicked == 0) return false;
         let $index = 0;
-        let pos = $nJsLightBox.getCursorPos(e);
-        console.log( $nJsLightBox.clickData );
+        let pos = $hJsLightBox.getCursorPos(e);
+        console.log( $hJsLightBox.clickData );
         let $type = 'next';
-        if( pos <= $nJsLightBox.clickData && $nJsLightBox.clickData != 0){
+        if( pos <= $hJsLightBox.clickData && $hJsLightBox.clickData != 0){
             $type = 'prev'
         }
-        $nJsLightBox.clickData = pos;
+        $hJsLightBox.clickData = pos;
         
         let $current = document.querySelector('.njs-lightbox-open');
         if( $current ){
@@ -268,25 +268,25 @@ var $nJsLightBox = {
             }
             let $nextOpen = document.querySelector('[njs-light-index="'+$index+'"]');
             if( $nextOpen ){
-                $nJsLightBox.renderContent( $nextOpen );
+                $hJsLightBox.renderContent( $nextOpen );
             }
-            $nJsLightBox.clicked = 0;
+            $hJsLightBox.clicked = 0;
         }
         
     },
     onDragFinish: function(){
-        $nJsLightBox.clicked = 0;
+        $hJsLightBox.clicked = 0;
     },
     onDragReady: function( e ){
         e.preventDefault();
-        $nJsLightBox.clicked = 1;
-        window.addEventListener("mousemove", $nJsLightBox.onDrag);
-        window.addEventListener("touchmove", $nJsLightBox.onDrag);
+        $hJsLightBox.clicked = 1;
+        window.addEventListener("mousemove", $hJsLightBox.onDrag);
+        window.addEventListener("touchmove", $hJsLightBox.onDrag);
     },
     getCursorPos: function(e) {
         var a, x = 0;
         e = (e.changedTouches) ? e.changedTouches[0] : e;
-        a = $nJsLightBox.wrap.getBoundingClientRect();
+        a = $hJsLightBox.wrap.getBoundingClientRect();
         x = e.pageX - a.left;
         x = x - window.pageXOffset;
         return x;
@@ -295,4 +295,4 @@ var $nJsLightBox = {
 };
 
 // LightBox calling
-$nJsLightBox.init('.njs-light');
+$hJsLightBox.init('.njs-light');

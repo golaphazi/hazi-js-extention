@@ -1,10 +1,10 @@
 "use strict";
 /**
-* Name: NextJs
+* Name: HaziJs
 * Desc: A Simple and Lightweight JavScript Framework.
 * version: 1.0.0
-* Package: @NextJs
-* Author: ThemeDev
+* Package: @HaziJs
+* Author: https://github.com/golaphazi
 * Developer: Hazi
 */
 class NextMixinJs{
@@ -292,7 +292,10 @@ class NextMixinJs{
         if( !$itemCon ){
             return;
         }
-       
+        $itemCon.style.position = 'relative';
+
+        var $totalHeight = 0;
+        let $heigthColumnCount = 0;
         let $items = $itemCon.querySelectorAll($itemSelector);
 
         if($target == '*'){
@@ -300,101 +303,322 @@ class NextMixinJs{
         }else{
             var $targetList = $itemCon.querySelectorAll($itemSelector+$target);
         }
-        // new grid css end
-
+        
         if($items){
+            var $itemArr = [];
+            var $itemRatio = [];
             let $widthRatio = $ratio;
             let $heightRatio = $ratio;
             let $itemheight = 'auto';
+            let $top = 0;
+            let $left = 0;
             let $totalItem = 1;
 
-            let $totalItemsWidth = 0;
-            let $totalItemsheight = 0;
-            let $colStart = 1;
-            let $rowStart = 1;
+            let $start_width = 0;
+            let $start_height = 0;
+            let $start_top = 0;
+            let $start_left = 0;
+
+            let $maxHeight = $ratio;
+            let $maxWidth = 0;
+            let $maxTotalHeight = [];
+
+            let $ratio_x = 0;
+            let $ratio_y = 1;
+
+            const $objItem = [];
+            const $map = [];
             $items.forEach(function($v, $k){
-                var $itemStyle = 'position: relative;';
+
+                let $clientItem = $v.getBoundingClientRect();
+                let $style = window.getComputedStyle($v);
+                let leftTrans = $style.getPropertyValue('left');
+                let topTrans = $style.getPropertyValue('top');
+
+                let $height = Math.floor(($clientItem.height) ? $clientItem.height: 0);
+                let $width = ($clientItem.width) ? $clientItem.width: 0;
+
                 $widthRatio = Math.floor(($v.getAttribute('njs-width')) ? $v.getAttribute('njs-width') : $ratio);
                 $heightRatio = Math.floor(($v.getAttribute('njs-height')) ? $v.getAttribute('njs-height') : $ratio);
 
                 var $itWidth = Math.floor( ($itemWidth * $widthRatio) + ($gutter * ($widthRatio - 1)) );
                 $itemheight = Math.floor( ($itemWidth * $heightRatio) + ($gutter * ($heightRatio - 1)) );
+                 
+                $v.setAttribute('njs-index-item', $totalItem);
                 
                 if( $widthRatio > $columns){
                     $widthRatio = $columns;
                 }
-                
-                console.log('SL:', $totalItem);
-                console.log('ROW:', $rowStart);
-                console.log('COl:', $colStart);
-                
-                if($ratio < $widthRatio){
-                    var $newCOls = $colStart;
-                    var $newadd = Number( $colStart + $widthRatio);
-                    if($colStart > $columns){
-                        $newadd = Number($newadd - $widthRatio);
 
-                        $newCOls = Number($colStart - $widthRatio );
-                        //$rowStart++;
+                let $avg = Math.floor($k % $columns);
+                
+                if($avg == 0 && $k != 0){
+                    $ratio_x = 0;
+                }
+                $ratio_x += $widthRatio;
+                /*console.log('Avg', $avg);
+                console.log('W', $itWidth);
+                console.log('H', $itemheight);
+                console.log('X', $ratio_x);*/
+
+                var $obj = {
+                    'avg' : $avg,
+                    'w' : $itWidth,
+                    'h' : $itemheight,
+                    'wr' : $widthRatio,
+                    'hr' : $heightRatio
+                };
+                
+
+                $map[$k] = $obj;
+                
+                $objItem[$k] = $avg;
+
+                /*
+                if($avg == 0 && $k != 0){
+                    $ratio_x += 1;
+                } 
+                var $key =  $ratio_x + ':' + $avg;
+               
+                $itemRatio.push(  $key );
+
+                $objItem[$key] = $widthRatio;*/
+
+                
+
+                if( $start_width >= $columns){
+                    if($maxHeight > $heightRatio){
+                        $start_width = $maxWidth;
+                        $maxHeight = $ratio;
+                        $start_top += $heightRatio;
+                    }else {
+                        $start_width = 0;
+                        $start_top++;
                     }
-                    $itemStyle += 'grid-row-start:'+  $rowStart +';';
-                    $itemStyle += 'grid-column-start:'+Number($newCOls)+';';
-                    $itemStyle += 'grid-column-end:'+  $newadd +';';
-                   
+                    $top = Math.floor( ($itemWidth + $gutter) * $start_top); 
+
+                    $maxTotalHeight.push( Math.floor($top + $itemheight));
                 }
 
-                if($ratio < $heightRatio){
-                    $itemStyle = 'position: relative;';
-                    $itemStyle += 'grid-row-start:'+$rowStart+';';
-                    $itemStyle += 'grid-row-end:'+ Number( $rowStart + $heightRatio) +';';
-                } 
-                 
+                if($maxHeight < $heightRatio){
+                    $maxHeight = $heightRatio;
+                    $maxWidth = $widthRatio;
+                }
+
+                $left = Math.floor( $start_width * ($itemWidth + $gutter) );
+
+                $itemArr[$k] = {
+                    'avg' : $maxWidth,
+                    'avg_top' : $maxHeight,
+                    'style' : {
+                        'width' : $itWidth + 'px',
+                        'height' : $itemheight + 'px',
+                        'position' : 'absolute',
+                        'top': $top + 'px',
+                        'left' : $left + 'px',
+                        'index' : $totalItem
+                    },
+                    'njs-index-item' : $totalItem,
+                    'njs-width' : $widthRatio,
+                    'njs-height' : $heightRatio,
+                }
+
+                // set attribute
+                $v.style.width =  ($itemArr[$k].style.width) ?? '0px';
+                $v.style.position = ($itemArr[$k].style.position) ?? 'absolute';
+                $v.style.top = ($itemArr[$k].style.top) ?? '0px';
+                $v.style.left = ($itemArr[$k].style.left) ?? '0px';
+
                 let $heightItem = $v.querySelector($itemHeightSelector);
                 if( !$heightItem ){
                     $heightItem = $v;
                 }
-                $heightItem.style.height = $itemheight + 'px';
+                $heightItem.style.height = ($itemArr[$k].style.height) ?? '0px';
 
-                $v.setAttribute('njs-index-item', $totalItem);
-                $v.setAttribute('style', $itemStyle);
+                $start_width += $widthRatio;
+                $start_height += $heightRatio;
                 
-                if($colStart < $columns){
-                    $colStart += $widthRatio;
-                } else {
-                    $colStart = 1;
-                    $rowStart++;
-                }
-                
-                $totalItemsWidth += $widthRatio;
-                $totalItemsheight += $heightRatio;
-                $totalItem++;
+                $totalItem++; 
             });
 
-            // new grid css start
-            var $gridStyle = 'display: grid;margin: 0 auto;position: relative;';
-            let $col = 0;
-            var $gridColumn = [];
-            var $gridRow = [];
-            for( ; $col < $columns; $col++){
-                $gridColumn[$col] = $itemWidth + 'px';
-            }
+            $totalHeight = NextMixinJs.instance().maxValue($maxTotalHeight);
 
-            let $row = 0;
-            let $rows = Math.ceil(( $totalItemsWidth) / $columns);
-            console.log( $rows );
-            for( ; $row < $rows; $row++){
-                $gridRow[$row] = $itemWidth + 'px';
-            }
-            
-            $gridStyle += 'grid-template-columns:'+ $gridColumn.join(' ') +';';
-            $gridStyle += 'grid-template-rows:'+ $gridRow.join(' ') +';';
-            $gridStyle += 'grid-gap:'+ $gutter +'px;';
+            //console.log($map);
+            //console.log($objItem);
 
-            $itemCon.setAttribute('style', $gridStyle);
-
-            console.log('width:', $totalItemsWidth);
-            console.log('height:', $totalItemsheight);
+            var $mapAll = NextMixinJs.instance().margeMap($map, $objItem);
+            console.log($mapAll);
         }
+
+
+        /*
+        if($items){
+            let $top = 0;
+            let $left = 0;
+            let $itemLeft = 0;
+            let $stepTop = 0;
+
+            let $widthRatio = 1;
+            let $heightRatio = $ratio;
+           
+            let $totalItemLe = Number($items.length);
+            let $Itemheight = 'auto';
+            let $start = 0;
+            let $totalItem = 1;
+            let $maxHeight = [];
+            let $list = 0;
+            let $hei = 0;
+            let $heiIndex = 0;
+            $items.forEach(function($v, $k){
+
+                let $clientItem = $v.getBoundingClientRect();
+                let $style = window.getComputedStyle($v);
+                let leftTrans = $style.getPropertyValue('left');
+                let topTrans = $style.getPropertyValue('top');
+
+                let $height = Math.floor(($clientItem.height) ? $clientItem.height: 0);
+                let $width = ($clientItem.width) ? $clientItem.width: 0;
+
+                $widthRatio = Math.floor(($v.getAttribute('njs-width')) ? $v.getAttribute('njs-width') : $ratio);
+                $heightRatio = Math.floor(($v.getAttribute('njs-height')) ? $v.getAttribute('njs-height') : $ratio);
+               
+                if( $widthRatio > $columns){
+                    $widthRatio = $columns;
+                }
+               
+                // set width
+                var $itWidth = Math.floor( ($itemWidth * $widthRatio) + ($gutter * ($widthRatio - 1)) );
+                $Itemheight = Math.floor($itemWidth * $heightRatio)  + 'px';
+                $top = Math.floor( ($itemWidth * $heightRatio) + $gutter);  
+                // set height
+                if($type == 'masonry'){
+                    $top = Number($top / $heightRatio);
+                }
+               
+                if($v.classList.contains($targetClass) || $targetClass == '*'){
+                    $maxHeight.push($top);
+                }
+
+                let $heightItem = $v.querySelector($itemHeightSelector);
+                if( !$heightItem ){
+                    $heightItem = $v;
+                }
+                $heightItem.style.height = $Itemheight;
+                
+                $v.style.width =  $itWidth + 'px';
+                $v.style.position = 'absolute';
+                $v.setAttribute('njs-index-item', $totalItem);
+                // set another style
+                let $display = $style.getPropertyValue('display');
+
+                if( $target1 != -1 ){
+                    if($v.classList.contains($targetClass) || $targetClass == '*'){
+                   
+                        let leftTrans2 = $itemLeft + 'px';
+                        let topTrans2 = $stepTop + 'px';
+                       
+                        if(leftTrans == leftTrans2 && $targetClass == '*'){
+                            leftTrans = '0px';
+                        } else{
+                            leftTrans = Number(parseInt(leftTrans2) - parseInt(leftTrans)) + 'px';
+                        }
+                        
+                        if(topTrans == topTrans2 && $targetClass == '*'){
+                            topTrans = '0px';
+                        } else{
+                            topTrans = Number(parseInt(topTrans2) - parseInt(topTrans)) + 'px';
+                        }
+                        if($display == 'none'){
+                            $v.style.opacity = 1;
+                            $v.style.display = '';
+                            $v.style.transform = 'translate3d('+leftTrans+', '+topTrans+', 0px)';
+                        }else{
+                            $v.style.transform = 'translate3d('+leftTrans+', '+topTrans+', 0px)';
+                        }
+                        $v.style.transitionProperty = 'opacity, transform';
+                        $v.style.transitionDuration = '0.4s';
+                        $v.style.transitionDelay = '0ms';
+                    }else{
+                        $v.style.opacity = 0;
+                        $v.style.transform = 'scale(0.001)';
+                        $v.style.transitionProperty = 'opacity, transform';
+                        $v.style.transitionDuration = '0.4s';
+                        $v.style.transitionDelay = '0ms';
+                    }
+                   
+                }
+               
+                // end another style
+                if( $target1 == -1){
+                    $v.style.top = $stepTop + 'px';
+                    $v.style.left = $itemLeft + 'px';
+                }else{
+                  clearTimeout($timeOut);
+                  var $timeOut = setTimeout(function($v, $stepTop, $itemLeft) {
+                        $v.style.top = $stepTop + 'px';
+                        $v.style.left = $itemLeft + 'px';
+                        if($v.classList.contains($targetClass) || $targetClass == '*'){
+                            $v.style.transform = '';
+                            $v.style.opacity = '';
+                        } else {
+                            $v.style.display = 'none';
+                            $v.style.opacity = 0;
+                            $v.style.transform = '';
+                        }
+                        $v.style.transitionProperty = '';
+                        $v.style.transitionDuration = '';
+                        $v.style.transitionDelay = '';
+                    }, 500, $v, $stepTop, $itemLeft);
+                }
+
+               
+                if($v.classList.contains($targetClass) || $targetClass == '*'){
+                    $start += $widthRatio;
+                   
+                    let $avg = Math.floor($start % $columns);
+                   
+                    let $e = ($targetList[$list+1]) ? $targetList[$list+1] : '';
+                     
+                    if($avg == 0){
+                        $stepTop += NextMixinJs.instance().maxValue($maxHeight);
+                        $itemLeft = 0;
+                        $start = 0;
+                        $maxHeight = [];
+                        
+                    } else{
+                        $itemLeft += $itWidth + $gutter;
+
+                        if( $e ){
+                            let $next = Math.floor(($e.getAttribute('njs-width')) ? $e.getAttribute('njs-width') : $ratio);
+                            let $nextTotal = Number($start + $next);
+                           
+                            if( $nextTotal > $columns){
+                                $stepTop += NextMixinJs.instance().maxValue($maxHeight);
+                                $itemLeft = 0;
+                                $start = 0;
+                                $maxHeight = [];
+                            }
+                            
+                        } else {
+                            $stepTop += NextMixinJs.instance().maxValue($maxHeight);
+                            $start = 0;
+                            $maxHeight = [];
+                        }
+
+                    }
+                    
+                    $totalHeight = Math.floor($stepTop);
+                    $list++;
+                }
+
+                $totalItem++;
+            });
+        }
+        */
+
+
+        $itemCon.style.height = '100%';
+        $itemCon.style.minHeight = Math.floor($totalHeight)  + 'px';
     }
    
     margeMap($map, $objItem) {
@@ -441,9 +665,9 @@ class NextMixinJs{
 }
 
 
-var $nJsMix = {
+var $hJsMix = {
     load: NextMixinJs.instance().loadMixin
 };
 
 // calling
-//$nJsMix.load('.dl_addons_grid_wrapper');
+//$hJsMix.load('.dl_addons_grid_wrapper');

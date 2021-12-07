@@ -1,14 +1,14 @@
 "use strict";
 /**
-* Name: NextJs
+* Name: HaziJs Accrodion
 * Desc: A Simple and Lightweight JavScript Framework.
 * version: 1.0.0
-* Package: @NextJs
-* Author: ThemeDev
+* Package: @HaziJs
+* Author: https://github.com/golaphazi
 * Developer: Hazi
 */
 
-var $nJsAccrodion = {
+var $hJsAccrodion = {
     init: function(  $selector, $settings = '' ){
         let $tabs = document.querySelectorAll($selector);
         if( $tabs ){
@@ -20,14 +20,14 @@ var $nJsAccrodion = {
 
                 
                 // set Settings
-                let $sett = $nJsAccrodion.getSettings( $v );
+                let $sett = $hJsAccrodion.getSettings( $v );
                 var $tabType = ($sett.type) ? $sett.type : 'css';
                 // tab
                 var $controlSelector = ($sett.controlSelector) ? $sett.controlSelector : '.njs-accrodion-control';
                 $v.querySelectorAll($controlSelector).forEach(function( $target, $key){
                     $target.setAttribute('njs-accrodion-target', 'njsaccrodion-'+ $k + '__' + $key);
-                    $target.removeEventListener('click', $nJsAccrodion.toggleTab);
-                    $target.addEventListener('click', $nJsAccrodion.toggleTab);
+                    $target.removeEventListener('click', $hJsAccrodion.toggleTab);
+                    $target.addEventListener('click', $hJsAccrodion.toggleTab);
 
                 });
 
@@ -55,12 +55,12 @@ var $nJsAccrodion = {
         if($el){
 
             
-            let $sett = $nJsAccrodion.getSettings( $el );
+            let $sett = $hJsAccrodion.getSettings( $el );
             var $tabType = ($sett.type) ? $sett.type : 'css';
             var $toggleType = ($sett.toggleType) ? $sett.toggleType : 'close';
 
             if( $toggleType == 'close'){
-                $nJsAccrodion.actionRemove($el, $this);
+                $hJsAccrodion.actionRemove($el, $this);
             }
             
             var $tabActive = ($sett.controlActiveClass) ? $sett.controlActiveClass : 'njs-active';
@@ -70,7 +70,7 @@ var $nJsAccrodion = {
             $el.querySelectorAll('[njs-accrodion-panel="'+$targetTab+'"]').forEach(function($v){
                 
                 if($tabType == 'css'){
-                    $nJsAccrodion.toggleCss($v);
+                    $hJsAccrodion.toggleCss($v);
                 } else {
                     $v.classList.toggle($panelActive);
                 }
@@ -83,7 +83,7 @@ var $nJsAccrodion = {
     actionRemove: function( $el, $this){
 
         if($el){
-            let $sett = $nJsAccrodion.getSettings( $el );
+            let $sett = $hJsAccrodion.getSettings( $el );
             var $tabType = ($sett.type) ? $sett.type : 'css';
 
             var $controlSelector = ($sett.controlSelector) ? $sett.controlSelector : '.njs-accrodion-control';
@@ -207,4 +207,4 @@ var $nJsAccrodion = {
 };
 
 // Accrodion calling
-//$nJsAccrodion.init('.accrodion-wrapper');
+//$hJsAccrodion.init('.accrodion-wrapper');

@@ -36,7 +36,7 @@ For usage and examples, have a look at :rocket: [online demo]()
 ```js
 let $prefix = 'app-';
 
-nJs.el( document.querySelector('.app'),
+hJs.el( document.querySelector('.app'),
     'div',
     {
         class: $prefix+'top-div',
@@ -51,30 +51,30 @@ nJs.el( document.querySelector('.app'),
 <h3>use the other method</h3>
 
 ```js
-var nJs = {
-    el: NextExt.createElement,
-    parents: NextExt.instance().getParents,
-    parent: NextExt.instance().getParent,
-    getClass: NextExt.instance().getClass,
-    addClass: NextExt.instance().addClass,
-    removeClass: NextExt.instance().removeClass,
-    toggleClass: NextExt.instance().toggleClass,
-    getAttr: NextExt.instance().getAttr,
-    setAttr: NextExt.instance().setAttr,
-    checkAttr: NextExt.instance().checkAttr,
-    append: NextExt.instance().appendEle,
-    after: NextExt.instance().afterEle,
-    before: NextExt.instance().beforeEle,
-    addElement: NextExt.instance().addElement,
-    find: NextExt.instance().find,
-    ajax: NextExt.instance().ajaxRequest,
-    get: NextExt.instance().getRequest,
-    post: NextExt.instance().postRequest,
-    json: NextExt.instance().getJson,
-    jsonToStr: NextExt.instance().jsonToStr,
-    strToJson: NextExt.instance().strToJson,
+var hJs = {
+    el: HaziExt.createElement,
+    parents: HaziExt.instance().getParents,
+    parent: HaziExt.instance().getParent,
+    getClass: HaziExt.instance().getClass,
+    addClass: HaziExt.instance().addClass,
+    removeClass: HaziExt.instance().removeClass,
+    toggleClass: HaziExt.instance().toggleClass,
+    getAttr: HaziExt.instance().getAttr,
+    setAttr: HaziExt.instance().setAttr,
+    checkAttr: HaziExt.instance().checkAttr,
+    append: HaziExt.instance().appendEle,
+    after: HaziExt.instance().afterEle,
+    before: HaziExt.instance().beforeEle,
+    addElement: HaziExt.instance().addElement,
+    find: HaziExt.instance().find,
+    ajax: HaziExt.instance().ajaxRequest,
+    get: HaziExt.instance().getRequest,
+    post: HaziExt.instance().postRequest,
+    json: HaziExt.instance().getJson,
+    jsonToStr: HaziExt.instance().jsonToStr,
+    strToJson: HaziExt.instance().strToJson,
 };
-console.log(nJs);
+console.log(hJs);
 ```
 
 ## Support
