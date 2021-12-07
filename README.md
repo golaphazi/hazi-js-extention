@@ -1,5 +1,5 @@
-# NextJs Framework
-A Simple and Lightweight JavScript Framework.
+# HaziJs Framework
+A Simple and Lightweight JavaScript Framework.
 
 ## Contents
 - [Demo](#demo)
@@ -26,7 +26,7 @@ For usage and examples, have a look at :rocket: [online demo]()
     <body>
         <div class="app"></div>
 
-        <script src="js/nextJs.js"></script>
+        <script src="js/haziJs.js"></script>
         <script src="js/script.js"></script>
     </body>
 
@@ -84,4 +84,4 @@ We are provide [support forum]() for premium version users. You can join to supp
 Check out the [release notes]()
 
 ## License
-NextJs Framework have two different version. Free version has limited features and offers only admin option panel feature.  This framework is licensed 100% GPL.
+HaziJs Framework have two different version. Free version has limited features and offers only admin option panel feature.  This framework is licensed 100% GPL.
