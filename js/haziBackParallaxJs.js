@@ -13,9 +13,9 @@ var $hJsBackParallax = {
         let $tabs = document.querySelectorAll($selector);
         if( $tabs ){
             $tabs.forEach(function($v, $k){
-                $v.setAttribute('njs-backparallax', 'njsparallax-'+ $k);
+                $v.setAttribute('hjs-backparallax', 'hjsparallax-'+ $k);
                 if( $settings != ''){
-                    $v.setAttribute('njs-settings', JSON.stringify($settings)); 
+                    $v.setAttribute('hjs-settings', JSON.stringify($settings)); 
                 }
 
                 // set Settings
@@ -65,22 +65,22 @@ var $hJsBackParallax = {
             direction: 'vertical', //horizontal
             offset: 0
         };
-        if( $el.getAttribute('njs-ratio') ){
-            $default.ratio = $el.getAttribute('njs-ratio');
+        if( $el.getAttribute('hjs-ratio') ){
+            $default.ratio = $el.getAttribute('hjs-ratio');
         }
-        if( $el.getAttribute('njs-type') ){
-            $default.type = $el.getAttribute('njs-type');
+        if( $el.getAttribute('hjs-type') ){
+            $default.type = $el.getAttribute('hjs-type');
         }
-        if( $el.getAttribute('njs-direction') ){
-            $default.direction = $el.getAttribute('njs-direction');
+        if( $el.getAttribute('hjs-direction') ){
+            $default.direction = $el.getAttribute('hjs-direction');
         }
-        if( $el.getAttribute('njs-offset') ){
-            $default.offset = $el.getAttribute('njs-offset');
+        if( $el.getAttribute('hjs-offset') ){
+            $default.offset = $el.getAttribute('hjs-offset');
         }
         
-        let $settings = $el.getAttribute('njs-settings');
+        let $settings = $el.getAttribute('hjs-settings');
         if( !$settings ){
-            $el.setAttribute('njs-settings', JSON.stringify($default));
+            $el.setAttribute('hjs-settings', JSON.stringify($default));
             return $default;
         } 
 
@@ -96,7 +96,7 @@ var $hJsBackParallax = {
         e.preventDefault();
         let $this = this;
        
-        document.querySelectorAll('[njs-backparallax]').forEach(function($v){
+        document.querySelectorAll('[hjs-backparallax]').forEach(function($v){
             if($v){
                 // set Settings
                 let $sett = $hJsBackParallax.getSettings( $v );

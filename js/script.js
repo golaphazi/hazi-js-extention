@@ -41,8 +41,8 @@ let $header = hJs.el(
                         'child' : [
                             'div',
                             {
-                                class: $prefix+'logo  njs-layer',   
-                                'njs-depth' : .20
+                                class: $prefix+'logo  hjs-layer',   
+                                'hjs-depth' : .20
                             },
                             [
                                
@@ -52,7 +52,7 @@ let $header = hJs.el(
                                         {
                                             class: $prefix+'main-logo',
                                             src: 'assets/p-f-1.jpg',
-                                            'njs-parallax' : '{x: 0, y: 100}'
+                                            'hjs-parallax' : '{x: 0, y: 100}'
                                         }
                                     ]
                                 },
@@ -65,8 +65,8 @@ let $header = hJs.el(
                         'child' : [
                             'div',
                             {
-                                class: $prefix+'logo  njs-layer',   
-                                'njs-depth' : .20,
+                                class: $prefix+'logo  hjs-layer',   
+                                'hjs-depth' : .20,
                                 style: 'left: 50px; top: 100px; display:inline;'
                             },
                             [

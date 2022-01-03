@@ -18,11 +18,11 @@ class NextMixinJs{
         }
 
         $el.forEach(function($v, $k){
-            $v.classList.add('njs-mixin-wrapper');
-            $v.setAttribute('njs-mixin', 'nextmix-'+$k); 
-            $v.setAttribute('njs-display', 'desktop'); 
+            $v.classList.add('hjs-mixin-wrapper');
+            $v.setAttribute('hjs-mixin', 'nextmix-'+$k); 
+            $v.setAttribute('hjs-display', 'desktop'); 
             if( $settings != ''){
-                $v.setAttribute('njs-settings', JSON.stringify($settings)); 
+                $v.setAttribute('hjs-settings', JSON.stringify($settings)); 
             }
 
             NextMixinJs.instance().getSettings($v);
@@ -65,43 +65,43 @@ class NextMixinJs{
         var w = window.outerWidth;
         var h = window.outerHeight;
 
-        document.querySelectorAll('.njs-mixin-wrapper').forEach(function($v){
+        document.querySelectorAll('.hjs-mixin-wrapper').forEach(function($v){
             NextMixinJs.instance().getContents($v);
         });
     }
     desktopMedia( $x ){
         if($x.matches){
-            document.querySelectorAll('.njs-mixin-wrapper[njs-settings]').forEach(function($v){
-                $v.setAttribute('njs-display', 'desktop');
+            document.querySelectorAll('.hjs-mixin-wrapper[hjs-settings]').forEach(function($v){
+                $v.setAttribute('hjs-display', 'desktop');
             });
         }
-        document.querySelectorAll('.njs-mixin-wrapper').forEach(function($v){
+        document.querySelectorAll('.hjs-mixin-wrapper').forEach(function($v){
             NextMixinJs.instance().getContents($v);
         });
     }
     tablateMedia( $x ){
         if($x.matches){
-            document.querySelectorAll('.njs-mixin-wrapper[njs-settings]').forEach(function($v){
-                $v.setAttribute('njs-display', 'tablate');
+            document.querySelectorAll('.hjs-mixin-wrapper[hjs-settings]').forEach(function($v){
+                $v.setAttribute('hjs-display', 'tablate');
             });
         } else {
-            document.querySelectorAll('.njs-mixin-wrapper[njs-settings]').forEach(function($v){
-                $v.setAttribute('njs-display', 'desktop');
+            document.querySelectorAll('.hjs-mixin-wrapper[hjs-settings]').forEach(function($v){
+                $v.setAttribute('hjs-display', 'desktop');
             });
         }
 
-        document.querySelectorAll('.njs-mixin-wrapper').forEach(function($v){
+        document.querySelectorAll('.hjs-mixin-wrapper').forEach(function($v){
             NextMixinJs.instance().getContents($v);
         });
     }
 
     mobileMedia( $x){
         if($x.matches){
-            document.querySelectorAll('.njs-mixin-wrapper[njs-settings]').forEach(function($v){
-                $v.setAttribute('njs-display', 'mobile');
+            document.querySelectorAll('.hjs-mixin-wrapper[hjs-settings]').forEach(function($v){
+                $v.setAttribute('hjs-display', 'mobile');
             });
         } 
-        document.querySelectorAll('.njs-mixin-wrapper').forEach(function($v){
+        document.querySelectorAll('.hjs-mixin-wrapper').forEach(function($v){
             NextMixinJs.instance().getContents($v);
         });
     }
@@ -114,17 +114,17 @@ class NextMixinJs{
             columnsTablet: 2,
             columnsMobile: 1,
             gutter: 30,
-            filter: '.njs-filter',
-            filterItem: '.njs-filter-item',
+            filter: '.hjs-filter',
+            filterItem: '.hjs-filter-item',
             filterAction: 'click',
-            itemContainer: '.njs-item-container',
-            item: '.njs-item',
-            itemHeight: '.njs-item-height',
+            itemContainer: '.hjs-item-container',
+            item: '.hjs-item',
+            itemHeight: '.hjs-item-height',
         };
 
-        let $settings = $el.getAttribute('njs-settings');
+        let $settings = $el.getAttribute('hjs-settings');
         if( !$settings ){
-            $el.setAttribute('njs-settings', JSON.stringify($default));
+            $el.setAttribute('hjs-settings', JSON.stringify($default));
             return $default;
         } 
 
@@ -154,10 +154,10 @@ class NextMixinJs{
             
             let $filEl = document.querySelectorAll($filter);
             if( $filEl ){
-                let $elIndex = $el.getAttribute('njs-mixin');
+                let $elIndex = $el.getAttribute('hjs-mixin');
                 $filEl.forEach(function($v, $k){
                    
-                   $v.setAttribute('njs-filter', $elIndex);
+                   $v.setAttribute('hjs-filter', $elIndex);
 
                    let $item = $v.querySelectorAll($filterItem);
                    if($item.length == 0){
@@ -170,13 +170,13 @@ class NextMixinJs{
 
                       $v1.removeEventListener($filterAction, NextMixinJs.instance().toggleFilter);
                       $v1.addEventListener($filterAction, NextMixinJs.instance().toggleFilter);
-                      $v1.setAttribute('njs-filter-content', $elIndex);
+                      $v1.setAttribute('hjs-filter-content', $elIndex);
 
-                      if( $v1.classList.contains('njs-current') ){
-                        if( $v1.getAttribute('njs-filter-action') ){
-                            $dataFilter = $v1.getAttribute('njs-filter-action');
+                      if( $v1.classList.contains('hjs-current') ){
+                        if( $v1.getAttribute('hjs-filter-action') ){
+                            $dataFilter = $v1.getAttribute('hjs-filter-action');
                         }
-                        $el.setAttribute('njs-active', '-1');
+                        $el.setAttribute('hjs-active', '-1');
                       }
 
                    });
@@ -190,15 +190,15 @@ class NextMixinJs{
         e.preventDefault();
         let $this = this;
         let $dataFilter = '*';
-        if( $this.getAttribute('njs-filter-action') ){
-            $dataFilter = $this.getAttribute('njs-filter-action');
+        if( $this.getAttribute('hjs-filter-action') ){
+            $dataFilter = $this.getAttribute('hjs-filter-action');
         }
         
-        let $target = $this.getAttribute('njs-filter-content');
+        let $target = $this.getAttribute('hjs-filter-content');
 
-        let $el = document.querySelector('[njs-mixin="'+$target+'"]');
+        let $el = document.querySelector('[hjs-mixin="'+$target+'"]');
         if($el){
-            $el.setAttribute('njs-active', $dataFilter);
+            $el.setAttribute('hjs-active', $dataFilter);
 
             NextMixinJs.instance().getContents($el);
         }
@@ -209,8 +209,8 @@ class NextMixinJs{
         let $settings = NextMixinJs.instance().getSettings($el);
         let $columns = ($settings.columns) ? $settings.columns : 3;
         let $gutter = ($settings.gutter) ? $settings.gutter : 0;
-        let $itemConSelector = ($settings.itemContainer) ? $settings.itemContainer : '.njs-item-container';
-        let $itemSelector = ($settings.item) ? $settings.item : '.njs-item';
+        let $itemConSelector = ($settings.itemContainer) ? $settings.itemContainer : '.hjs-item-container';
+        let $itemSelector = ($settings.item) ? $settings.item : '.hjs-item';
         
         let $itemCon = $el.querySelector($itemConSelector);
         if( !$itemCon ){
@@ -266,7 +266,7 @@ class NextMixinJs{
         var $tWidth = $client.width;
         var $tHeight = $client.height;
 
-        var $target1 = $el.getAttribute('njs-active');
+        var $target1 = $el.getAttribute('hjs-active');
         if( $target1 == -1){
             var $target = '*';
         } else {
@@ -274,7 +274,7 @@ class NextMixinJs{
         }
         let $targetClass = $target.replace('.', '').replace('#', '');
         
-        var $responMode = $el.getAttribute('njs-display');
+        var $responMode = $el.getAttribute('hjs-display');
         if($responMode == "tablate"){
             $columns = ($settings.columnsTablet) ? $settings.columnsTablet : 2;
         }
@@ -284,9 +284,9 @@ class NextMixinJs{
         let $gutterCOl = Math.floor($gutter * ($columns - 1));
         let $itemWidth = Math.floor(($tWidth - $gutterCOl) / $columns);
 
-        let $itemConSelector = ($settings.itemContainer) ? $settings.itemContainer : '.njs-item-container';
-        let $itemSelector = ($settings.item) ? $settings.item : '.njs-item';
-        let $itemHeightSelector = ($settings.itemHeight) ? $settings.itemHeight : '.njs-item-height';
+        let $itemConSelector = ($settings.itemContainer) ? $settings.itemContainer : '.hjs-item-container';
+        let $itemSelector = ($settings.item) ? $settings.item : '.hjs-item';
+        let $itemHeightSelector = ($settings.itemHeight) ? $settings.itemHeight : '.hjs-item-height';
         
         let $itemCon = $el.querySelector($itemConSelector);
         if( !$itemCon ){
@@ -314,8 +314,8 @@ class NextMixinJs{
             let $rowStart = 1;
             $items.forEach(function($v, $k){
                 var $itemStyle = 'position: relative;';
-                $widthRatio = Math.floor(($v.getAttribute('njs-width')) ? $v.getAttribute('njs-width') : $ratio);
-                $heightRatio = Math.floor(($v.getAttribute('njs-height')) ? $v.getAttribute('njs-height') : $ratio);
+                $widthRatio = Math.floor(($v.getAttribute('hjs-width')) ? $v.getAttribute('hjs-width') : $ratio);
+                $heightRatio = Math.floor(($v.getAttribute('hjs-height')) ? $v.getAttribute('hjs-height') : $ratio);
 
                 var $itWidth = Math.floor( ($itemWidth * $widthRatio) + ($gutter * ($widthRatio - 1)) );
                 $itemheight = Math.floor( ($itemWidth * $heightRatio) + ($gutter * ($heightRatio - 1)) );
@@ -355,7 +355,7 @@ class NextMixinJs{
                 }
                 $heightItem.style.height = $itemheight + 'px';
 
-                $v.setAttribute('njs-index-item', $totalItem);
+                $v.setAttribute('hjs-index-item', $totalItem);
                 $v.setAttribute('style', $itemStyle);
                 
                 if($colStart < $columns){

@@ -485,7 +485,7 @@ var $n = function( $el ){
         },
 
         data: function( $attr ){
-            return ($el[0].hasAttribute('njs-' + $attr)) ? $el[0].getAttribute('njs-' + $attr) : null;
+            return ($el[0].hasAttribute('hjs-' + $attr)) ? $el[0].getAttribute('hjs-' + $attr) : null;
         }
 
     };

@@ -13,11 +13,11 @@ var $hJsEditorCont = {
     },
     createDropDown : function( $el, $k, $key, $v ){
         var $heading = document.createElement('div');
-        $heading.setAttribute('class', 'njs-editor-control njs-editor-' + $key);
+        $heading.setAttribute('class', 'hjs-editor-control hjs-editor-' + $key);
         $heading.setAttribute('title', ($v.title) ?? '' );
 
         var $button = document.createElement('button');
-        $button.setAttribute('class', 'njs-button njs-button-dropdown njs-button-'+$key+' njsicon njsicon-ctrl');
+        $button.setAttribute('class', 'hjs-button hjs-button-dropdown hjs-button-'+$key+' hjsicon hjsicon-ctrl');
         $button.setAttribute('type', 'button');
         
         var $icon = ($v.icon) ?? '';
@@ -27,15 +27,15 @@ var $hJsEditorCont = {
             $iconEl.setAttribute('class', $icon);
             $button.appendChild($iconEl);
         } else if( $html != ''){
-            $button.setAttribute('njs-default', $html);
+            $button.setAttribute('hjs-default', $html);
             $button.innerHTML = $html;
         }
         $heading.appendChild($button);
 
         var $dropdown = document.createElement('div');
-        $dropdown.setAttribute('class', 'njs-popup njs-popup-dropdown njs-button-'+$key);
+        $dropdown.setAttribute('class', 'hjs-popup hjs-popup-dropdown hjs-button-'+$key);
         var $ul = document.createElement('ul');
-        $ul.setAttribute('class', 'njs-list');
+        $ul.setAttribute('class', 'hjs-list');
 
         var $typeEl = ($v.type) ?? 'button';
         var $data = ($v.data) ?? false;
@@ -64,14 +64,14 @@ var $hJsEditorCont = {
                     }
                     if( $key == 'extlink' || $key == 'uploadfile') {
                         $buttonEl.innerHTML += $title;
-                        $attr.class += ' njs-no-pointer';
+                        $attr.class += ' hjs-no-pointer';
                     } 
                     if( $key == 'uploadfile' ){
                         var $files = document.createElement('input');
                         $files.setAttribute('type', 'file');
-                        $files.setAttribute('id', 'njs-file-hidden-' + $k);
-                        $files.setAttribute('class', 'njs-file-hidden');
-                        $files.setAttribute('njs-control-id', $k );
+                        $files.setAttribute('id', 'hjs-file-hidden-' + $k);
+                        $files.setAttribute('class', 'hjs-file-hidden');
+                        $files.setAttribute('hjs-control-id', $k );
                         $files.setAttribute('multiple', '' );
                         $files.setAttribute('accept','image/png, image/jpeg, image/gif' );
 
@@ -79,20 +79,20 @@ var $hJsEditorCont = {
                     }
                 } else {
                     $title = $vat;
-                    $buttonEl.setAttribute('njs-value', $kat);
+                    $buttonEl.setAttribute('hjs-value', $kat);
                     if( $key == 'heading' ){
                         $buttonEl.innerHTML = '<' + $kat + '>' + $vat + '</' + $kat + '>';
-                        $attr.class += ' njs-no-pointer';
+                        $attr.class += ' hjs-no-pointer';
                     } else if( $key == 'fontfamily' ) {
                         $buttonEl.innerHTML = '<span style="font-family:'+$vat+';">' + $vat + '</span>';
-                        $buttonEl.setAttribute('njs-value', $vat);
-                        $attr.class += ' njs-no-pointer';
+                        $buttonEl.setAttribute('hjs-value', $vat);
+                        $attr.class += ' hjs-no-pointer';
                     }else if( $key == 'fontcolor' || $key == 'highlight') {
                         $buttonEl.style.backgroundColor = $kat;
-                        $attr.class += ' njs-no-pointer';
+                        $attr.class += ' hjs-no-pointer';
                     } else if( $key == 'fontsize' ) {
                         $buttonEl.innerHTML = $vat;
-                        $attr.class += ' njs-no-pointer';
+                        $attr.class += ' hjs-no-pointer';
                     } else {
                         $buttonEl.innerHTML = $vat;
                     }
@@ -117,11 +117,11 @@ var $hJsEditorCont = {
                     }
                 }
 
-                $buttonEl.classList.add('njs-button');
+                $buttonEl.classList.add('hjs-button');
                 $buttonEl.setAttribute('title', $title);
-                $buttonEl.setAttribute('id', 'njs-'+$k + '-' + $key );
-                $buttonEl.setAttribute('njs-control-id', $k );
-                $buttonEl.setAttribute('njs-keys', $key );
+                $buttonEl.setAttribute('id', 'hjs-'+$k + '-' + $key );
+                $buttonEl.setAttribute('hjs-control-id', $k );
+                $buttonEl.setAttribute('hjs-keys', $key );
 
                 $li.appendChild($buttonEl);
 
@@ -139,13 +139,13 @@ var $hJsEditorCont = {
             $e.preventDefault();
             var $this = this;
 
-            var $find = $this.parentElement.querySelector('.njs-popup');
-            $el.querySelectorAll('.njs-popup').forEach( $v => {
+            var $find = $this.parentElement.querySelector('.hjs-popup');
+            $el.querySelectorAll('.hjs-popup').forEach( $v => {
                 if( $v != $find){
-                    $v.classList.remove('njs-open');
+                    $v.classList.remove('hjs-open');
                 }
             });
-            $find.classList.toggle('njs-open');
+            $find.classList.toggle('hjs-open');
         });
         return $ul;
     },
@@ -156,9 +156,9 @@ var $hJsEditorCont = {
         var $typeEl = ($v.type) ?? 'button';
         var $action = document.createElement($typeEl);
         $action.setAttribute('title', ($v.title) ?? '' );
-        $action.setAttribute('id', 'njs-'+$key + '-' + $k );
-        $action.setAttribute('njs-control-id', $k );
-        $action.setAttribute('njs-keys', $key );
+        $action.setAttribute('id', 'hjs-'+$key + '-' + $k );
+        $action.setAttribute('hjs-control-id', $k );
+        $action.setAttribute('hjs-keys', $key );
         
         var $act = ($v.action) ?? false;
         var $icon = ($v.icon) ?? '';
@@ -169,8 +169,8 @@ var $hJsEditorCont = {
             $action.innerHTML = $html;
         }
 
-        $action.classList.add('njs-button');
-        $action.classList.add('njs-' + $key);
+        $action.classList.add('hjs-button');
+        $action.classList.add('hjs-' + $key);
 
         
         if( typeof $act === 'object' && $act !== null ){
@@ -218,7 +218,7 @@ var $hJsEditorCont = {
                 }
                 if($type != 'rollback'){
                     var $seperator = document.createElement('span');
-                    $seperator.classList.add('njs-toolbar__separator');
+                    $seperator.classList.add('hjs-toolbar__separator');
     
                     $el.appendChild($seperator);
                 }
@@ -231,80 +231,80 @@ var $hJsEditorCont = {
        
         var $types = {
             'title' : {
-                'heading' : {'attr' : { class: 'njs-heading'}, 'title' : 'Heading', 'icon' : 'njsicon njsicon-sort-alpha-asc', 'html' : 'Select once', 
+                'heading' : {'attr' : { class: 'hjs-heading'}, 'title' : 'Heading', 'icon' : 'hjsicon hjsicon-sort-alpha-asc', 'html' : 'Select once', 
                     'action' : {'click' : $hJsEditor.headingAction },
                     'data' : $hJsEditor.getFormatFont()
                 },
-                'fontfamily' : {'attr' : { class: 'njs-fontfamily'}, 'title' : 'Font Family', 'icon' : 'njsicon njsicon-font', 'html' : 'Select once', 
+                'fontfamily' : {'attr' : { class: 'hjs-fontfamily'}, 'title' : 'Font Family', 'icon' : 'hjsicon hjsicon-font', 'html' : 'Select once', 
                     'action' : {'click' : $hJsEditor.fontfamilyAction },
                     'data' : $hJsEditor.getFontFamily()
                 },
-                'fontsize' : {'attr' : { class: 'njs-fontsize'}, 'title' : 'Font Size', 'icon' : 'njsicon njsicon-font-size', 'html' : 'Select once', 
+                'fontsize' : {'attr' : { class: 'hjs-fontsize'}, 'title' : 'Font Size', 'icon' : 'hjsicon hjsicon-font-size', 'html' : 'Select once', 
                     'action' : {'click' : $hJsEditor.increaseAction },
                     'data' : $hJsEditor.getFontSize()
                 },
-                'fontcolor' : {'attr' : { class: 'njs-fontcolor'}, 'title' : 'Font Color', 'icon' : 'njsicon njsicon-text-color', 'html' : 'Select once', 
+                'fontcolor' : {'attr' : { class: 'hjs-fontcolor'}, 'title' : 'Font Color', 'icon' : 'hjsicon hjsicon-text-color', 'html' : 'Select once', 
                     'action' : {'click' : $hJsEditor.fontcolorAction },
                     'data' : $hJsEditor.getFontColor()
                 },
-                'highlight' : {'attr' : { class: 'njs-fontcolor'}, 'title' : 'Highlight Color', 'icon' : 'njsicon njsicon-text-color', 'html' : 'Select once', 
+                'highlight' : {'attr' : { class: 'hjs-fontcolor'}, 'title' : 'Highlight Color', 'icon' : 'hjsicon hjsicon-text-color', 'html' : 'Select once', 
                     'action' : {'click' : $hJsEditor.highlightAction },
                     'data' : $hJsEditor.getFontColor()
                 },
                 
             },
             'normal' : {
-                'paragraph' : {'title' : 'Paragraph', 'icon' : 'njsicon njsicon-pilcrow', 'html' : 'br', 'action' : {'click' : $hJsEditor.paragraphAction }},
-                'bold' : {'title' : 'Bold', 'icon' : 'njsicon njsicon-bold', 'html' : '', 'action' : {'click' : $hJsEditor.boldAction }},
-                'italic' : {'title' : 'Italic', 'icon' : 'njsicon njsicon-italic', 'html' : '', 'action' : {'click' : $hJsEditor.italicAction }},
-                'underline' : {'title' : 'Underline', 'icon' : 'njsicon njsicon-underline', 'html' : '', 'action' : {'click' : $hJsEditor.underlineAction }},
-                'strike' : {'title' : 'Strike', 'icon' : 'njsicon njsicon-strikethrough', 'html' : '', 'action' : {'click' : $hJsEditor.strikeAction }},
+                'paragraph' : {'title' : 'Paragraph', 'icon' : 'hjsicon hjsicon-pilcrow', 'html' : 'br', 'action' : {'click' : $hJsEditor.paragraphAction }},
+                'bold' : {'title' : 'Bold', 'icon' : 'hjsicon hjsicon-bold', 'html' : '', 'action' : {'click' : $hJsEditor.boldAction }},
+                'italic' : {'title' : 'Italic', 'icon' : 'hjsicon hjsicon-italic', 'html' : '', 'action' : {'click' : $hJsEditor.italicAction }},
+                'underline' : {'title' : 'Underline', 'icon' : 'hjsicon hjsicon-underline', 'html' : '', 'action' : {'click' : $hJsEditor.underlineAction }},
+                'strike' : {'title' : 'Strike', 'icon' : 'hjsicon hjsicon-strikethrough', 'html' : '', 'action' : {'click' : $hJsEditor.strikeAction }},
             },
             'link' : {
-                'link_action' : {'title' : 'Inset / Edit Link', 'icon' : 'njsicon njsicon-link', 'html' : '', 'action' : {'click' : $hJsEditor.linkAction }},
-                'unlink' : {'title' : 'Remove Link', 'icon' : 'njsicon njsicon-shuffle', 'html' : '', 'action' : {'click' : $hJsEditor.unlinkAction }},
-                'upload' : {'attr' : { class: 'njs-files'}, 'title' : 'Upload Files', 'icon' : 'njsicon njsicon-image', 'html' : '', 
+                'link_action' : {'title' : 'Inset / Edit Link', 'icon' : 'hjsicon hjsicon-link', 'html' : '', 'action' : {'click' : $hJsEditor.linkAction }},
+                'unlink' : {'title' : 'Remove Link', 'icon' : 'hjsicon hjsicon-shuffle', 'html' : '', 'action' : {'click' : $hJsEditor.unlinkAction }},
+                'upload' : {'attr' : { class: 'hjs-files'}, 'title' : 'Upload Files', 'icon' : 'hjsicon hjsicon-image', 'html' : '', 
                     'data' : {
-                        'extlink' : {'title' : 'External Link', 'icon' : 'njsicon njsicon-attachment', 'html' : '', 'action' : {'click' : $hJsEditor.extlinkAction }},
-                        'uploadfile' : {'title' : 'Upload files', 'icon' : 'njsicon njsicon-upload2', 'html' : '', 'action' : {'click' : $hJsEditor.uploadfileAction }},
+                        'extlink' : {'title' : 'External Link', 'icon' : 'hjsicon hjsicon-attachment', 'html' : '', 'action' : {'click' : $hJsEditor.extlinkAction }},
+                        'uploadfile' : {'title' : 'Upload files', 'icon' : 'hjsicon hjsicon-upload2', 'html' : '', 'action' : {'click' : $hJsEditor.uploadfileAction }},
                     }
                 },
-                'code' : {'title' : 'Inset HTML', 'icon' : 'njsicon njsicon-embed2', 'html' : '', 'action' : {'click' : $hJsEditor.codeAction }},
-                'table' : {'attr' : { class: 'njs-table'}, 'title' : 'Insert Table', 'icon' : 'njsicon njsicon-table2', 'html' : 'Select once', 
+                'code' : {'title' : 'Inset HTML', 'icon' : 'hjsicon hjsicon-embed2', 'html' : '', 'action' : {'click' : $hJsEditor.codeAction }},
+                'table' : {'attr' : { class: 'hjs-table'}, 'title' : 'Insert Table', 'icon' : 'hjsicon hjsicon-table2', 'html' : 'Select once', 
                     'action' : {'click' : $hJsEditor.tableInsertAction },
                     'data' : $hJsEditor.getTableCell()
                 },
             },
             'align' : {
-                'alignment' : {'attr' : { class: 'njs-align'}, 'title' : 'Align', 'icon' : 'njsicon njsicon-paragraph-left', 'html' : '', 
+                'alignment' : {'attr' : { class: 'hjs-align'}, 'title' : 'Align', 'icon' : 'hjsicon hjsicon-paragraph-left', 'html' : '', 
                     'data' : {
-                        'left' : {'title' : 'Left Align', 'icon' : 'njsicon njsicon-paragraph-left', 'html' : '', 'action' : {'click' : $hJsEditor.leftAction }},
-                        'center' : {'title' : 'Center Align', 'icon' : 'njsicon njsicon-paragraph-center', 'html' : '', 'action' : {'click' : $hJsEditor.centerAction }},
-                        'right' : {'title' : 'Right Align', 'icon' : 'njsicon njsicon-paragraph-right', 'html' : '', 'action' : {'click' : $hJsEditor.rightAction }},
-                        'justify' : {'title' : 'Justify Align', 'icon' : 'njsicon njsicon-paragraph-justify', 'html' : '', 'action' : {'click' : $hJsEditor.justifyAction }},
+                        'left' : {'title' : 'Left Align', 'icon' : 'hjsicon hjsicon-paragraph-left', 'html' : '', 'action' : {'click' : $hJsEditor.leftAction }},
+                        'center' : {'title' : 'Center Align', 'icon' : 'hjsicon hjsicon-paragraph-center', 'html' : '', 'action' : {'click' : $hJsEditor.centerAction }},
+                        'right' : {'title' : 'Right Align', 'icon' : 'hjsicon hjsicon-paragraph-right', 'html' : '', 'action' : {'click' : $hJsEditor.rightAction }},
+                        'justify' : {'title' : 'Justify Align', 'icon' : 'hjsicon hjsicon-paragraph-justify', 'html' : '', 'action' : {'click' : $hJsEditor.justifyAction }},
                     }
                 },
                 
             },
             'order' : {
-                'ordered' : {'title' : 'Number List', 'icon' : 'njsicon njsicon-list-numbered', 'html' : '', 'action' : {'click' : $hJsEditor.orderedAction }},
-                'unordered' : {'title' : 'Bulleted List', 'icon' : 'njsicon njsicon-list2', 'html' : '', 'action' : {'click' : $hJsEditor.unorderedAction }},
+                'ordered' : {'title' : 'Number List', 'icon' : 'hjsicon hjsicon-list-numbered', 'html' : '', 'action' : {'click' : $hJsEditor.orderedAction }},
+                'unordered' : {'title' : 'Bulleted List', 'icon' : 'hjsicon hjsicon-list2', 'html' : '', 'action' : {'click' : $hJsEditor.unorderedAction }},
             },
 
             'copy_cut' : {
-                'copy' : {'title' : 'Copy', 'icon' : 'njsicon njsicon-copy', 'html' : '', 'action' : {'click' : $hJsEditor.copyAction }},
-                'cut' : {'title' : 'Cut', 'icon' : 'njsicon njsicon-scissors', 'html' : '', 'action' : {'click' : $hJsEditor.cutAction }},
-                'paste' : {'title' : 'Paste', 'icon' : 'njsicon njsicon-paste', 'html' : '', 'action' : {'click' : $hJsEditor.pasteAction }},
-                'delete' : {'title' : 'Delete', 'icon' : 'njsicon njsicon-bin', 'html' : '', 'action' : {'click' : $hJsEditor.deleteAction }},
+                'copy' : {'title' : 'Copy', 'icon' : 'hjsicon hjsicon-copy', 'html' : '', 'action' : {'click' : $hJsEditor.copyAction }},
+                'cut' : {'title' : 'Cut', 'icon' : 'hjsicon hjsicon-scissors', 'html' : '', 'action' : {'click' : $hJsEditor.cutAction }},
+                'paste' : {'title' : 'Paste', 'icon' : 'hjsicon hjsicon-paste', 'html' : '', 'action' : {'click' : $hJsEditor.pasteAction }},
+                'delete' : {'title' : 'Delete', 'icon' : 'hjsicon hjsicon-bin', 'html' : '', 'action' : {'click' : $hJsEditor.deleteAction }},
             },
             
             'math' : {
-                'sup' : {'title' : 'Sup', 'icon' : 'njsicon njsicon-superscript2', 'html' : '', 'action' : {'click' : $hJsEditor.supAction }},
-                'sub' : {'title' : 'Sub', 'icon' : 'njsicon njsicon-subscript2', 'html' : '', 'action' : {'click' : $hJsEditor.subAction }},
+                'sup' : {'title' : 'Sup', 'icon' : 'hjsicon hjsicon-superscript2', 'html' : '', 'action' : {'click' : $hJsEditor.supAction }},
+                'sub' : {'title' : 'Sub', 'icon' : 'hjsicon hjsicon-subscript2', 'html' : '', 'action' : {'click' : $hJsEditor.subAction }},
             },
             'rollback' : {
-                'undo' : {'title' : 'Undo', 'icon' : 'njsicon njsicon-undo', 'html' : '', 'action' : {'click' : $hJsEditor.undoAction }},
-                'redo' : {'title' : 'Redo', 'icon' : 'njsicon njsicon-redo', 'html' : '', 'action' : {'click' : $hJsEditor.redoAction }},
+                'undo' : {'title' : 'Undo', 'icon' : 'hjsicon hjsicon-undo', 'html' : '', 'action' : {'click' : $hJsEditor.undoAction }},
+                'redo' : {'title' : 'Redo', 'icon' : 'hjsicon hjsicon-redo', 'html' : '', 'action' : {'click' : $hJsEditor.redoAction }},
             },
             
 
@@ -315,8 +315,8 @@ var $hJsEditorCont = {
         if( !$el){
             return;
         }
-        $el.querySelectorAll('.njs-popup').forEach( $v => {
-            $v.classList.remove('njs-open');
+        $el.querySelectorAll('.hjs-popup').forEach( $v => {
+            $v.classList.remove('hjs-open');
         });
     },
 
@@ -324,7 +324,7 @@ var $hJsEditorCont = {
         if( !$el){
             return;
         }
-        $el.querySelectorAll('.njs-editor-overpopup').forEach( $v => {
+        $el.querySelectorAll('.hjs-editor-overpopup').forEach( $v => {
             $v.remove();
         });
     }
@@ -337,33 +337,33 @@ var $hJsEditor = {
         if( $tabs ){
             $tabs.forEach(function($v, $k){
                 $v.setAttribute('style', 'display: none;');
-                $v.setAttribute('njs-editor', 'njseditor-'+ $k);
-                $v.classList.add('njseditor-'+ $k);
+                $v.setAttribute('hjs-editor', 'hjseditor-'+ $k);
+                $v.classList.add('hjseditor-'+ $k);
 
                 if( $settings != ''){
-                    $v.setAttribute('njs-settings', JSON.stringify($settings)); 
+                    $v.setAttribute('hjs-settings', JSON.stringify($settings)); 
                 }
                 // set Settings
                 let $sett = $hJsEditor.getSettings( $v );
                 var $type = ($sett.type) ? $sett.type : 'basic';
                 if( $control != ''){
-                    $v.setAttribute('njs-' + $type, JSON.stringify($control)); 
+                    $v.setAttribute('hjs-' + $type, JSON.stringify($control)); 
                 }
               
                 // parent
                 var $parentEl = $v.parentElement;
-                var $appendEl = $parentEl.querySelector('.njseditor-'+ $k);
+                var $appendEl = $parentEl.querySelector('.hjseditor-'+ $k);
 
                 var $mode = ($sett.displayMode) ? $sett.displayMode : 'white';
-                var $panelClass = ($sett.panelClass) ? $sett.panelClass : 'njs-editor-panel';
+                var $panelClass = ($sett.panelClass) ? $sett.panelClass : 'hjs-editor-panel';
                 var $new = document.createElement('div');
                 $new.classList.add($panelClass);
-                $new.classList.add('njseditor-panel-'+ $k);
-                $new.classList.add('njseditor-mode-'+ $mode);
-                $new.setAttribute('njs-panel', 'njseditor-'+ $k);
+                $new.classList.add('hjseditor-panel-'+ $k);
+                $new.classList.add('hjseditor-mode-'+ $mode);
+                $new.setAttribute('hjs-panel', 'hjseditor-'+ $k);
                 
                 var $controls = document.createElement('div');
-                $controls.classList.add('njseditor-panel-controls');
+                $controls.classList.add('hjseditor-panel-controls');
 
                 // render control
                 $hJsEditorCont.renTitle($controls, $k, 'title');
@@ -379,12 +379,12 @@ var $hJsEditor = {
                 $new.appendChild($controls);
                 
                 var $editorPanel = document.createElement('div');
-                $editorPanel.classList.add('njseditor-panel-editor');
+                $editorPanel.classList.add('hjseditor-panel-editor');
 
                 var $editorMode = document.createElement('iframe');
-                $editorMode.classList.add('njseditor-iframe-editor');
-                $editorMode.setAttribute('id', 'njseditor-mode-' + $k);
-                $editorMode.setAttribute('name', 'njseditor-mode-' + $k);
+                $editorMode.classList.add('hjseditor-iframe-editor');
+                $editorMode.setAttribute('id', 'hjseditor-mode-' + $k);
+                $editorMode.setAttribute('name', 'hjseditor-mode-' + $k);
                 $editorMode.setAttribute('frameborder', 0);
                 
                 $editorMode.setAttribute('style', 'height: 100%; width: 100%; position: relative;');
@@ -392,13 +392,13 @@ var $hJsEditor = {
 
                 window.addEventListener("load", function( $e ){
                     $e.preventDefault();
-                    var $editor = window.frames['njseditor-mode-' + $k].document;
+                    var $editor = window.frames['hjseditor-mode-' + $k].document;
                     if( $editor){
                         $editor.body.innerHTML = $v.value;
                         $hJsEditor.setRezise('img', $k);
                         $editor.designMode = "on";
                         $editor.execCommand("defaultParagraphSeparator", false, "p");
-                        $editor.body.setAttribute('njs-control-id', $k);
+                        $editor.body.setAttribute('hjs-control-id', $k);
                         $editor.addEventListener('keyup', $hJsEditor.editorKeyup);
                     }
                     
@@ -408,10 +408,10 @@ var $hJsEditor = {
                 
                 $parentEl.insertBefore($new, $appendEl);
 
-                $new.querySelectorAll('.njseditor-panel-controls > [title]').forEach( $vt => {
-                    if( !$vt.querySelector('.njs-tooltip') ){
+                $new.querySelectorAll('.hjseditor-panel-controls > [title]').forEach( $vt => {
+                    if( !$vt.querySelector('.hjs-tooltip') ){
                         var $tooltip = document.createElement('span');
-                        $tooltip.classList.add('njs-tooltip');
+                        $tooltip.classList.add('hjs-tooltip');
                         $tooltip.innerText = $vt.getAttribute('title');
                         $vt.appendChild($tooltip);
                         $vt.setAttribute('data-title', $vt.getAttribute('title'));
@@ -518,13 +518,13 @@ var $hJsEditor = {
     getSettings: function( $el ){
         let $default = {
             type: 'basic', // css, class
-            panelClass : 'njs-editor-panel',
+            panelClass : 'hjs-editor-panel',
             displayMode: 'white', //// dark, white
         };
 
-        let $settings = $el.getAttribute('njs-settings');
+        let $settings = $el.getAttribute('hjs-settings');
         if( !$settings ){
-            $el.setAttribute('njs-settings', JSON.stringify($default));
+            $el.setAttribute('hjs-settings', JSON.stringify($default));
             return $default;
         } 
 
@@ -537,13 +537,13 @@ var $hJsEditor = {
         return $neSettings;
     },
     setValue: function($k, $editor ){
-        var $el = document.querySelector('.njseditor-'+$k+'[njs-editor="njseditor-'+$k+'"]');
+        var $el = document.querySelector('.hjseditor-'+$k+'[hjs-editor="hjseditor-'+$k+'"]');
         if( $el ){
             $el.innerHTML =  $editor.body.innerHTML;
         }
-        $hJsEditorCont.setClickPopupData( document.querySelector('.njseditor-panel-' + $k) );
+        $hJsEditorCont.setClickPopupData( document.querySelector('.hjseditor-panel-' + $k) );
 
-        $hJsEditor.autoiframeHeight( document.querySelector('[njs-panel="njseditor-'+$k+'"]') );
+        $hJsEditor.autoiframeHeight( document.querySelector('[hjs-panel="hjseditor-'+$k+'"]') );
     },
     getValue: function($el, $name ){
         if( $el ){
@@ -553,11 +553,11 @@ var $hJsEditor = {
     editorKeyup: function( $e){
         $e.preventDefault();
         var $this = this;
-        var $k = $this.body.getAttribute('njs-control-id');
+        var $k = $this.body.getAttribute('hjs-control-id');
         if( !$k ){
             return;
         }
-        var $editor = window.frames['njseditor-mode-' + $k].document;
+        var $editor = window.frames['hjseditor-mode-' + $k].document;
         if($editor){
             
             $hJsEditor.setValue($k, $editor );
@@ -566,11 +566,11 @@ var $hJsEditor = {
     paragraphAction: function( $e ){
         $e.preventDefault();
         var $this = this;
-        var $k = $this.getAttribute('njs-control-id');
+        var $k = $this.getAttribute('hjs-control-id');
         if( !$k ){
             return;
         }
-        var $editor = window.frames['njseditor-mode-' + $k].document;
+        var $editor = window.frames['hjseditor-mode-' + $k].document;
         if($editor){
             $editor.execCommand("insertParagraph", false, null);
             $hJsEditor.setValue($k, $editor );
@@ -579,11 +579,11 @@ var $hJsEditor = {
     boldAction: function( $e ){
         $e.preventDefault();
         var $this = this;
-        var $k = $this.getAttribute('njs-control-id');
+        var $k = $this.getAttribute('hjs-control-id');
         if( !$k ){
             return;
         }
-        var $editor = window.frames['njseditor-mode-' + $k].document;
+        var $editor = window.frames['hjseditor-mode-' + $k].document;
         if($editor){
             $editor.execCommand("styleWithCSS", true, null);
             $editor.execCommand("Bold", false, null);
@@ -593,11 +593,11 @@ var $hJsEditor = {
     italicAction: function( $e ){
         $e.preventDefault();
         var $this = this;
-        var $k = $this.getAttribute('njs-control-id');
+        var $k = $this.getAttribute('hjs-control-id');
         if( !$k ){
             return;
         }
-        var $editor = window.frames['njseditor-mode-' + $k].document;
+        var $editor = window.frames['hjseditor-mode-' + $k].document;
         if($editor){
             $editor.execCommand("styleWithCSS", true, null);
             $editor.execCommand("Italic", false, null);
@@ -607,19 +607,19 @@ var $hJsEditor = {
     linkAction: function( $e ){
         $e.preventDefault();
         var $this = this;
-        var $k = $this.getAttribute('njs-control-id');
+        var $k = $this.getAttribute('hjs-control-id');
         if( !$k ){
             return;
         }
-        var $editor = window.frames['njseditor-mode-' + $k].document;
+        var $editor = window.frames['hjseditor-mode-' + $k].document;
         if($editor){
-            var $el = document.querySelector('.njseditor-panel-' + $k);
+            var $el = document.querySelector('.hjseditor-panel-' + $k);
             var $popup = $hJsEditor.createLinkBox($el, 'link', $k);
             
             var $select = $editor.getSelection().getRangeAt(0);
             var $selectCOn = $select.extractContents();
             var $span = document.createElement("span");
-            $span.setAttribute('class', 'njs-fake-link-selection');
+            $span.setAttribute('class', 'hjs-fake-link-selection');
             $span.appendChild($selectCOn);
             $select.insertNode($span);
 
@@ -630,7 +630,7 @@ var $hJsEditor = {
             $popup.style.top = $offsetTop + 'px';
             $popup.style.left = $offsetLeft  + 'px';
 
-            var $link = $editor.querySelectorAll('span.njs-fake-link-selection');
+            var $link = $editor.querySelectorAll('span.hjs-fake-link-selection');
             if( $link.length > 0){
                 $link.forEach( $v => {
                     var $html = $v.innerHTML;
@@ -640,28 +640,28 @@ var $hJsEditor = {
                 });
             }
 
-            var $addButton = $popup.querySelector('.njs-popup-button-add');
+            var $addButton = $popup.querySelector('.hjs-popup-button-add');
             if( $addButton ){
-                var $linkAddress = $popup.querySelector('.njs-popup-get-link');
+                var $linkAddress = $popup.querySelector('.hjs-popup-get-link');
                 $addButton.addEventListener('click', function( $e ){
                     $editor.execCommand("CreateLink", null, $linkAddress.value);
                     $hJsEditor.setValue($k, $editor );
-                    $hJsEditorCont.removePopupModal( document.querySelector('.njseditor-panel-' + $k) );
+                    $hJsEditorCont.removePopupModal( document.querySelector('.hjseditor-panel-' + $k) );
                 });
             }
             
-            $hJsEditorCont.setClickPopupData( document.querySelector('.njseditor-panel-' + $k) );
+            $hJsEditorCont.setClickPopupData( document.querySelector('.hjseditor-panel-' + $k) );
 
         }
     },
     unlinkAction: function( $e ){
         $e.preventDefault();
         var $this = this;
-        var $k = $this.getAttribute('njs-control-id');
+        var $k = $this.getAttribute('hjs-control-id');
         if( !$k ){
             return;
         }
-        var $editor = window.frames['njseditor-mode-' + $k].document;
+        var $editor = window.frames['hjseditor-mode-' + $k].document;
         if($editor){
             $editor.execCommand("styleWithCSS", true, null);
             $editor.execCommand("Unlink", false, null);
@@ -671,19 +671,19 @@ var $hJsEditor = {
     codeAction: function( $e ){
         $e.preventDefault();
         var $this = this;
-        var $k = $this.getAttribute('njs-control-id');
+        var $k = $this.getAttribute('hjs-control-id');
         if( !$k ){
             return;
         }
-        var $editor = window.frames['njseditor-mode-' + $k].document;
+        var $editor = window.frames['hjseditor-mode-' + $k].document;
         if($editor){
-            var $el = document.querySelector('.njseditor-panel-' + $k);
+            var $el = document.querySelector('.hjseditor-panel-' + $k);
             var $popup = $hJsEditor.createLinkBox($el, 'code', $k);
             
             var $select = $editor.getSelection().getRangeAt(0);
             var $selectCOn = $select.extractContents();
             var $span = document.createElement("span");
-            $span.setAttribute('class', 'njs-fake-link-selection');
+            $span.setAttribute('class', 'hjs-fake-link-selection');
             $span.appendChild($selectCOn);
             $select.insertNode($span);
 
@@ -694,7 +694,7 @@ var $hJsEditor = {
             $popup.style.top = $offsetTop + 'px';
             $popup.style.left = $offsetLeft  + 'px';
 
-            var $link = $editor.querySelectorAll('span.njs-fake-link-selection');
+            var $link = $editor.querySelectorAll('span.hjs-fake-link-selection');
             if( $link.length > 0){
                 $link.forEach( $v => {
                     var $html = $v.innerHTML;
@@ -704,28 +704,28 @@ var $hJsEditor = {
                 });
             }
 
-            var $addButton = $popup.querySelector('.njs-popup-button-add');
+            var $addButton = $popup.querySelector('.hjs-popup-button-add');
             if( $addButton ){
-                var $linkAddress = $popup.querySelector('.njs-popup-get-link');
+                var $linkAddress = $popup.querySelector('.hjs-popup-get-link');
                 $addButton.addEventListener('click', function( $e ){
                     $editor.execCommand("insertHTML", null, $linkAddress.value);
                     $hJsEditor.setValue($k, $editor );
-                    $hJsEditorCont.removePopupModal( document.querySelector('.njseditor-panel-' + $k) );
+                    $hJsEditorCont.removePopupModal( document.querySelector('.hjseditor-panel-' + $k) );
                 });
             }
             
-            $hJsEditorCont.setClickPopupData( document.querySelector('.njseditor-panel-' + $k) );
+            $hJsEditorCont.setClickPopupData( document.querySelector('.hjseditor-panel-' + $k) );
 
         }
     },
     underlineAction: function( $e ){
         $e.preventDefault();
         var $this = this;
-        var $k = $this.getAttribute('njs-control-id');
+        var $k = $this.getAttribute('hjs-control-id');
         if( !$k ){
             return;
         }
-        var $editor = window.frames['njseditor-mode-' + $k].document;
+        var $editor = window.frames['hjseditor-mode-' + $k].document;
         if($editor){
             $editor.execCommand("styleWithCSS", true, null);
             $editor.execCommand("Underline", false, null);
@@ -735,11 +735,11 @@ var $hJsEditor = {
     supAction: function( $e ){
         $e.preventDefault();
         var $this = this;
-        var $k = $this.getAttribute('njs-control-id');
+        var $k = $this.getAttribute('hjs-control-id');
         if( !$k ){
             return;
         }
-        var $editor = window.frames['njseditor-mode-' + $k].document;
+        var $editor = window.frames['hjseditor-mode-' + $k].document;
         if($editor){
             $editor.execCommand("styleWithCSS", true, null);
             $editor.execCommand("Superscript", false, null);
@@ -749,11 +749,11 @@ var $hJsEditor = {
     subAction: function( $e ){
         $e.preventDefault();
         var $this = this;
-        var $k = $this.getAttribute('njs-control-id');
+        var $k = $this.getAttribute('hjs-control-id');
         if( !$k ){
             return;
         }
-        var $editor = window.frames['njseditor-mode-' + $k].document;
+        var $editor = window.frames['hjseditor-mode-' + $k].document;
         if($editor){
             $editor.execCommand("styleWithCSS", true, null);
             $editor.execCommand("Subscript", false, null);
@@ -763,11 +763,11 @@ var $hJsEditor = {
     strikeAction: function( $e ){
         $e.preventDefault();
         var $this = this;
-        var $k = $this.getAttribute('njs-control-id');
+        var $k = $this.getAttribute('hjs-control-id');
         if( !$k ){
             return;
         }
-        var $editor = window.frames['njseditor-mode-' + $k].document;
+        var $editor = window.frames['hjseditor-mode-' + $k].document;
         if($editor){
             $editor.execCommand("styleWithCSS", true, null);
             $editor.execCommand("Strikethrough", false, null);
@@ -777,11 +777,11 @@ var $hJsEditor = {
     leftAction: function( $e ){
         $e.preventDefault();
         var $this = this;
-        var $k = $this.getAttribute('njs-control-id');
+        var $k = $this.getAttribute('hjs-control-id');
         if( !$k ){
             return;
         }
-        var $editor = window.frames['njseditor-mode-' + $k].document;
+        var $editor = window.frames['hjseditor-mode-' + $k].document;
         if($editor){
             $editor.execCommand("styleWithCSS", true, null);
             $editor.execCommand("JustifyLeft", false, null);
@@ -791,11 +791,11 @@ var $hJsEditor = {
     centerAction: function( $e ){
         $e.preventDefault();
         var $this = this;
-        var $k = $this.getAttribute('njs-control-id');
+        var $k = $this.getAttribute('hjs-control-id');
         if( !$k ){
             return;
         }
-        var $editor = window.frames['njseditor-mode-' + $k].document;
+        var $editor = window.frames['hjseditor-mode-' + $k].document;
         if($editor){
             $editor.execCommand("styleWithCSS", true, null);
             $editor.execCommand("JustifyCenter", false, null);
@@ -805,11 +805,11 @@ var $hJsEditor = {
     rightAction: function( $e ){
         $e.preventDefault();
         var $this = this;
-        var $k = $this.getAttribute('njs-control-id');
+        var $k = $this.getAttribute('hjs-control-id');
         if( !$k ){
             return;
         }
-        var $editor = window.frames['njseditor-mode-' + $k].document;
+        var $editor = window.frames['hjseditor-mode-' + $k].document;
         if($editor){
             $editor.execCommand("styleWithCSS", true, null);
             $editor.execCommand("JustifyRight", false, null);
@@ -819,11 +819,11 @@ var $hJsEditor = {
     justifyAction: function( $e ){
         $e.preventDefault();
         var $this = this;
-        var $k = $this.getAttribute('njs-control-id');
+        var $k = $this.getAttribute('hjs-control-id');
         if( !$k ){
             return;
         }
-        var $editor = window.frames['njseditor-mode-' + $k].document;
+        var $editor = window.frames['hjseditor-mode-' + $k].document;
         if($editor){
             $editor.execCommand("styleWithCSS", true, null);
             $editor.execCommand("justifyFull", false, null);
@@ -833,11 +833,11 @@ var $hJsEditor = {
     orderedAction: function( $e ){
         $e.preventDefault();
         var $this = this;
-        var $k = $this.getAttribute('njs-control-id');
+        var $k = $this.getAttribute('hjs-control-id');
         if( !$k ){
             return;
         }
-        var $editor = window.frames['njseditor-mode-' + $k].document;
+        var $editor = window.frames['hjseditor-mode-' + $k].document;
         if($editor){
             $editor.execCommand("styleWithCSS", true, null);
             $editor.execCommand("InsertOrderedList", false, "newOL", + Math.round(Math.random() * 1000));
@@ -847,11 +847,11 @@ var $hJsEditor = {
     unorderedAction: function( $e ){
         $e.preventDefault();
         var $this = this;
-        var $k = $this.getAttribute('njs-control-id');
+        var $k = $this.getAttribute('hjs-control-id');
         if( !$k ){
             return;
         }
-        var $editor = window.frames['njseditor-mode-' + $k].document;
+        var $editor = window.frames['hjseditor-mode-' + $k].document;
         if($editor){
             $editor.execCommand("styleWithCSS", true, null);
             $editor.execCommand("InsertUnorderedList", false, "newOL", + Math.round(Math.random() * 1000));
@@ -861,42 +861,42 @@ var $hJsEditor = {
     fontcolorAction: function( $e ){
         $e.preventDefault();
         var $this = this;
-        var $k = $this.getAttribute('njs-control-id');
+        var $k = $this.getAttribute('hjs-control-id');
         if( !$k ){
             return;
         }
-        var $editor = window.frames['njseditor-mode-' + $k].document;
+        var $editor = window.frames['hjseditor-mode-' + $k].document;
         if($editor){
             
             $editor.execCommand("styleWithCSS", true, null);
-            $editor.execCommand("ForeColor", false, $e.target.getAttribute('njs-value'));
+            $editor.execCommand("ForeColor", false, $e.target.getAttribute('hjs-value'));
             $hJsEditor.setValue($k, $editor );
         }
     },
     highlightAction: function( $e ){
         $e.preventDefault();
         var $this = this;
-        var $k = $this.getAttribute('njs-control-id');
+        var $k = $this.getAttribute('hjs-control-id');
         if( !$k ){
             return;
         }
-        var $editor = window.frames['njseditor-mode-' + $k].document;
+        var $editor = window.frames['hjseditor-mode-' + $k].document;
         if($editor){
             $editor.execCommand("styleWithCSS", true, null);
-            $editor.execCommand("BackColor", false, $e.target.getAttribute('njs-value'));
+            $editor.execCommand("BackColor", false, $e.target.getAttribute('hjs-value'));
             $hJsEditor.setValue($k, $editor );
         }
     },
     tableInsertAction: function( $e ){
         $e.preventDefault();
         var $this = this;
-        var $k = $this.getAttribute('njs-control-id');
+        var $k = $this.getAttribute('hjs-control-id');
         if( !$k ){
             return;
         }
-        var $editor = window.frames['njseditor-mode-' + $k].document;
+        var $editor = window.frames['hjseditor-mode-' + $k].document;
         if($editor){
-            let $data = $e.target.getAttribute('njs-value');
+            let $data = $e.target.getAttribute('hjs-value');
             let $sp = $data.split('-');
 
             let $table = document.createElement('table');
@@ -929,53 +929,53 @@ var $hJsEditor = {
     fontfamilyAction: function( $e ){
         $e.preventDefault();
         var $this = this;
-        var $k = $this.getAttribute('njs-control-id');
+        var $k = $this.getAttribute('hjs-control-id');
         if( !$k ){
             return;
         }
-        var $editor = window.frames['njseditor-mode-' + $k].document;
+        var $editor = window.frames['hjseditor-mode-' + $k].document;
         if($editor){
             $editor.execCommand("styleWithCSS", true, null);
-            $editor.execCommand("FontName", false, $e.target.getAttribute('njs-value'));
+            $editor.execCommand("FontName", false, $e.target.getAttribute('hjs-value'));
             $hJsEditor.setValue($k, $editor );
         }
     },
     headingAction: function( $e ){
         $e.preventDefault();
         var $this = this;
-        var $k = $this.getAttribute('njs-control-id');
+        var $k = $this.getAttribute('hjs-control-id');
         if( !$k ){
             return;
         }
-        var $editor = window.frames['njseditor-mode-' + $k].document;
+        var $editor = window.frames['hjseditor-mode-' + $k].document;
         if($editor){
             $editor.execCommand("styleWithCSS", true, null);
-            $editor.execCommand("formatblock", false, $e.target.getAttribute('njs-value'));
+            $editor.execCommand("formatblock", false, $e.target.getAttribute('hjs-value'));
             $hJsEditor.setValue($k, $editor );
         }
     },
     increaseAction: function( $e ){
         $e.preventDefault();
         var $this = this;
-        var $k = $this.getAttribute('njs-control-id');
+        var $k = $this.getAttribute('hjs-control-id');
         if( !$k ){
             return;
         }
-        var $editor = window.frames['njseditor-mode-' + $k].document;
+        var $editor = window.frames['hjseditor-mode-' + $k].document;
         if($editor){
             $editor.execCommand("styleWithCSS", true, null);
-            $editor.execCommand("fontSize", false, $e.target.getAttribute('njs-value'));
+            $editor.execCommand("fontSize", false, $e.target.getAttribute('hjs-value'));
             $hJsEditor.setValue($k, $editor );
         }
     },
     undoAction: function( $e ){
         $e.preventDefault();
         var $this = this;
-        var $k = $this.getAttribute('njs-control-id');
+        var $k = $this.getAttribute('hjs-control-id');
         if( !$k ){
             return;
         }
-        var $editor = window.frames['njseditor-mode-' + $k].document;
+        var $editor = window.frames['hjseditor-mode-' + $k].document;
         if($editor){
             $editor.execCommand("undo", false, null);
             $hJsEditor.setValue($k, $editor );
@@ -984,11 +984,11 @@ var $hJsEditor = {
     redoAction: function( $e ){
         $e.preventDefault();
         var $this = this;
-        var $k = $this.getAttribute('njs-control-id');
+        var $k = $this.getAttribute('hjs-control-id');
         if( !$k ){
             return;
         }
-        var $editor = window.frames['njseditor-mode-' + $k].document;
+        var $editor = window.frames['hjseditor-mode-' + $k].document;
         if($editor){
             $editor.execCommand("redo", false, null);
             $hJsEditor.setValue($k, $editor );
@@ -997,11 +997,11 @@ var $hJsEditor = {
     copyAction: function( $e ){
         $e.preventDefault();
         var $this = this;
-        var $k = $this.getAttribute('njs-control-id');
+        var $k = $this.getAttribute('hjs-control-id');
         if( !$k ){
             return;
         }
-        var $editor = window.frames['njseditor-mode-' + $k].document;
+        var $editor = window.frames['hjseditor-mode-' + $k].document;
         if($editor){
             $editor.execCommand("copy");
             $hJsEditor.setValue($k, $editor );
@@ -1010,11 +1010,11 @@ var $hJsEditor = {
     cutAction: function( $e ){
         $e.preventDefault();
         var $this = this;
-        var $k = $this.getAttribute('njs-control-id');
+        var $k = $this.getAttribute('hjs-control-id');
         if( !$k ){
             return;
         }
-        var $editor = window.frames['njseditor-mode-' + $k].document;
+        var $editor = window.frames['hjseditor-mode-' + $k].document;
         if($editor){
             $editor.execCommand("cut");
             $hJsEditor.setValue($k, $editor );
@@ -1023,11 +1023,11 @@ var $hJsEditor = {
     pasteAction: function( $e ){
         $e.preventDefault();
         var $this = this;
-        var $k = $this.getAttribute('njs-control-id');
+        var $k = $this.getAttribute('hjs-control-id');
         if( !$k ){
             return;
         }
-        var $editor = window.frames['njseditor-mode-' + $k].document;
+        var $editor = window.frames['hjseditor-mode-' + $k].document;
         if($editor){
             $editor.execCommand("paste");
             $hJsEditor.setValue($k, $editor );
@@ -1036,11 +1036,11 @@ var $hJsEditor = {
     deleteAction: function( $e ){
         $e.preventDefault();
         var $this = this;
-        var $k = $this.getAttribute('njs-control-id');
+        var $k = $this.getAttribute('hjs-control-id');
         if( !$k ){
             return;
         }
-        var $editor = window.frames['njseditor-mode-' + $k].document;
+        var $editor = window.frames['hjseditor-mode-' + $k].document;
         if($editor){
             $editor.execCommand("delete", null, false);
             $hJsEditor.setValue($k, $editor );
@@ -1049,19 +1049,19 @@ var $hJsEditor = {
     extlinkAction: function( $e ){
         $e.preventDefault();
         var $this = this;
-        var $k = $this.getAttribute('njs-control-id');
+        var $k = $this.getAttribute('hjs-control-id');
         if( !$k ){
             return;
         }
-        var $editor = window.frames['njseditor-mode-' + $k].document;
+        var $editor = window.frames['hjseditor-mode-' + $k].document;
         if($editor){
-            var $el = document.querySelector('.njseditor-panel-' + $k);
+            var $el = document.querySelector('.hjseditor-panel-' + $k);
             var $popup = $hJsEditor.createLinkBox($el, 'image', $k);
             
             var $select = $editor.getSelection().getRangeAt(0);
             var $selectCOn = $select.extractContents();
             var $span = document.createElement("span");
-            $span.setAttribute('class', 'njs-fake-link-selection');
+            $span.setAttribute('class', 'hjs-fake-link-selection');
             $span.appendChild($selectCOn);
             $select.insertNode($span);
 
@@ -1072,7 +1072,7 @@ var $hJsEditor = {
             $popup.style.top = $offsetTop + 'px';
             $popup.style.left = $offsetLeft  + 'px';
 
-            var $link = $editor.querySelectorAll('span.njs-fake-link-selection');
+            var $link = $editor.querySelectorAll('span.hjs-fake-link-selection');
             if( $link.length > 0){
                 $link.forEach( $v => {
                     var $html = $v.innerHTML;
@@ -1082,31 +1082,31 @@ var $hJsEditor = {
                 });
             }
 
-            var $addButton = $popup.querySelector('.njs-popup-button-add');
+            var $addButton = $popup.querySelector('.hjs-popup-button-add');
             if( $addButton ){
-                var $linkAddress = $popup.querySelector('.njs-popup-get-link');
+                var $linkAddress = $popup.querySelector('.hjs-popup-get-link');
                 $addButton.addEventListener('click', function( $e ){
                     $editor.execCommand("insertImage", null, $linkAddress.value);
                     $hJsEditor.setRezise('img', $k);
                     $hJsEditor.setValue($k, $editor );
-                    $hJsEditorCont.removePopupModal( document.querySelector('.njseditor-panel-' + $k) );
+                    $hJsEditorCont.removePopupModal( document.querySelector('.hjseditor-panel-' + $k) );
                 });
             }
-            $hJsEditorCont.setClickPopupData( document.querySelector('.njseditor-panel-' + $k) );
+            $hJsEditorCont.setClickPopupData( document.querySelector('.hjseditor-panel-' + $k) );
         }
     },
     uploadfileAction: function( $e ){
         $e.preventDefault();
         var $this = this;
-        var $k = $this.getAttribute('njs-control-id');
+        var $k = $this.getAttribute('hjs-control-id');
         if( !$k ){
             return;
         }
         
-        var $editor = window.frames['njseditor-mode-' + $k].document;
+        var $editor = window.frames['hjseditor-mode-' + $k].document;
         if($editor){
             
-            var $files = document.querySelector('#njs-file-hidden-' + $k);
+            var $files = document.querySelector('#hjs-file-hidden-' + $k);
             if( $files && document.createEvent ){
                 var evt = document.createEvent("MouseEvents");
                 evt.initEvent("click", true, false);
@@ -1131,7 +1131,7 @@ var $hJsEditor = {
                 
             }
             
-            $hJsEditorCont.setClickPopupData( document.querySelector('.njseditor-panel-' + $k) );
+            $hJsEditorCont.setClickPopupData( document.querySelector('.hjseditor-panel-' + $k) );
         }
     },
 
@@ -1139,15 +1139,15 @@ var $hJsEditor = {
         if( !$el){
             return;
         }
-        var $check = $el.querySelector('.njs-editor-overpopup');
+        var $check = $el.querySelector('.hjs-editor-overpopup');
         if($check){
             $check.remove();
         }
         var $popup = document.createElement('div');
-        $popup.setAttribute('class', 'njs-editor-overpopup');
+        $popup.setAttribute('class', 'hjs-editor-overpopup');
 
         var $label = document.createElement('label');
-        $label.setAttribute('class', 'njs-editor-overpopup-label');
+        $label.setAttribute('class', 'hjs-editor-overpopup-label');
         if( $type == 'image'){
             $label.innerText = ' Insert Image';
         } else if($type == 'image_re'){
@@ -1160,49 +1160,49 @@ var $hJsEditor = {
         $popup.appendChild($label);
 
         var $con = document.createElement('div');
-        $con.setAttribute('class', 'njs-overpopup-continer');
+        $con.setAttribute('class', 'hjs-overpopup-continer');
         if( $type == 'image'){
             var $input = document.createElement('input');
-            $input.setAttribute('class', 'njs-popup-get-link njs-popup-link-image');
-            $input.setAttribute('njs-control-id', $k);
+            $input.setAttribute('class', 'hjs-popup-get-link hjs-popup-link-image');
+            $input.setAttribute('hjs-control-id', $k);
             $input.setAttribute('placeholder', 'Enter url');
             $con.appendChild($input);
         } else if($type == 'image_re'){
             var $input = document.createElement('input');
-            $input.setAttribute('class', 'njs-popup-get-link njs-popup-link-image-re njs-img-width');
-            $input.setAttribute('njs-control-id', $k);
+            $input.setAttribute('class', 'hjs-popup-get-link hjs-popup-link-image-re hjs-img-width');
+            $input.setAttribute('hjs-control-id', $k);
             $input.setAttribute('placeholder', 'W: 100px');
             $con.appendChild($input);
             var $input = document.createElement('input');
-            $input.setAttribute('class', 'njs-popup-get-link njs-popup-link-image-re njs-img-height');
-            $input.setAttribute('njs-control-id', $k);
+            $input.setAttribute('class', 'hjs-popup-get-link hjs-popup-link-image-re hjs-img-height');
+            $input.setAttribute('hjs-control-id', $k);
             $input.setAttribute('placeholder', 'H: 100px');
             $con.appendChild($input);
         }else if($type == 'code'){
             var $input = document.createElement('textarea');
-            $input.setAttribute('class', 'njs-popup-get-link njs-popup-link-code');
-            $input.setAttribute('njs-control-id', $k);
+            $input.setAttribute('class', 'hjs-popup-get-link hjs-popup-link-code');
+            $input.setAttribute('hjs-control-id', $k);
             $input.setAttribute('placeholder', 'Enter code');
             $con.appendChild($input);
         }else {
             var $input = document.createElement('input');
-            $input.setAttribute('class', 'njs-popup-get-link njs-popup-link-href');
-            $input.setAttribute('njs-control-id', $k);
+            $input.setAttribute('class', 'hjs-popup-get-link hjs-popup-link-href');
+            $input.setAttribute('hjs-control-id', $k);
             $input.setAttribute('placeholder', 'Enter link');
             $con.appendChild($input);
         }
 
         var $add = document.createElement('button');
             $add.setAttribute('type', 'button');
-            $add.setAttribute('class', 'njs-button njs-popup-button-add njsicon njsicon-checkmark');
-            $add.setAttribute('njs-control-id', $k);
+            $add.setAttribute('class', 'hjs-button hjs-popup-button-add hjsicon hjsicon-checkmark');
+            $add.setAttribute('hjs-control-id', $k);
             $con.appendChild($add);
 
         var $remove = document.createElement('button');
-            $remove.setAttribute('class', 'njs-button njs-popup-button-remove njsicon njsicon-cross');
-            $remove.setAttribute('njs-control-id', $k);
+            $remove.setAttribute('class', 'hjs-button hjs-popup-button-remove hjsicon hjsicon-cross');
+            $remove.setAttribute('hjs-control-id', $k);
             $remove.addEventListener('click', function( $e ){
-                $hJsEditorCont.removePopupModal( document.querySelector('.njseditor-panel-' + $k) );
+                $hJsEditorCont.removePopupModal( document.querySelector('.hjseditor-panel-' + $k) );
             });
             $con.appendChild($remove);
 
@@ -1212,14 +1212,14 @@ var $hJsEditor = {
         return $popup;
     },
     setRezise: function( $tag, $k){
-        var $editor = window.frames['njseditor-mode-' + $k].document;
+        var $editor = window.frames['hjseditor-mode-' + $k].document;
         if($editor){
             let $tags = $editor.querySelectorAll($tag);
             if( $tags.length > 0){
                 $tags.forEach( $v => {
-                    $v.classList.add('njs-rezise-options');
-                    $v.classList.add('njs-rezise-' + $tag);
-                    $v.setAttribute('njs-control-id', $k);
+                    $v.classList.add('hjs-rezise-options');
+                    $v.classList.add('hjs-rezise-' + $tag);
+                    $v.setAttribute('hjs-control-id', $k);
                     $v.removeEventListener('click', $hJsEditor.resizeOption);
                     $v.addEventListener('click', $hJsEditor.resizeOption);
                 });
@@ -1230,16 +1230,16 @@ var $hJsEditor = {
     resizeOption: function( $e ){
         $e.preventDefault();
         let $this = this;
-        let $k = $this.getAttribute('njs-control-id');
-        var $el = document.querySelector('.njseditor-panel-' + $k);
+        let $k = $this.getAttribute('hjs-control-id');
+        var $el = document.querySelector('.hjseditor-panel-' + $k);
         var $popup = $hJsEditor.createLinkBox($el, 'image_re', $k);
             
-        var $editor = window.frames['njseditor-mode-' + $k].document;
+        var $editor = window.frames['hjseditor-mode-' + $k].document;
 
         var $select = $editor.getSelection().getRangeAt(0);
         var $selectCOn = $select.extractContents();
         var $span = document.createElement("span");
-        $span.setAttribute('class', 'njs-fake-link-selection');
+        $span.setAttribute('class', 'hjs-fake-link-selection');
         $span.appendChild($selectCOn);
         $select.insertNode($span);
 
@@ -1250,7 +1250,7 @@ var $hJsEditor = {
         $popup.style.top = $offsetTop + 'px';
         $popup.style.left = $offsetLeft  + 'px';
 
-        var $link = $editor.querySelectorAll('span.njs-fake-link-selection');
+        var $link = $editor.querySelectorAll('span.hjs-fake-link-selection');
         if( $link.length > 0){
             $link.forEach( $v => {
                 var $html = $v.innerHTML;
@@ -1260,10 +1260,10 @@ var $hJsEditor = {
             });
         }
 
-        var $addButton = $popup.querySelector('.njs-popup-button-add');
+        var $addButton = $popup.querySelector('.hjs-popup-button-add');
         if( $addButton ){
-            var $width = $popup.querySelector('.njs-img-width');
-            var $height = $popup.querySelector('.njs-img-height');
+            var $width = $popup.querySelector('.hjs-img-width');
+            var $height = $popup.querySelector('.hjs-img-height');
             $addButton.addEventListener('click', function( $e ){
                 
                 if( $width.value != ''){

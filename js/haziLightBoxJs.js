@@ -18,18 +18,18 @@ var $hJsLightBox = {
             let $i = 1;
             $tabs.forEach(function($v, $k){
 
-                if( !$v.classList.contains('njs-ignore-lightbox')){
+                if( !$v.classList.contains('hjs-ignore-lightbox')){
 
                     let $data = $hJsLightBox.getData($v);
                     
                     if( $data === false){
-                        let $child = $v.querySelectorAll('img:not(.njs-ignore-lightbox)');
+                        let $child = $v.querySelectorAll('img:not(.hjs-ignore-lightbox)');
                         if( $child.length == 1){
                             let $src = $hJsLightBox.getData( $child[0]);
                             if( $src ){
-                                $v.setAttribute('njs-url', $src);
-                                if( !$v.getAttribute('njs-light-index') ){
-                                    $v.setAttribute('njs-light-index', $i);
+                                $v.setAttribute('hjs-url', $src);
+                                if( !$v.getAttribute('hjs-light-index') ){
+                                    $v.setAttribute('hjs-light-index', $i);
                                 }
                                 $v.removeEventListener('click', $hJsLightBox.onOpen);
                                 $v.addEventListener('click', $hJsLightBox.onOpen);
@@ -40,9 +40,9 @@ var $hJsLightBox = {
                             $child.forEach( $v1 => {
                                 let $src =  $hJsLightBox.getData($v1);
                                 if( $src ){
-                                    $v1.setAttribute('njs-url', $src);
-                                    if( !$v1.getAttribute('njs-light-index') ){
-                                        $v1.setAttribute('njs-light-index', $i);
+                                    $v1.setAttribute('hjs-url', $src);
+                                    if( !$v1.getAttribute('hjs-light-index') ){
+                                        $v1.setAttribute('hjs-light-index', $i);
                                     }
                                     $v1.removeEventListener('click', $hJsLightBox.onOpen);
                                     $v1.addEventListener('click', $hJsLightBox.onOpen);   
@@ -51,8 +51,8 @@ var $hJsLightBox = {
                             });
                         }
                     } else {
-                        if( !$v.getAttribute('njs-light-index') ){
-                            $v.setAttribute('njs-light-index', $i);
+                        if( !$v.getAttribute('hjs-light-index') ){
+                            $v.setAttribute('hjs-light-index', $i);
                         }
                         $v.removeEventListener('click', $hJsLightBox.onOpen);
                         $v.addEventListener('click', $hJsLightBox.onOpen);   
@@ -68,7 +68,7 @@ var $hJsLightBox = {
     getData: function( $v ){
         let $data = ($v.getAttribute('href')) ? $v.getAttribute('href') : false;
         $data = ($v.getAttribute('src')) ? $v.getAttribute('src') : $data;
-        return ($v.getAttribute('njs-url')) ? $v.getAttribute('njs-url') : $data;
+        return ($v.getAttribute('hjs-url')) ? $v.getAttribute('hjs-url') : $data;
     },
 
     onOpen: function( e ){
@@ -78,35 +78,35 @@ var $hJsLightBox = {
     },
     renderContent: function( $v ){
 
-        document.querySelectorAll('.njs-lightbox-open').forEach( $vl => {
-            $vl.classList.remove('njs-lightbox-open');
+        document.querySelectorAll('.hjs-lightbox-open').forEach( $vl => {
+            $vl.classList.remove('hjs-lightbox-open');
         });
        
         let $url = $hJsLightBox.getData($v);
-        let $contentEl = ($v.getAttribute('njs-content')) ? $v.getAttribute('njs-content') : false;
+        let $contentEl = ($v.getAttribute('hjs-content')) ? $v.getAttribute('hjs-content') : false;
 
         let $el = $hJsLightBox.renderPopup();
         
         if( $el ){
-            let $wrapConSub = $el.querySelector('.njs-lightboxCon-sub');
+            let $wrapConSub = $el.querySelector('.hjs-lightboxCon-sub');
             $wrapConSub.innerHTML = '';
-            $v.classList.add('njs-lightbox-open');
+            $v.classList.add('hjs-lightbox-open');
 
             if( $url && $wrapConSub){
                 let $images = document.createElement('div');
-                $images.setAttribute('class', 'njs-image-continer');
+                $images.setAttribute('class', 'hjs-image-continer');
 
                 $wrapConSub.appendChild($images);
                 
                 let $img = document.createElement('img');
                 $img.src = $url;
-                $img.setAttribute('class', 'njs-images-el');
-                var $height = Math.round($el.querySelector('.njs-lightbox-outer').offsetHeight - 100);
+                $img.setAttribute('class', 'hjs-images-el');
+                var $height = Math.round($el.querySelector('.hjs-lightbox-outer').offsetHeight - 100);
                 $img.style.maxHeight = $height + 'px';
                 $images.appendChild($img);
 
                 window.addEventListener('resize', function(){
-                    $height = Math.round($el.querySelector('.njs-lightbox-outer').offsetHeight - 100);
+                    $height = Math.round($el.querySelector('.hjs-lightbox-outer').offsetHeight - 100);
                     $img.style.maxHeight = $height + 'px';
                 });
             }
@@ -119,7 +119,7 @@ var $hJsLightBox = {
             let $conEl = $v.querySelectorAll( $contentEl );
             if( $conEl.length > 0 && $wrapConSub){
                 let $contentWrap = document.createElement('div');
-                $contentWrap.setAttribute('class', 'njs-content-continer');
+                $contentWrap.setAttribute('class', 'hjs-content-continer');
                 $conEl.forEach( $vc => {
                     $contentWrap.innerHTML += $vc.innerHTML;
                 });
@@ -135,23 +135,23 @@ var $hJsLightBox = {
         }
     }, 
     renderPopup: function(){
-        let $ele = document.querySelector('.njs-lightbox-popup');
+        let $ele = document.querySelector('.hjs-lightbox-popup');
         if($ele){
             return $ele;
         }
 
         $ele = document.createElement('div');
-        $ele.setAttribute('class', 'njs-lightbox-popup');
+        $ele.setAttribute('class', 'hjs-lightbox-popup');
 
         let $overlay = document.createElement('div');
-        $overlay.setAttribute('class', 'njs-lightbox-overlay');
+        $overlay.setAttribute('class', 'hjs-lightbox-overlay');
         $ele.appendChild($overlay);
 
         let $outerWrap = document.createElement('div');
-        $outerWrap.setAttribute('class', 'njs-lightbox-outer');
+        $outerWrap.setAttribute('class', 'hjs-lightbox-outer');
         
         let $wrap = document.createElement('div');
-        $wrap.setAttribute('class', 'njs-lightbox-wrap');
+        $wrap.setAttribute('class', 'hjs-lightbox-wrap');
         $hJsLightBox.wrap = $wrap;
         $wrap.addEventListener("mousedown", $hJsLightBox.onDragReady);
         window.addEventListener("mouseup", $hJsLightBox.onDragFinish);
@@ -160,14 +160,14 @@ var $hJsLightBox = {
         window.addEventListener("touchend", $hJsLightBox.onDragFinish);
 
         let $wrapCon = document.createElement('div');
-        $wrapCon.setAttribute('class', 'njs-lightboxCon-outer');
+        $wrapCon.setAttribute('class', 'hjs-lightboxCon-outer');
 
         let $wrapConSub = document.createElement('div');
-        $wrapConSub.setAttribute('class', 'njs-lightboxCon-sub');
+        $wrapConSub.setAttribute('class', 'hjs-lightboxCon-sub');
 
         let $loading = document.createElement('div');
-        $loading.setAttribute('class', 'njs-lightboxConLoading');
-        $loading.innerHTML = '<span class="njs-loadingText">Loading...</span>';
+        $loading.setAttribute('class', 'hjs-lightboxConLoading');
+        $loading.innerHTML = '<span class="hjs-loadingText">Loading...</span>';
         $wrapConSub.appendChild($loading);
 
         $wrapCon.appendChild($wrapConSub);
@@ -175,7 +175,7 @@ var $hJsLightBox = {
         let $close = document.createElement('button');
         $close.setAttribute('type', 'button');
         $close.setAttribute('title', 'Close');
-        $close.setAttribute('class', 'njs-close-bt');
+        $close.setAttribute('class', 'hjs-close-bt');
         $close.innerText = '-';
         $close.removeEventListener('click', $hJsLightBox.onClose);
         $close.addEventListener('click', $hJsLightBox.onClose);
@@ -183,13 +183,13 @@ var $hJsLightBox = {
         $wrapCon.appendChild($close);
 
         let $wrapConArr = document.createElement('div');
-        $wrapConArr.setAttribute('class', 'njs-lightbox-arrows');
+        $wrapConArr.setAttribute('class', 'hjs-lightbox-arrows');
 
         let $arr_buttonl = document.createElement('button');
         $arr_buttonl.setAttribute('type', 'button');
         $arr_buttonl.setAttribute('title', 'Previous');
-        $arr_buttonl.setAttribute('class', 'prev njs-arr-bt');
-        $arr_buttonl.setAttribute('njs-type', 'prev');
+        $arr_buttonl.setAttribute('class', 'prev hjs-arr-bt');
+        $arr_buttonl.setAttribute('hjs-type', 'prev');
         $arr_buttonl.innerText = 'Previous';
 
         $arr_buttonl.removeEventListener('click', $hJsLightBox.onControl);
@@ -201,8 +201,8 @@ var $hJsLightBox = {
         let $arr_buttonr = document.createElement('button');
         $arr_buttonr.setAttribute('type', 'button');
         $arr_buttonr.setAttribute('title', 'Next');
-        $arr_buttonr.setAttribute('class', 'next njs-arr-bt');
-        $arr_buttonr.setAttribute('njs-type', 'next');
+        $arr_buttonr.setAttribute('class', 'next hjs-arr-bt');
+        $arr_buttonr.setAttribute('hjs-type', 'next');
         $arr_buttonr.innerText = 'Next';
         $arr_buttonr.removeEventListener('click', $hJsLightBox.onControl);
         $arr_buttonr.addEventListener('click', $hJsLightBox.onControl);
@@ -226,19 +226,19 @@ var $hJsLightBox = {
         e.preventDefault();
         let $this = this;
         let $index = 0;
-        let $type = $this.getAttribute('njs-type');
+        let $type = $this.getAttribute('hjs-type');
         if( $type ){
             
-            let $current = document.querySelector('.njs-lightbox-open');
+            let $current = document.querySelector('.hjs-lightbox-open');
             if( $current ){
                
-                $index = ($current.getAttribute('njs-light-index') ) ? $current.getAttribute('njs-light-index') : 0;
+                $index = ($current.getAttribute('hjs-light-index') ) ? $current.getAttribute('hjs-light-index') : 0;
                 if( $type == 'next'){
                     $index =  Math.round( $index ) + 1;
                 } else {
                     $index =  Math.round( $index ) - 1;
                 }
-                let $nextOpen = document.querySelector('[njs-light-index="'+$index+'"]');
+                let $nextOpen = document.querySelector('[hjs-light-index="'+$index+'"]');
                 if( $nextOpen ){
                     $hJsLightBox.renderContent( $nextOpen );
                 }
@@ -257,16 +257,16 @@ var $hJsLightBox = {
         }
         $hJsLightBox.clickData = pos;
         
-        let $current = document.querySelector('.njs-lightbox-open');
+        let $current = document.querySelector('.hjs-lightbox-open');
         if( $current ){
             
-            $index = ($current.getAttribute('njs-light-index') ) ? $current.getAttribute('njs-light-index') : 0;
+            $index = ($current.getAttribute('hjs-light-index') ) ? $current.getAttribute('hjs-light-index') : 0;
             if( $type == 'next'){
                 $index =  Math.round( $index ) + 1;
             } else {
                 $index =  Math.round( $index ) - 1;
             }
-            let $nextOpen = document.querySelector('[njs-light-index="'+$index+'"]');
+            let $nextOpen = document.querySelector('[hjs-light-index="'+$index+'"]');
             if( $nextOpen ){
                 $hJsLightBox.renderContent( $nextOpen );
             }
@@ -295,4 +295,4 @@ var $hJsLightBox = {
 };
 
 // LightBox calling
-$hJsLightBox.init('.njs-light');
+$hJsLightBox.init('.hjs-light');

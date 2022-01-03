@@ -14,9 +14,9 @@ var $hJsTab = {
         let $tabs = document.querySelectorAll($selector);
         if( $tabs ){
             $tabs.forEach(function($v, $k){
-                $v.setAttribute('njs-tab', 'njstab-'+ $k);
+                $v.setAttribute('hjs-tab', 'hjstab-'+ $k);
                 if( $settings != ''){
-                    $v.setAttribute('njs-settings', JSON.stringify($settings)); 
+                    $v.setAttribute('hjs-settings', JSON.stringify($settings)); 
                 }
 
                 
@@ -24,22 +24,22 @@ var $hJsTab = {
                 let $sett = $hJsTab.getSettings( $v );
                 var $tabType = ($sett.type) ? $sett.type : 'css';
                 // tab
-                var $tabSelector = ($sett.tabSelector) ? $sett.tabSelector : '.njs-tab';
+                var $tabSelector = ($sett.tabSelector) ? $sett.tabSelector : '.hjs-tab';
                 $v.querySelectorAll($tabSelector).forEach(function( $target, $key){
-                    $target.setAttribute('njs-tab-target', 'njstab-'+ $k);
+                    $target.setAttribute('hjs-tab-target', 'hjstab-'+ $k);
                     $target.removeEventListener('click', $hJsTab.toggleTab);
                     $target.addEventListener('click', $hJsTab.toggleTab);
 
-                    if( !$target.getAttribute('njs-target')){
-                        $target.setAttribute('njs-target', '.njstab-content'+ $k + '-' +$key);
+                    if( !$target.getAttribute('hjs-target')){
+                        $target.setAttribute('hjs-target', '.hjstab-content'+ $k + '-' +$key);
                     }
                 });
 
                 // panel
-                var $panelSelector = ($sett.panelSelector) ? $sett.panelSelector : '.njs-panel';
+                var $panelSelector = ($sett.panelSelector) ? $sett.panelSelector : '.hjs-panel';
                 $v.querySelectorAll($panelSelector).forEach(function( $panel, $key){
-                    $panel.setAttribute('njs-tab-panel', 'njstab-'+ $k);
-                    $panel.classList.add('njstab-content'+ $k + '-'+$key);
+                    $panel.setAttribute('hjs-tab-panel', 'hjstab-'+ $k);
+                    $panel.classList.add('hjstab-content'+ $k + '-'+$key);
 
                     if($tabType == 'css'){
                         if( !$panel.style.display ){
@@ -54,20 +54,20 @@ var $hJsTab = {
     toggleTab: function( $e ){
         $e.preventDefault();
         let $this = this;
-        let $targetTab = $this.getAttribute('njs-tab-target');
-        let $target = $this.getAttribute('njs-target');
+        let $targetTab = $this.getAttribute('hjs-tab-target');
+        let $target = $this.getAttribute('hjs-target');
 
-        let $el = document.querySelector('[njs-tab='+$targetTab+']');
+        let $el = document.querySelector('[hjs-tab='+$targetTab+']');
         if($el){
             $hJsTab.actionRemove($el);
 
             let $sett = $hJsTab.getSettings( $el );
             var $tabType = ($sett.type) ? $sett.type : 'css';
 
-            var $tabActive = ($sett.tabActiveClass) ? $sett.tabActiveClass : 'njs-active';
+            var $tabActive = ($sett.tabActiveClass) ? $sett.tabActiveClass : 'hjs-active';
             $this.classList.add($tabActive);
 
-            var $panelActive = ($sett.panelActiveClass) ? $sett.panelActiveClass : 'njs-show';
+            var $panelActive = ($sett.panelActiveClass) ? $sett.panelActiveClass : 'hjs-show';
             $el.querySelectorAll($target).forEach(function($v){
                 
                 if($tabType == 'css'){
@@ -89,15 +89,15 @@ var $hJsTab = {
             let $sett = $hJsTab.getSettings( $el );
             var $tabType = ($sett.type) ? $sett.type : 'css';
 
-            var $tabSelector = ($sett.tabSelector) ? $sett.tabSelector : '.njs-tab';
-            var $tabActive = ($sett.tabActiveClass) ? $sett.tabActiveClass : 'njs-active';
+            var $tabSelector = ($sett.tabSelector) ? $sett.tabSelector : '.hjs-tab';
+            var $tabActive = ($sett.tabActiveClass) ? $sett.tabActiveClass : 'hjs-active';
             $el.querySelectorAll($tabSelector).forEach(function( $target){
                 $target.classList.remove($tabActive);
             });
 
             // panel
-            var $panelSelector = ($sett.panelSelector) ? $sett.panelSelector : '.njs-panel';
-            var $panelActive = ($sett.panelActiveClass) ? $sett.panelActiveClass : 'njs-show';
+            var $panelSelector = ($sett.panelSelector) ? $sett.panelSelector : '.hjs-panel';
+            var $panelActive = ($sett.panelActiveClass) ? $sett.panelActiveClass : 'hjs-show';
             $el.querySelectorAll($panelSelector).forEach(function( $panel){
                 if($tabType == 'css'){
                     $panel.style.display = 'none';
@@ -114,15 +114,15 @@ var $hJsTab = {
     getSettings: function( $el ){
         let $default = {
             type: 'css', // css, class
-            tabSelector : '.njs-tab',
-            tabActiveClass : 'njs-active',
-            panelSelector : '.njs-panel',
-            panelActiveClass : 'njs-show',
+            tabSelector : '.hjs-tab',
+            tabActiveClass : 'hjs-active',
+            panelSelector : '.hjs-panel',
+            panelActiveClass : 'hjs-show',
         };
 
-        let $settings = $el.getAttribute('njs-settings');
+        let $settings = $el.getAttribute('hjs-settings');
         if( !$settings ){
-            $el.setAttribute('njs-settings', JSON.stringify($default));
+            $el.setAttribute('hjs-settings', JSON.stringify($default));
             return $default;
         } 
 

@@ -1,4 +1,4 @@
-.njs-lightbox-overlay, .njs-lightbox-outer, .njs-lightbox-wrap {
+.hjs-lightbox-overlay, .hjs-lightbox-outer, .hjs-lightbox-wrap {
     position: fixed;
     top: 0;
     right: 0;
@@ -6,7 +6,7 @@
     left: 0;
 }
   
-  .njs-lightbox-overlay {
+  .hjs-lightbox-overlay {
     overflow: hidden;
     z-index: 2000;
     background-color: #000;
@@ -17,25 +17,25 @@
     animation: nJsoverlayAnimation 0.5s;
   }
   
-  .njs-lightbox-outer {
+  .hjs-lightbox-outer {
     overflow-x: hidden;
     overflow-y: auto;
     z-index: 2010;
   }
   
-  .njs-lightbox-wrap {
+  .hjs-lightbox-wrap {
     position: absolute;
     text-align: center;
   }
   
-  .njs-lightbox-wrap:before {
+  .hjs-lightbox-wrap:before {
     content: "";
     display: inline-block;
     height: 100%;
     vertical-align: middle;
   }
   
-  .njs-lightboxCon-outer {
+  .hjs-lightboxCon-outer {
     display: inline-block;
     vertical-align: middle;
     margin: 0px auto;
@@ -46,15 +46,15 @@
     max-width: 100%;
   }
   
-  .slbContentEl .njs-lightboxCon-outer {
+  .slbContentEl .hjs-lightboxCon-outer {
     padding: 5em 1em;
   }
   
-  .njs-lightboxCon-sub {
+  .hjs-lightboxCon-sub {
     position: relative;
   }
   
-  .slbContentEl .njs-lightboxCon-sub {
+  .slbContentEl .hjs-lightboxCon-sub {
     -webkit-animation: nJslideEnter 0.3s;
     -moz-animation: nJslideEnter 0.3s;
     animation: nJslideEnter 0.3s;
@@ -62,14 +62,14 @@
     box-shadow: 0 0.2em 1em rgba(0, 0, 0, 0.4);
   }
   
-  .njs-image-continer, .njs-content-continer{
+  .hjs-image-continer, .hjs-content-continer{
     -webkit-animation: nJslideEnter 0.3s;
     -moz-animation: nJslideEnter 0.3s;
     animation: nJslideEnter 0.3s;
     position: relative;
   }
   
-  .njs-image-continer:after {
+  .hjs-image-continer:after {
     content: "";
     position: absolute;
     left: 0;
@@ -82,7 +82,7 @@
     background-color: #FFF;
   }
   
-  .njs-images-el {
+  .hjs-images-el {
     width: auto;
     max-width: 100%;
     height: auto;
@@ -93,7 +93,7 @@
     margin: 0 auto;
   }
   
-  .njsCaption {
+  .hjsCaption {
     display: inline-block;
     max-width: 100%;
     overflow: hidden;
@@ -111,7 +111,7 @@
     text-align: center;
   }
   
-  .njs-close-bt, .njs-arr-bt {
+  .hjs-close-bt, .hjs-arr-bt {
     margin: 0;
     padding: 0;
     border: 0;
@@ -121,20 +121,20 @@
       box-shadow: none !important;
   }
   
-  .njs-close-bt::-moz-focus-inner, .njs-arr-bt::-moz-focus-inner {
+  .hjs-close-bt::-moz-focus-inner, .hjs-arr-bt::-moz-focus-inner {
     padding: 0;
     border: 0;
   }
   
-  .njs-close-bt:hover, .njs-arr-bt:hover {
+  .hjs-close-bt:hover, .hjs-arr-bt:hover {
     opacity: 0.5;
   }
   
-  .njs-close-bt:active, .njs-arr-bt:active {
+  .hjs-close-bt:active, .hjs-arr-bt:active {
     opacity: 0.8;
   }
   
-  .njs-close-bt {
+  .hjs-close-bt {
     -webkit-animation: nJslideEnter 0.3s;
     -moz-animation: nJslideEnter 0.3s;
     animation: nJslideEnter 0.3s;
@@ -152,28 +152,28 @@
       box-shadow: none;
   }
   
-  .njs-lightboxConLoading ~ .njs-close-bt {
+  .hjs-lightboxConLoading ~ .hjs-close-bt {
     display: none;
   }
   
-  .njs-loadingText {
+  .hjs-loadingText {
     font-size: 1.4em;
     color: #fff;
     color: rgba(255, 255, 255, 0.9);
   }
   
-  .njs-lightbox-arrows {
+  .hjs-lightbox-arrows {
     position: fixed;
     top: 50%;
     left: 0;
     right: 0;
   }
   
-  .njs-lightboxConLoading ~ .njs-lightbox-arrows{
+  .hjs-lightboxConLoading ~ .hjs-lightbox-arrows{
     display: none;
   }
   
-  .njs-arr-bt {
+  .hjs-arr-bt {
     position: absolute;
     top: 50%;
     margin-top: -5em;
@@ -186,7 +186,7 @@
       box-shadow: none;
   }
   
-  .njs-arr-bt:before {
+  .hjs-arr-bt:before {
     content: "";
     position: absolute;
     top: 50%;
@@ -195,19 +195,19 @@
     border: 0.8em solid transparent;
   }
   
-  .njs-arr-bt.next {
+  .hjs-arr-bt.next {
     right: 0;
   }
   
-  .njs-arr-bt.next:before {
+  .hjs-arr-bt.next:before {
     border-left-color: #fff;
   }
   
-  .njs-arr-bt.prev {
+  .hjs-arr-bt.prev {
     left: 0;
   }
   
-  .njs-arr-bt.prev:before {
+  .hjs-arr-bt.prev:before {
     border-right-color: #fff;
   }
   

@@ -13,9 +13,9 @@ var $hJsAccrodion = {
         let $tabs = document.querySelectorAll($selector);
         if( $tabs ){
             $tabs.forEach(function($v, $k){
-                $v.setAttribute('njs-accrodion', 'njsaccrodion-'+ $k);
+                $v.setAttribute('hjs-accrodion', 'hjsaccrodion-'+ $k);
                 if( $settings != ''){
-                    $v.setAttribute('njs-settings', JSON.stringify($settings)); 
+                    $v.setAttribute('hjs-settings', JSON.stringify($settings)); 
                 }
 
                 
@@ -23,18 +23,18 @@ var $hJsAccrodion = {
                 let $sett = $hJsAccrodion.getSettings( $v );
                 var $tabType = ($sett.type) ? $sett.type : 'css';
                 // tab
-                var $controlSelector = ($sett.controlSelector) ? $sett.controlSelector : '.njs-accrodion-control';
+                var $controlSelector = ($sett.controlSelector) ? $sett.controlSelector : '.hjs-accrodion-control';
                 $v.querySelectorAll($controlSelector).forEach(function( $target, $key){
-                    $target.setAttribute('njs-accrodion-target', 'njsaccrodion-'+ $k + '__' + $key);
+                    $target.setAttribute('hjs-accrodion-target', 'hjsaccrodion-'+ $k + '__' + $key);
                     $target.removeEventListener('click', $hJsAccrodion.toggleTab);
                     $target.addEventListener('click', $hJsAccrodion.toggleTab);
 
                 });
 
                 // panel
-                var $panelSelector = ($sett.panelSelector) ? $sett.panelSelector : '.njs-accrodion-panel';
+                var $panelSelector = ($sett.panelSelector) ? $sett.panelSelector : '.hjs-accrodion-panel';
                 $v.querySelectorAll($panelSelector).forEach(function( $panel, $key){
-                    $panel.setAttribute('njs-accrodion-panel', 'njsaccrodion-'+ $k + '__' + $key);
+                    $panel.setAttribute('hjs-accrodion-panel', 'hjsaccrodion-'+ $k + '__' + $key);
                     
                     if($tabType == 'css'){
                         if( !$panel.style.display ){
@@ -49,9 +49,9 @@ var $hJsAccrodion = {
     toggleTab: function($e){
         $e.preventDefault();
         let $this = this;
-        let $targetTab = $this.getAttribute('njs-accrodion-target');
+        let $targetTab = $this.getAttribute('hjs-accrodion-target');
         let $sp = $targetTab.split('__');
-        let $el = document.querySelector('[njs-accrodion='+$sp[0]+']');
+        let $el = document.querySelector('[hjs-accrodion='+$sp[0]+']');
         if($el){
 
             
@@ -63,11 +63,11 @@ var $hJsAccrodion = {
                 $hJsAccrodion.actionRemove($el, $this);
             }
             
-            var $tabActive = ($sett.controlActiveClass) ? $sett.controlActiveClass : 'njs-active';
+            var $tabActive = ($sett.controlActiveClass) ? $sett.controlActiveClass : 'hjs-active';
             $this.classList.toggle($tabActive);
 
-            var $panelActive = ($sett.panelActiveClass) ? $sett.panelActiveClass : 'njs-show';
-            $el.querySelectorAll('[njs-accrodion-panel="'+$targetTab+'"]').forEach(function($v){
+            var $panelActive = ($sett.panelActiveClass) ? $sett.panelActiveClass : 'hjs-show';
+            $el.querySelectorAll('[hjs-accrodion-panel="'+$targetTab+'"]').forEach(function($v){
                 
                 if($tabType == 'css'){
                     $hJsAccrodion.toggleCss($v);
@@ -86,8 +86,8 @@ var $hJsAccrodion = {
             let $sett = $hJsAccrodion.getSettings( $el );
             var $tabType = ($sett.type) ? $sett.type : 'css';
 
-            var $controlSelector = ($sett.controlSelector) ? $sett.controlSelector : '.njs-accrodion-control';
-            var $tabActive = ($sett.controlActiveClass) ? $sett.controlActiveClass : 'njs-active';
+            var $controlSelector = ($sett.controlSelector) ? $sett.controlSelector : '.hjs-accrodion-control';
+            var $tabActive = ($sett.controlActiveClass) ? $sett.controlActiveClass : 'hjs-active';
             $el.querySelectorAll($controlSelector).forEach(function( $target){
                 if( $target != $this){
                     $target.classList.remove($tabActive);
@@ -95,12 +95,12 @@ var $hJsAccrodion = {
                
             });
 
-            let $targetTab = $this.getAttribute('njs-accrodion-target');
+            let $targetTab = $this.getAttribute('hjs-accrodion-target');
             // panel
-            var $panelSelector = ($sett.panelSelector) ? $sett.panelSelector : '.njs-accrodion-panel';
-            var $panelActive = ($sett.panelActiveClass) ? $sett.panelActiveClass : 'njs-show';
+            var $panelSelector = ($sett.panelSelector) ? $sett.panelSelector : '.hjs-accrodion-panel';
+            var $panelActive = ($sett.panelActiveClass) ? $sett.panelActiveClass : 'hjs-show';
             $el.querySelectorAll($panelSelector).forEach(function( $panel){
-                let $targetTabSelf = $panel.getAttribute('njs-accrodion-panel');
+                let $targetTabSelf = $panel.getAttribute('hjs-accrodion-panel');
 
                 if($tabType == 'css'){
                     if( $targetTab != $targetTabSelf){
@@ -136,16 +136,16 @@ var $hJsAccrodion = {
     getSettings: function( $el ){
         let $default = {
             type: 'css', // css, class
-            controlSelector : '.njs-accrodion-control',
-            controlActiveClass : 'njs-active',
-            panelSelector : '.njs-accrodion-panel',
-            panelActiveClass : 'njs-show',
+            controlSelector : '.hjs-accrodion-control',
+            controlActiveClass : 'hjs-active',
+            panelSelector : '.hjs-accrodion-panel',
+            panelActiveClass : 'hjs-show',
             toggleType: 'close' // close, open
         };
 
-        let $settings = $el.getAttribute('njs-settings');
+        let $settings = $el.getAttribute('hjs-settings');
         if( !$settings ){
-            $el.setAttribute('njs-settings', JSON.stringify($default));
+            $el.setAttribute('hjs-settings', JSON.stringify($default));
             return $default;
         } 
 

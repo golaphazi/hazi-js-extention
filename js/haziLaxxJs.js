@@ -33,7 +33,7 @@ class NextLaxxJs{
             
             // bouns
             let $bounds = $v.getBoundingClientRect();
-            //$v.setAttribute('njs-move-bounds', JSON.stringify($bounds));
+            //$v.setAttribute('hjs-move-bounds', JSON.stringify($bounds));
 
             let $move = {};
             $move.elementPositionX = $bounds.left
@@ -45,7 +45,7 @@ class NextLaxxJs{
             $move.elementRangeX = Math.max($move.elementCenterX, $move.elementWidth - $move.elementCenterX)
             $move.elementRangeY = Math.max($move.elementCenterY, $move.elementHeight - $move.elementCenterY)
             
-            $v.setAttribute('njs-move-settings', JSON.stringify($move));
+            $v.setAttribute('hjs-move-settings', JSON.stringify($move));
 
             // mouse event
             $v.removeEventListener('mousemove', NextLaxxJs.onMoveMouse);
@@ -57,9 +57,9 @@ class NextLaxxJs{
         
  
             // parent parallax element
-            $v.querySelectorAll('.njs-layer').forEach(function($l, $i){
+            $v.querySelectorAll('.hjs-layer').forEach(function($l, $i){
                 if($l){
-                    let $depth = $l.getAttribute('njs-depth');
+                    let $depth = $l.getAttribute('hjs-depth');
                     if(!$depth){
                         $depth = 1;
                     }
@@ -68,7 +68,7 @@ class NextLaxxJs{
                     $l.style.transform = ($l.style.transform) ? $l.style.transform : 'translate3d(0px, 0px, 0px)';
                     $l.style.transformStyle  = ($l.style.transformStyle) ? $l.style.transformStyle : 'preserve-3d';
                     $l.style.backfaceVisibility = ($l.style.backfaceVisibility) ? $l.style.backfaceVisibility : 'hidden';
-                    $l.classList.add('njs-layer-'+$i);
+                    $l.classList.add('hjs-layer-'+$i);
 
                     var $lposition = ($l.style.position) ? $l.style.position : 'absolute';
 
@@ -90,9 +90,9 @@ class NextLaxxJs{
         //console.log(document.documentElement);
        // console.log($x + ' - '+ $y);
         // data attr 
-        document.querySelectorAll('[njs-parallax]').forEach(function($v){
+        document.querySelectorAll('[hjs-parallax]').forEach(function($v){
             if($v){
-                let $value = JSON.stringify($v.getAttribute('njs-parallax'));
+                let $value = JSON.stringify($v.getAttribute('hjs-parallax'));
                 if($value){
                     $value = JSON.parse( JSON.stringify($value) );
                    
@@ -113,7 +113,7 @@ class NextLaxxJs{
 
         var x, y, z;
 
-        let $moveSettings = JSON.parse($this.getAttribute('njs-move-settings'));
+        let $moveSettings = JSON.parse($this.getAttribute('hjs-move-settings'));
         if($moveSettings){
             x = ($moveSettings.x) ? $moveSettings.x : 0;
             y = ($moveSettings.y) ? $moveSettings.y : 0;
@@ -123,9 +123,9 @@ class NextLaxxJs{
         //console.log($moveSettings);
 
         // parent parallax element
-        $this.querySelectorAll('.njs-layer').forEach(function($l){
+        $this.querySelectorAll('.hjs-layer').forEach(function($l){
             if($l){
-                let $depth = $l.getAttribute('njs-depth');
+                let $depth = $l.getAttribute('hjs-depth');
                 if(!$depth){
                     $depth = 1;
                 }
