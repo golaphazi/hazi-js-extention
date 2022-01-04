@@ -179,12 +179,22 @@ var $hzslider = {
                     if( !$pagi.querySelector( '*')){
                         let $i = 1;
                         for(; $i <= $itemsTotal; $i+= $step ){
-                            //console.log( $i );
                             let $span = document.createElement('span');
                             $span.setAttribute('class', 'hzslider-pagination-bullet hzbullet-' + $i);
                             $span.setAttribute('hjs-control', $idSlide);
                             $span.setAttribute('hjs-index', $i);
                             $span.setAttribute('aria-label', $i + ' / ' + $itemsTotal);
+                            if( $clickable ){
+                                $span.classList.add('hzbullet-clickable');
+                                $span.addEventListener('click', function( $e ){
+                                    let $this = this;
+
+                                    $hzslider.slideContinue( $v, $this.getAttribute('hjs-index'));
+                                    if( $autoplay.enable ){
+                                        clearInterval( $autoInterval );
+                                    }
+                                });
+                            }
                             $pagi.appendChild($span);
                         }
                     }
@@ -229,6 +239,8 @@ var $hzslider = {
         var $type = ($sett.type) ? $sett.type : 'none',
             $step = ($sett.step) ? $sett.step : false,
             $direction = ($sett.direction) ? $sett.direction : 'horizontal',
+            $speed = ($sett.speed) ? $sett.speed : 1000,
+            $autoplay = ($sett.autoplay) ? $sett.autoplay : {},
             $slidesPerView = ($sett.slidesPerView) ? $sett.slidesPerView : 1,
             $spaceBetween = ($sett.spaceBetween) ? $sett.spaceBetween : 10,
             $item = ($sett.itemSelector) ? $sett.itemSelector : '.hzslider-slide',
@@ -270,6 +282,8 @@ var $hzslider = {
         }
         $hzslider.setNext($itemsEl, $setIndex);
 
+        // agign enable setInterval
+       
         return $setIndex;
     },
     getSettings: function( $el ){
