@@ -1,5 +1,8 @@
 'use strict';
 var $hzslider = {
+    isDraged: false,
+    isSlider: false,
+    options: {},
     init: function( $selector, $settings = '' ){
         let $slider = document.querySelectorAll($selector);
         if( $slider ){
@@ -16,7 +19,10 @@ var $hzslider = {
                 }
                
                 // class
-                $v.classList.add('hzslider-wrapper-'+ $k);
+                $v.classList.add('hzslider-ready', 'hzslider-wrapper-'+ $k);
+                $v.addEventListener('mousedown', $hzslider.slideReady);
+                document.addEventListener('mouseup', $hzslider.slideFinish);
+                document.addEventListener("mousemove", $hzslider.slideMove);
 
                 let $parentEl = $v.parentElement;
                 $parentEl.style.overflow = 'hidden';
@@ -87,9 +93,17 @@ var $hzslider = {
                 $pointer = (($defaultSlide - 1) * ($iheight + $spaceBetween));
 
                 $v.style.height = Math.floor( ($iheight + $spaceBetween) * $itemsTotal) + 'px';
+                $v.style.webkitTransform = "translate3d(0px, -" + $pointer + "px, 0px)";
+                $v.style.mozTransform = "translate3d(0px, -" + $pointer + "px, 0px)";
+                $v.style.msTransform = "translate3d(0px, -" + $pointer + "px, 0px)";
+                $v.style.oTransform = "translate3d(0px, -" + $pointer + "px, 0px)";
                 $v.style.transform = "translate3d(0px, -" + $pointer + "px, 0px)";
             } else {
                 $v.style.width = Math.floor( ($iwidth + $spaceBetween) * $itemsTotal ) + 'px';
+                $v.style.webkitTransform = "translate3d(-" + $pointer + "px, 0px, 0px)";
+                $v.style.mozTransform = "translate3d(-" + $pointer + "px, 0px, 0px)";
+                $v.style.msTransform = "translate3d(-" + $pointer + "px, 0px, 0px)";
+                $v.style.oTransform = "translate3d(-" + $pointer + "px, 0px, 0px)";
                 $v.style.transform = "translate3d(-" + $pointer + "px, 0px, 0px)";
             }
             $v.setAttribute('hjs-start', $defaultSlide);
@@ -184,6 +198,7 @@ var $hzslider = {
                             $span.setAttribute('hjs-control', $idSlide);
                             $span.setAttribute('hjs-index', $i);
                             $span.setAttribute('aria-label', $i + ' / ' + $itemsTotal);
+                            
                             if( $clickable ){
                                 $span.classList.add('hzbullet-clickable');
                                 $span.addEventListener('click', function( $e ){
@@ -228,6 +243,11 @@ var $hzslider = {
                                 $span.remove();
                             }
                         });
+                    }
+
+                    let $current = $pagi.querySelector('.hzbullet-' + $defaultSlide);
+                    if( $current ){
+                        $current.classList.add('hzslider-pagination-active');
                     }
                 }
             }
@@ -277,6 +297,7 @@ var $hzslider = {
             $direction = ($sett.direction) ? $sett.direction : 'horizontal',
             $speed = ($sett.speed) ? $sett.speed : 1000,
             $autoplay = ($sett.autoplay) ? $sett.autoplay : {},
+            $pagination = ($sett.pagination) ? $sett.pagination : { container : true },
             $slidesPerView = ($sett.slidesPerView) ? $sett.slidesPerView : 1,
             $spaceBetween = ($sett.spaceBetween) ? $sett.spaceBetween : 10,
             $item = ($sett.itemSelector) ? $sett.itemSelector : '.hzslider-slide',
@@ -306,8 +327,16 @@ var $hzslider = {
         var $pointer = (($setIndex - 1) * ($iwidth + $spaceBetween) );
         if( $direction == 'vertical'){
             $pointer = (($setIndex - 1) * ($iheight + $spaceBetween));
+            $v.style.webkitTransform = "translate3d(0px, -" + $pointer + "px, 0px)";
+            $v.style.mozTransform = "translate3d(0px, -" + $pointer + "px, 0px)";
+            $v.style.msTransform = "translate3d(0px, -" + $pointer + "px, 0px)";
+            $v.style.oTransform = "translate3d(0px, -" + $pointer + "px, 0px)";
             $v.style.transform = "translate3d(0px, -" + $pointer + "px, 0px)";
         }else{
+            $v.style.webkitTransform = "translate3d(-" + $pointer + "px, 0px, 0px)";
+            $v.style.mozTransform = "translate3d(-" + $pointer + "px, 0px, 0px)";
+            $v.style.msTransform = "translate3d(-" + $pointer + "px, 0px, 0px)";
+            $v.style.oTransform = "translate3d(-" + $pointer + "px, 0px, 0px)";
             $v.style.transform = "translate3d(-" + $pointer + "px, 0px, 0px)";
         }
         $v.setAttribute('hjs-start', $setIndex);
@@ -318,10 +347,68 @@ var $hzslider = {
         }
         $hzslider.setNext($itemsEl, $setIndex);
 
-        // agign enable setInterval
+        if( $pagination.el ){
+            let $paginaCon = ($pagination.container) ? $pagination.container : true;
+            let $pagi = document.querySelector( $pagination.el );
+            if( $paginaCon ){
+                $pagi = $parentEl.querySelector( $pagination.el );
+            }
+            if( $pagi ){
+                $hzslider.resetClassBullet( $pagi.querySelectorAll('*') );
+                let $current = $pagi.querySelector('.hzbullet-' + $setIndex);
+                if( $current ){
+                    $current.classList.add('hzslider-pagination-active');
+                }
+            }
+        }
        
         return $setIndex;
     },
+    slideReady: function( evt ){
+        evt = evt || window.event;
+        let $this = this;
+        if( !$this.classList.contains('hzslider-ready') ){
+            return;
+        }
+        $hzslider.isDraged = true;
+        $hzslider.isSlider = $this;
+    },
+    slideFinish: function(){
+        if( $hzslider.isDraged ){
+            $hzslider.isDraged = false;
+            $hzslider.isSlider = false;
+        }
+    },
+    slideMove: function( evt ){
+        evt = evt || window.event;
+        let evtEl = evt.target;
+        if( !$hzslider.isDraged ){
+            return;
+        }
+        let $target = $hzslider.isSlider;
+        if ($target == false) return false;
+
+        if( !evtEl.classList.contains('hzslider-slide')){
+            return;
+        }
+
+        var mouseMoveTimeout, mouseOutTimeout;
+
+        let $sett = $hzslider.getSettings( $target );
+        let $direction = ($sett.direction) ? $sett.direction : 'horizontal';
+
+        clearTimeout(mouseMoveTimeout);
+        mouseMoveTimeout = setTimeout(function() {
+            if( $direction == 'vertical'){
+                let topPos =  evt.pageY - $target.offsetTop;
+                $target.style.transform = "translate3d(0px, " + topPos + "px, 0px)";
+            } else{
+                let leftPos = evt.pageX - $target.offsetLeft;
+                $target.style.transform = "translate3d(" + leftPos + "px, 0px, 0px)";
+            }
+        }, 10);
+    },
+    
     getSettings: function( $el ){
 
         let $default = {
