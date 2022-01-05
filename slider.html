@@ -25,7 +25,8 @@
         <div class="hzslider-button-prev">Pre</div>
         <div class="hzslider-button-next">Next</div>
         
-        <div class="hzslider-pagination"></div>
+        <div class="hzslider-pagination">
+        </div>
    </div>
 
     <script src="js/haziJs.js"></script>
@@ -33,9 +34,10 @@
     <script>
        let $slider = $hzslider.init( '.hzslider-wrapper', 
             {
-                slidesPerView: 3,
+                slidesPerView: 2,
                 defaultSlide: 1,
-                step: 1,
+                spaceBetween: 30,
+                step: 2,
                 speed: 3500,
                 duration: 1500,
                 direction: 'horizontal',
@@ -44,7 +46,7 @@
                 },
                 pagination: {
                     el: ".hzslider-pagination",
-                    mode: 'vertical'
+                    mode: 'horizontal'
                 }
             }
         );

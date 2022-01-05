@@ -111,16 +111,21 @@
     opacity: .2;
     pointer-events: none;
 }
+.hzslider-pagination-custom{
+    display: inline-block;
+    pointer-events: none;
+}
 .hzslider-pagination-vertical.hzslider-pagination-bullets .hzslider-pagination-bullet, 
 .hzslider-vertical>.hzslider-pagination-bullets .hzslider-pagination-bullet {
     margin: 6px 0;
     display: block;
 }
-.hzslider-pagination-bullet.hzbullet-clickable{
+.hzslider-pagination-bullet.hzbullet-clickable,
+.hzslider-pagination-custom.hzbullet-clickable{
     cursor: pointer;
     pointer-events: unset;
 }
-.hzslider-pagination-bullet-active {
+.hzslider-pagination-active{
     opacity: 1;
     background: #007aff;
 }

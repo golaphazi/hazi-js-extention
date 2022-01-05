@@ -189,6 +189,9 @@ var $hzslider = {
                                 $span.addEventListener('click', function( $e ){
                                     let $this = this;
 
+                                    $hzslider.resetClassBullet( $pagi.querySelectorAll('*') );
+                                    $this.classList.add('hzslider-pagination-active');
+
                                     $hzslider.slideContinue( $v, $this.getAttribute('hjs-index'));
                                     if( $autoplay.enable ){
                                         clearInterval( $autoInterval );
@@ -197,6 +200,34 @@ var $hzslider = {
                             }
                             $pagi.appendChild($span);
                         }
+                    }else{
+                        let $child = $pagi.children;
+                        let $i = 1;
+                        Array.from($child).forEach($span => {
+                            if( $i <= $itemsTotal ){
+                                $span.setAttribute('class', 'hzslider-pagination-custom hzbullet-' + $i);
+                                $span.setAttribute('hjs-control', $idSlide);
+                                $span.setAttribute('hjs-index', $i);
+                                $span.setAttribute('aria-label', $i + ' / ' + $itemsTotal);
+                                if( $clickable ){
+                                    $span.classList.add('hzbullet-clickable');
+                                    $span.addEventListener('click', function( $e ){
+                                        let $this = this;
+
+                                        $hzslider.resetClassBullet( $pagi.querySelectorAll('*') );
+                                        $this.classList.add('hzslider-pagination-active');
+
+                                        $hzslider.slideContinue( $v, $this.getAttribute('hjs-index'));
+                                        if( $autoplay.enable ){
+                                            clearInterval( $autoInterval );
+                                        }
+                                    });
+                                }
+                                $i+= $step;
+                            }else{
+                                $span.remove();
+                            }
+                        });
                     }
                 }
             }
@@ -209,6 +240,11 @@ var $hzslider = {
             $v1.classList.remove('hzslide-prev');
             $v1.classList.remove('hzslide-next');
             $v1.classList.remove('hzslide-active');
+        });
+    },
+    resetClassBullet: function( $el ){
+        $el.forEach( $v1 => {
+            $v1.classList.remove('hzslider-pagination-active');
         });
     },
     setPrev: function( $itemsEl, $index ){
