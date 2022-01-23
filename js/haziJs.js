@@ -421,6 +421,24 @@ class HaziExt{
         return;
     }
 
+    serialize( $form ){
+        let $out = [];
+        $form.querySelectorAll('[name]').forEach((elem) => {
+            if(elem.type == 'checkbox' || elem.type == 'radio'){
+                if(elem.checked == true){
+                    $out.push(elem.name + '=' + elem.value);
+                }
+            }else{
+                $out.push(elem.name + '=' + elem.value);
+            }
+            
+        });
+        if($out.length > 0)
+            return $out.join('&');
+        else
+            return false;
+    }
+
     eventRegister( $e, $atta){
         if( Object.entries($atta) ){ 
             for (const [$k, $v] of Object.entries($atta)) {
@@ -460,7 +478,7 @@ var hJs = {
     json: HaziExt.instance().getJson,
     jsonToStr: HaziExt.instance().jsonToStr,
     strToJson: HaziExt.instance().strToJson,
-    
+    serialize: NextExt.instance().serialize,
 };
 
 // function declar 
