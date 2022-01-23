@@ -478,7 +478,7 @@ var hJs = {
     json: HaziExt.instance().getJson,
     jsonToStr: HaziExt.instance().jsonToStr,
     strToJson: HaziExt.instance().strToJson,
-    serialize: NextExt.instance().serialize,
+    serialize: HaziExt.instance().serialize,
 };
 
 // function declar 
