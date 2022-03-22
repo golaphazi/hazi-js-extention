@@ -287,8 +287,16 @@ var $hJsEditorCont = {
                 
             },
             'order' : {
-                'ordered' : {'title' : 'Number List', 'icon' : 'hjsicon hjsicon-list-numbered', 'html' : '', 'action' : {'click' : $hJsEditor.orderedAction }},
-                'unordered' : {'title' : 'Bulleted List', 'icon' : 'hjsicon hjsicon-list2', 'html' : '', 'action' : {'click' : $hJsEditor.unorderedAction }},
+                'order_list' : {'attr' : { class: 'hjs-align'}, 'title' : 'Order', 'icon' : 'hjsicon hjsicon-list-numbered', 'html' : '', 
+                    'data' : {
+                        'ordered' : {'title' : 'Number List', 'icon' : 'hjsicon hjsicon-list-numbered', 'html' : '', 'action' : {'click' : $hJsEditor.orderedAction }},
+                        'unordered' : {'title' : 'Bulleted List', 'icon' : 'hjsicon hjsicon-list2', 'html' : '', 'action' : {'click' : $hJsEditor.unorderedAction }},
+                    }
+                }, 
+            },
+
+            'text_spacing' : {
+                'spacing' : {'title' : 'Spacing', 'icon' : 'hjsicon hjsicon-indent-increase', 'html' : '', 'action' : {'click' : $hJsEditor.spacingAction }},
             },
 
             'copy_cut' : {
@@ -369,6 +377,7 @@ var $hJsEditor = {
                 $hJsEditorCont.renTitle($controls, $k, 'title');
                 
                 $hJsEditorCont.renTitle($controls, $k, 'normal');
+                //$hJsEditorCont.renTitle($controls, $k, 'text_spacing');
                 $hJsEditorCont.renTitle($controls, $k, 'align');
                 $hJsEditorCont.renTitle($controls, $k, 'order');
                 $hJsEditorCont.renTitle($controls, $k, 'link');
@@ -510,6 +519,7 @@ var $hJsEditor = {
             'h5' : 'Heading 5',
             'h6' : 'Heading 6',
             'blockquote' : 'Blockquote',
+            'pre' : 'Pre',
         };
     },
     getUnqueid : function(){
@@ -709,6 +719,65 @@ var $hJsEditor = {
                 var $linkAddress = $popup.querySelector('.hjs-popup-get-link');
                 $addButton.addEventListener('click', function( $e ){
                     $editor.execCommand("insertHTML", null, $linkAddress.value);
+                    $hJsEditor.setValue($k, $editor );
+                    $hJsEditorCont.removePopupModal( document.querySelector('.hjseditor-panel-' + $k) );
+                });
+            }
+            
+            $hJsEditorCont.setClickPopupData( document.querySelector('.hjseditor-panel-' + $k) );
+
+        }
+    },
+    spacingAction: function( $e ){
+       
+        $e.preventDefault();
+        var $this = this;
+        var $k = $this.getAttribute('hjs-control-id');
+        if( !$k ){
+            return;
+        }
+        var $editor = window.frames['hjseditor-mode-' + $k].document;
+        if($editor){
+            var $el = document.querySelector('.hjseditor-panel-' + $k);
+            var $popup = $hJsEditor.createLinkBox($el, 'spacing', $k);
+            
+            var $select = $editor.getSelection().getRangeAt(0);
+            var $selectCOn = $select.extractContents();
+            var $span = document.createElement("span");
+            $span.setAttribute('class', 'hjs-fake-link-selection');
+            $span.appendChild($selectCOn);
+            $select.insertNode($span);
+
+            var $offsetLeft = ($span.offsetLeft) ?? 0;
+            var $offsetTop = ($span.offsetTop) ?? 0;
+            $offsetTop += 70;
+            
+            $popup.style.top = $offsetTop + 'px';
+            $popup.style.left = $offsetLeft  + 'px';
+
+            var $link = $editor.querySelectorAll('span.hjs-fake-link-selection');
+            if( $link.length > 0){
+                $link.forEach( $v => {
+                    var $html = $v.innerHTML;
+                    var $newNode = document.createTextNode($html);
+                    $select.deleteContents();
+                    $select.insertNode($newNode);
+                });
+            }
+
+            var $addButton = $popup.querySelector('.hjs-popup-button-add');
+            if( $addButton ){
+                var $lineHeight = $popup.querySelector('.hjs-line-height');
+                var $letterSpacing = $popup.querySelector('.hjs-letter-spacing');
+                $addButton.addEventListener('click', function( $e ){
+                    var $selectNode = $editor.getSelection().focusNode;
+                    if( $lineHeight.value != ''){
+                        $selectNode.style.lineHeight = $lineHeight.value;
+                    }
+                    if( $letterSpacing.value != ''){
+                        $selectNode.style.letterSpacing = $letterSpacing.value;
+                    }
+                    console.log( $lineHeight );
                     $hJsEditor.setValue($k, $editor );
                     $hJsEditorCont.removePopupModal( document.querySelector('.hjseditor-panel-' + $k) );
                 });
@@ -1154,6 +1223,8 @@ var $hJsEditor = {
             $label.innerText = ' Resize Box';
         } else if($type == 'code'){
             $label.innerText = ' Insert HTML';
+        } else if($type == 'spacing'){
+            $label.innerText = ' Spacing';
         } else {
             $label.innerText = ' Insert Link';
         }
@@ -1178,7 +1249,18 @@ var $hJsEditor = {
             $input.setAttribute('hjs-control-id', $k);
             $input.setAttribute('placeholder', 'H: 100px');
             $con.appendChild($input);
-        }else if($type == 'code'){
+        } else if($type == 'spacing'){
+            var $input = document.createElement('input');
+            $input.setAttribute('class', 'hjs-popup-get-link hjs-popup-link-image-re hjs-line-height');
+            $input.setAttribute('hjs-control-id', $k);
+            $input.setAttribute('placeholder', 'line height: 100px');
+            $con.appendChild($input);
+            var $input = document.createElement('input');
+            $input.setAttribute('class', 'hjs-popup-get-link hjs-popup-link-image-re hjs-letter-spacing');
+            $input.setAttribute('hjs-control-id', $k);
+            $input.setAttribute('placeholder', 'letter spacing: 100px');
+            $con.appendChild($input);
+        } else if($type == 'code'){
             var $input = document.createElement('textarea');
             $input.setAttribute('class', 'hjs-popup-get-link hjs-popup-link-code');
             $input.setAttribute('hjs-control-id', $k);
@@ -1276,9 +1358,6 @@ var $hJsEditor = {
             });
         }
     }
-
-
-
 };
 
 // Accrodion calling
