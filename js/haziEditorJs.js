@@ -374,15 +374,31 @@ var $hJsEditor = {
                 $controls.classList.add('hjseditor-panel-controls');
 
                 // render control
-                $hJsEditorCont.renTitle($controls, $k, 'title');
+                let $basic = ['basic', 'advance'];
+                if( $basic.includes($type)){
+                    $hJsEditorCont.renTitle($controls, $k, 'title');
+                }
                 
-                $hJsEditorCont.renTitle($controls, $k, 'normal');
-                //$hJsEditorCont.renTitle($controls, $k, 'text_spacing');
-                $hJsEditorCont.renTitle($controls, $k, 'align');
-                $hJsEditorCont.renTitle($controls, $k, 'order');
-                $hJsEditorCont.renTitle($controls, $k, 'link');
-                $hJsEditorCont.renTitle($controls, $k, 'copy_cut');
-                $hJsEditorCont.renTitle($controls, $k, 'math');
+                
+                let $normal = ['normal', 'math', 'advance'];
+                if( $normal.includes($type)){
+                    $hJsEditorCont.renTitle($controls, $k, 'normal');
+                    $hJsEditorCont.renTitle($controls, $k, 'align');
+                    $hJsEditorCont.renTitle($controls, $k, 'order');
+                }
+
+                let $advance = ['advance', 'math'];
+                if( $advance.includes($type)){
+                    $hJsEditorCont.renTitle($controls, $k, 'text_spacing');
+                    $hJsEditorCont.renTitle($controls, $k, 'link');
+                    $hJsEditorCont.renTitle($controls, $k, 'copy_cut');
+                }
+
+                let $math = ['math'];
+                if( $math.includes($type)){
+                    $hJsEditorCont.renTitle($controls, $k, 'math');
+                }
+
                 $hJsEditorCont.renTitle($controls, $k, 'rollback');
 
                 $new.appendChild($controls);
@@ -527,7 +543,7 @@ var $hJsEditor = {
     },
     getSettings: function( $el ){
         let $default = {
-            type: 'basic', // css, class
+            type: 'basic', // normal, advance, math, basic
             panelClass : 'hjs-editor-panel',
             displayMode: 'white', //// dark, white
         };

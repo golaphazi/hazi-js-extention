@@ -6,6 +6,7 @@
     position: relative;
     font-family: monospace;
     font-size: 15px;
+    background: #fff;
 }
 .hjs-editor-panel button{
     font-family: monospace;
