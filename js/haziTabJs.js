@@ -128,12 +128,11 @@ var $hJsTab = {
 
         $settings = JSON.parse($settings);
         let $neSettings = {};
-        $neSettings.type = ($settings.type) ? $settings.type : $default.type;
-        $neSettings.tabSelector = ($settings.tabSelector) ? $settings.tabSelector : $default.tabSelector;
-        $neSettings.tabActiveClass = ($settings.tabActiveClass) ? $settings.tabActive : $default.tabActiveClass;
-        $neSettings.panelSelector = ($settings.panelSelector) ? $settings.panelSelector : $default.panelSelector;
-        $neSettings.panelActiveClass = ($settings.panelActiveClass) ? $settings.panelActiveClass : $default.panelActiveClass;
-       
+        if( Object.entries($default) ){ 
+            for (const [$k, $v] of Object.entries($default)) {
+                $neSettings[$k] = ($settings[$k]) ? $settings[$k] : $default[$k];
+            }
+        }
         return $neSettings;
     }
 

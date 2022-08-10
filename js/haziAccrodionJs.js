@@ -151,13 +151,11 @@ var $hJsAccrodion = {
 
         $settings = JSON.parse($settings);
         let $neSettings = {};
-        $neSettings.type = ($settings.type) ? $settings.type : $default.type;
-        $neSettings.controlSelector = ($settings.controlSelector) ? $settings.controlSelector : $default.controlSelector;
-        $neSettings.controlActiveClass = ($settings.controlActiveClass) ? $settings.tabActive : $default.controlActiveClass;
-        $neSettings.panelSelector = ($settings.panelSelector) ? $settings.panelSelector : $default.panelSelector;
-        $neSettings.panelActiveClass = ($settings.panelActiveClass) ? $settings.panelActiveClass : $default.panelActiveClass;
-        $neSettings.toggleType = ($settings.toggleType) ? $settings.toggleType : $default.toggleType;
-       
+        if( Object.entries($default) ){ 
+            for (const [$k, $v] of Object.entries($default)) {
+                $neSettings[$k] = ($settings[$k]) ? $settings[$k] : $default[$k];
+            }
+        }
         return $neSettings;
     },
 

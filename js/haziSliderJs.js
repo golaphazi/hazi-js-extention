@@ -566,21 +566,12 @@ var $hzslider = {
 
         $settings = JSON.parse($settings);
         let $neSettings = {};
-        $neSettings.slidesPerView = ($settings.slidesPerView) ? $settings.slidesPerView : $default.slidesPerView;
-        $neSettings.spaceBetween = ($settings.spaceBetween) ? $settings.spaceBetween : $default.spaceBetween;
-        $neSettings.defaultSlide = ($settings.defaultSlide) ? $settings.defaultSlide : $default.defaultSlide;
-        $neSettings.loop = ($settings.loop) ? $settings.loop : $default.loop;
-        $neSettings.speed = ($settings.speed) ? $settings.speed : $default.speed;
-        $neSettings.duration = ($settings.duration) ? $settings.duration : $default.duration;
-        $neSettings.step = ($settings.step) ? $settings.step : $default.step;
-        $neSettings.autoplay = ($settings.autoplay) ? $settings.autoplay : $default.autoplay;
-        $neSettings.direction = ($settings.direction) ? $settings.direction : $default.direction;
-        $neSettings.sliderSelector = ($settings.sliderSelector) ? $settings.sliderSelector : $default.sliderSelector;
-        $neSettings.itemSelector = ($settings.itemSelector) ? $settings.itemSelector : $default.itemSelector;
+        if( Object.entries($default) ){ 
+            for (const [$k, $v] of Object.entries($default)) {
+                $neSettings[$k] = ($settings[$k]) ? $settings[$k] : $default[$k];
+            }
+        }
         $neSettings.itemsEl = ($settings.itemsEl) ? $settings.itemsEl : $el.querySelectorAll($neSettings.itemSelector);
-        $neSettings.navigation = ($settings.navigation) ? $settings.navigation : $default.navigation;
-        $neSettings.pagination = ($settings.pagination) ? $settings.pagination : $default.pagination;
-        $neSettings.type = ($settings.type) ? $settings.type : $default.type;
         $neSettings.idSlide = ($settings.idSlide) ? $settings.idSlide : $el.getAttribute('id');
        
         return $neSettings;

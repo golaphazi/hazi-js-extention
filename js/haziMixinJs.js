@@ -131,17 +131,11 @@ class NextMixinJs{
         $settings = JSON.parse($settings);
 
         let $neSettings = {};
-        $neSettings.type = ($settings.type) ? $settings.type : $default.type;
-        $neSettings.ratio = ($settings.ratio) ? $settings.ratio : $default.ratio;
-        $neSettings.columns = ($settings.columns) ? $settings.columns : $default.columns;
-        $neSettings.columnsTablet = ($settings.columnsTablet) ? $settings.columnsTablet : $default.columnsTablet;
-        $neSettings.columnsMobile = ($settings.columnsMobile) ? $settings.columnsMobile : $default.columnsMobile;
-        $neSettings.gutter = ($settings.gutter) ? $settings.gutter : $default.gutter;
-        $neSettings.filter = ($settings.filter) ? $settings.filter : $default.filter;
-        $neSettings.filterItem = ($settings.filterItem) ? $settings.filterItem : $default.filterItem;
-        $neSettings.itemContainer = ($settings.itemContainer) ? $settings.itemContainer : $default.itemContainer;
-        $neSettings.item = ($settings.item) ? $settings.item : $default.item;
-
+        if( Object.entries($default) ){ 
+            for (const [$k, $v] of Object.entries($default)) {
+                $neSettings[$k] = ($settings[$k]) ? $settings[$k] : $default[$k];
+            }
+        }
         return $neSettings;
     }
 
