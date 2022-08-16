@@ -1,6 +1,6 @@
 "use strict";
 /**
-* Name: HaziJs
+* Name: HaziJs Tab
 * Desc: A Simple and Lightweight JavScript Framework.
 * version: 1.0.0
 * Package: @HaziJs

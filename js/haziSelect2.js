@@ -1,6 +1,6 @@
 "use strict";
 /**
-* Name: HaziJs
+* Name: HaziJs Select2
 * Desc: A Simple and Lightweight JavScript Framework.
 * version: 1.0.0
 * Package: @HaziJs

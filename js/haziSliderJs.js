@@ -1,5 +1,12 @@
 'use strict';
-
+/**
+* Name: HaziJs Slider
+* Desc: A Simple and Lightweight JavScript Framework.
+* version: 1.0.0
+* Package: @HaziJs
+* Author: https://github.com/golaphazi
+* Developer: Hazi
+*/
 var $hzslider = {
     isDraged: false,
     isSlider: false,
