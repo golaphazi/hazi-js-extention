@@ -19,6 +19,7 @@ var $hzslider = {
         'currentSlide' : 0,
         'slideCount' : 0,
     },
+    objData: [],
     init: function( $selector, $settings = '' ){
         let $slider = document.querySelectorAll($selector);
         if( $slider.length > 0 ){
@@ -41,37 +42,100 @@ var $hzslider = {
                 let $parentEl = $v.parentElement;
                 $parentEl.style.overflow = 'hidden';
                 $parentEl.style.position = 'relative';
+                $parentEl.setAttribute('data-id', $v.getAttribute('id'));
                 
-                // render slider
-                $hzslider.renderSlider( $v );
+                // responsive
+                $hzslider.getContents($parentEl);
 
-                // mause event
-                $v.addEventListener("mousedown", $hzslider.slideStart);
-                $v.addEventListener("touchstart", $hzslider.slideStart);
-
-                $v.addEventListener("mouseup", $hzslider.slideEnd);
-                $v.addEventListener("touchend", $hzslider.slideEnd);
-
-                $v.addEventListener("mousemove", $hzslider.slideMove);
-                $v.addEventListener("touchmove", $hzslider.slideMove);
 
             });
+            window.addEventListener('resize', $hzslider.resizeMedia);
+
             return $slider;
         }
         return $hzslider;
     },
-    renderSlider: function( $v ){
+    resizeMedia: function( e ){
+        document.querySelectorAll('.hzslider').forEach(function($v){
+            $hzslider.getContents($v);
+        });
+    },
+    getContents: function( $el ){
+        if( !$el ){
+            return;
+        }
+        let $client = $el.getBoundingClientRect();
+        let $id = $el.getAttribute('data-id');
+
+        var w = window.outerWidth;
+        var h = window.outerHeight;
+
+        let $this = document.getElementById($id);
+        if( !$this ){
+            return;
+        }
+        let $sett = $hzslider.getSettings( $this );
+        let $responzive = ($sett.responsive) ? $sett.responsive : {};
+        
+        let $last = {};
+        for (var key in $responzive) {
+            if ($responzive.hasOwnProperty(key)) {
+                if( w <= Number(key.replace(/[^\d.-]/g, '')) ){
+                    $last = ($responzive[key]) ? $responzive[key] : {};
+                }
+            }
+        }
+        if( Object.keys($last).length > 0 ){
+            for (const [$k, $v] of Object.entries($last)) {
+                if ($sett.hasOwnProperty($k)) {
+                    $sett[$k] = ($last[$k]) ? $last[$k] : $sett[$k];
+                }
+            }
+        }
+        
+        let $offset = $el.parentElement.getBoundingClientRect();
+        w = ($offset.width && w > $offset.width) ? $offset.width : w;
+        h = ($offset.width && h > $offset.height) ? $offset.height : h;
+        $sett.auto_width = w;
+        $sett.auto_height = h;
+       
+        $hzslider.objData[$id] = $sett;
+        // render slider
+        $hzslider.renderSlider( $this, $sett);
+    },
+    
+    renderSlider: function( $v, $sett){
         if( !$v ){
             return;
         }
+        // mause event
+        $v.removeEventListener("mousedown", $hzslider.slideStart);
+        $v.addEventListener("mousedown", $hzslider.slideStart);
+        $v.removeEventListener("touchstart", $hzslider.slideStart);
+        $v.addEventListener("touchstart", $hzslider.slideStart);
+
+        $v.removeEventListener("mouseup", $hzslider.slideEnd);
+        $v.addEventListener("mouseup", $hzslider.slideEnd);
+        $v.removeEventListener("touchend", $hzslider.slideEnd);
+        $v.addEventListener("touchend", $hzslider.slideEnd);
+
+        $v.removeEventListener("mousemove", $hzslider.slideMove);
+        $v.addEventListener("mousemove", $hzslider.slideMove);
+        $v.removeEventListener("touchmove", $hzslider.slideMove);
+        $v.addEventListener("touchmove", $hzslider.slideMove);
 
         let $parentEl = $v.parentElement;
         // set Settings
         let $offset = $parentEl.getBoundingClientRect(),
-            $width = $offset.width,
-            $height = $offset.height;
+            $width = ($sett.auto_width) ? $sett.auto_width : $offset.width,
+            $height = ($sett.auto_height) ? $sett.auto_height : $offset.height;
+            $parentEl.style.width = $width + 'px';
+            $parentEl.style.height = $height + 'px';
 
-        let $sett = $hzslider.getSettings( $v );
+        if( Object.keys($sett).length == 0 ){
+            $sett = $hzslider.getSettings( $v );
+        }
+
         let $opt = $hzslider.options;
         $opt.cursorWidth = $width;
         $opt.cursorHeight = $height;
@@ -177,15 +241,17 @@ var $hzslider = {
                     $nxbtn = $parentEl.querySelector( $navigation.nextEl );
                 }
                 if( $nxbtn ){
-                    $nxbtn.setAttribute('aria-label', 'Next Slide');
-                    $nxbtn.setAttribute('hjs-control', $idSlide);
-                    $nxbtn.setAttribute('hjs-index', 'next');
-                    $nxbtn.addEventListener('click', function( $e ){
-                        $hzslider.slideContinue( $v, 'next');
-                        if( $autoplay.enable ){
-                            clearInterval( $autoInterval );
-                        }
-                    });
+                    if( !$nxbtn.getAttribute('hjs-index')){
+                        $nxbtn.setAttribute('aria-label', 'Next Slide');
+                        $nxbtn.setAttribute('hjs-control', $idSlide);
+                        $nxbtn.setAttribute('hjs-index', 'next');
+                        $nxbtn.addEventListener('click', function( $e ){
+                            $hzslider.slideContinue( $v, 'next');
+                            if( $autoplay.enable ){
+                                clearInterval( $autoInterval );
+                            }
+                        });
+                    }
                 }
             }
 
@@ -195,15 +261,17 @@ var $hzslider = {
                     $prebtn = $parentEl.querySelector( $navigation.prevEl );
                 }
                 if( $prebtn ){
-                    $prebtn.setAttribute('aria-label', 'Previous slide');
-                    $prebtn.setAttribute('hjs-control', $idSlide);
-                    $prebtn.setAttribute('hjs-index', 'prev');
-                    $prebtn.addEventListener('click', function( $e ){
-                        $hzslider.slideContinue( $v, 'prev');
-                        if( $autoplay.enable ){
-                            clearInterval( $autoInterval );
-                        }
-                    });
+                    if( !$prebtn.getAttribute('hjs-index')){
+                        $prebtn.setAttribute('aria-label', 'Previous slide');
+                        $prebtn.setAttribute('hjs-control', $idSlide);
+                        $prebtn.setAttribute('hjs-index', 'prev');
+                        $prebtn.addEventListener('click', function( $e ){
+                            $hzslider.slideContinue( $v, 'prev');
+                            if( $autoplay.enable ){
+                                clearInterval( $autoInterval );
+                            }
+                        });
+                    }
                 }
             }
 
@@ -217,6 +285,7 @@ var $hzslider = {
                 }
 
                 if( $pagi ){
+                    $pagi.innerHTML = '';
                     let $mode = ($pagination.mode) ? $pagination.mode : 'horizontal';
                     $pagi.classList.add('hzslider-pagination-bullets', 'hzslider-pagination-' + $mode);
                     if( !$pagi.querySelector( '*')){
@@ -352,8 +421,9 @@ var $hzslider = {
         let $offset = $parentEl.getBoundingClientRect(),
             $width = $offset.width,
             $height = $offset.height;
-
-        let $sett = $hzslider.getSettings( $v );
+        let $id = $v.getAttribute('id');
+        let $sett = ($hzslider.objData[ $id ]) ? $hzslider.objData[ $id ] : $hzslider.getSettings( $v );
+        
         var $type = ($sett.type) ? $sett.type : 'none',
             $step = ($sett.step) ? $sett.step : false,
             $direction = ($sett.direction) ? $sett.direction : 'horizontal',
@@ -440,7 +510,10 @@ var $hzslider = {
         };
         let $opt = $hzslider.options;
         $hzslider.isSlider = $this;
-        let $sett = $hzslider.getSettings( $this );
+        
+        let $id = $this.getAttribute('id');
+        let $sett = ($hzslider.objData[ $id ]) ? $hzslider.objData[ $id ] : $hzslider.getSettings( $this );
+        
         let $direction = ($sett.direction) ? $sett.direction : 'horizontal';
 
         if ($hzslider.isDraged == 0) {
@@ -463,7 +536,9 @@ var $hzslider = {
         };
         let $this = $hzslider.isSlider;
         
-        let $sett = $hzslider.getSettings( $this );
+        let $id = $this.getAttribute('id');
+        let $sett = ($hzslider.objData[ $id ]) ? $hzslider.objData[ $id ] : $hzslider.getSettings( $this );
+        
         let $direction = ($sett.direction) ? $sett.direction : 'horizontal';
         let $item = ($sett.itemSelector) ? $sett.itemSelector : '.hzslider-slide',
         $itemsEl = ($sett.itemsEl) ? $sett.itemsEl : $v.querySelectorAll($item),
@@ -510,7 +585,10 @@ var $hzslider = {
         if ($hzslider.isDraged == 2) {
 
             let $this = $hzslider.isSlider;
-            let $sett = $hzslider.getSettings( $this );
+
+            let $id = $this.getAttribute('id');
+            let $sett = ($hzslider.objData[ $id ]) ? $hzslider.objData[ $id ] : $hzslider.getSettings( $this );
+        
             let $direction = ($sett.direction) ? $sett.direction : 'horizontal';
             let $item = ($sett.itemSelector) ? $sett.itemSelector : '.hzslider-slide',
             $itemsEl = ($sett.itemsEl) ? $sett.itemsEl : $v.querySelectorAll($item),
@@ -561,6 +639,7 @@ var $hzslider = {
                 mode: 'horizontal', // vertical, horizontal
             },
             type : 'none', // progressbar, fraction
+            responsive: {}
         };
 
         let $settings = $el.getAttribute('hjs-settings');
