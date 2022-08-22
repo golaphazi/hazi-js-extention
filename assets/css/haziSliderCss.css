@@ -8,7 +8,9 @@
     list-style: none;
     padding: 0;
     z-index: 1;
+    transition: all .5s ease-out;
 }
+
 
 .hzslider-wrapper {
     position: relative;

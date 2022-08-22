@@ -8,13 +8,20 @@
 * Developer: Hazi
 */
 var $hzslider = {
-    isDraged: false,
+    isDraged: 0,
     isSlider: false,
     isPosition: 0,
-    options: {},
+    options: {
+        'pixelOffset' : 0,
+        'startClientY' : 0,
+        'startClientX' : 0,
+        'startPixelOffset' : 0,
+        'currentSlide' : 0,
+        'slideCount' : 0,
+    },
     init: function( $selector, $settings = '' ){
         let $slider = document.querySelectorAll($selector);
-        if( $slider ){
+        if( $slider.length > 0 ){
             $slider.forEach(function($v, $k){
                 // id
                 if( !$v.getAttribute('id')){
@@ -34,23 +41,19 @@ var $hzslider = {
                 let $parentEl = $v.parentElement;
                 $parentEl.style.overflow = 'hidden';
                 $parentEl.style.position = 'relative';
-
-                /*$parentEl.addEventListener('mouseenter', $hzslider.slideReady);
-                $v.addEventListener('mousedown', $hzslider.slideReady);
-                window.addEventListener("mousemove", $hzslider.slideMove);
-                window.addEventListener('mouseup', $hzslider.slideFinish);
-                window.addEventListener('mouseleave', $hzslider.slideFinish);
-                
-                $v.addEventListener("touchstart", $hzslider.slideReady);
-                window.addEventListener("touchend", $hzslider.slideFinish);*/
                 
                 // render slider
                 $hzslider.renderSlider( $v );
 
-                $v.addEventListener('mousedown', $hzslider.slideReady);
-                $v.addEventListener('mouseup', $hzslider.slideFinish);
-                $v.addEventListener('mouseleave', $hzslider.slideFinish);
+                // mause event
+                $v.addEventListener("mousedown", $hzslider.slideStart);
+                $v.addEventListener("touchstart", $hzslider.slideStart);
+
+                $v.addEventListener("mouseup", $hzslider.slideEnd);
+                $v.addEventListener("touchend", $hzslider.slideEnd);
+
                 $v.addEventListener("mousemove", $hzslider.slideMove);
+                $v.addEventListener("touchmove", $hzslider.slideMove);
 
             });
             return $slider;
@@ -426,114 +429,109 @@ var $hzslider = {
 
         return $setIndex;
     },
-    slideReady: function( evt ){
-        evt = evt || window.event;
+
+    slideStart: function( event ){
         let $this = this;
         if( !$this.classList.contains('hzslider-ready') ){
             return;
         }
-        $hzslider.isDraged = true;
-        $hzslider.isSlider = $this;
+        if ( event.originalEvent) {
+            event = event.originalEvent.touches[0]
+        };
         let $opt = $hzslider.options;
-
+        $hzslider.isSlider = $this;
         let $sett = $hzslider.getSettings( $this );
         let $direction = ($sett.direction) ? $sett.direction : 'horizontal';
 
-        let matrix = $hzslider.getMatrix($this);
-        
-        if( $direction == 'vertical'){
-            $opt.startY = evt.pageY - $this.offsetTop;
-            $opt.scrollTop = $this.scrollTop;
-            $opt.offsetTop = $this.offsetTop;
-            console.log("Mouse Down:", $opt.scrollTop);
-        }else{
-            $opt.startX = evt.pageX - $this.offsetLeft;
-            $opt.scrollLeft = $this.scrollLeft;
-            $opt.offsetLeft = $this.offsetLeft;
-            console.log("Mouse Down:", $opt.scrollLeft);
+        if ($hzslider.isDraged == 0) {
+            $hzslider.isDraged = 1; // Status 1 = slide started.
+            if( $direction == 'vertical'){
+                $opt.startClientY = event.clientY;
+            }else{
+                $opt.startClientX = event.clientX;
+            }
         }
-        
+        $hzslider.options = $opt;
     },
-    slideFinish: function(){
-        if( $hzslider.isDraged ){
-            $hzslider.isDraged = false;
-            $hzslider.isSlider = false;
-        }
-    },
-    slideMove: function( evt ){
-        evt = evt || window.event;
-        let evtEl = evt.target;
-        if( !$hzslider.isDraged ){
+    slideMove: function( event ){
+        if ($hzslider.isDraged == 0) {
             return;
         }
-        evt.preventDefault();
-
-        let $target = $hzslider.isSlider;
-        if ($target == false) return false;
-
-        let matrix = $hzslider.getMatrix($target);
-        let $opt = $hzslider.options;
-        console.log( matrix );
-        console.log( $opt );
-        let $sett = $hzslider.getSettings( $target );
+        event.preventDefault();
+        if ( event.originalEvent) {
+            event = event.originalEvent.touches[0]
+        };
+        let $this = $hzslider.isSlider;
+        
+        let $sett = $hzslider.getSettings( $this );
         let $direction = ($sett.direction) ? $sett.direction : 'horizontal';
+        let $item = ($sett.itemSelector) ? $sett.itemSelector : '.hzslider-slide',
+        $itemsEl = ($sett.itemsEl) ? $sett.itemsEl : $v.querySelectorAll($item),
+        slideCount = $itemsEl.length;
+
+        let $opt = $hzslider.options;
+
+        var deltaSlide = event.clientX - $opt.startClientX;
+        var $eventClient = event.clientX;
+        var $startClient = $opt.startClientX;
+        if( $direction == 'vertical'){
+            deltaSlide = event.clientY - $opt.startClientY;
+            $eventClient = event.clientY;
+            $startClient = $opt.startClientY;
+        }
+        
+        // If sliding started first time and there was a distance.
+        if ($hzslider.isDraged == 1 && deltaSlide != 0) {
+            $hzslider.isDraged = 2; // Set status to 'actually moving'
+            $opt.startPixelOffset = $opt.pixelOffset; // Store current offset
+        }
+
+        if( $hzslider.isDraged == 2 ){
+            var touchPixelRatio = 1;
+            // Check for user doesn't slide out of boundaries
+            if (
+            ($opt.currentSlide == 0 && $eventClient > $startClient) ||
+            ($opt.currentSlide == slideCount - 1 && $eventClient < $startClient)
+            )
+            touchPixelRatio = 3;
+            $opt.pixelOffset = $opt.startPixelOffset + deltaSlide / touchPixelRatio;
+        }
+
+        $hzslider.options = $opt;
 
         if( $direction == 'vertical'){
-            const y = evt.pageY - $target.offsetTop;
-            const walkTop = (y - $opt.startY) * 2;
-            //$target.scrollTop = $opt.scrollTop - walkTop;
-            let $top = $opt.scrollTop - walkTop;
-
-        }else{
-            /*const x = evt.pageX + matrix.x;
-            const walkLeft = (x - $opt.startX) * 2;
-            //let $left = $opt.scrollLeft - walkLeft;
-            let leftPos = (matrix.x - walkLeft);*/
-            //$target.style.transform = "translate3d(" + leftPos + "px, 0px, 0px)";
-            //$opt.startX = x;
-            //$target.scrollLeft = $left;
-            //console.log("ScrollLeft: ", $opt.scrollLeft);
-
-            const x = evt.pageX - $opt.offsetLeft;
-            const walkLeft = (x - $opt.startX) * 2;
-            let leftPos = matrix.x + walkLeft;
-
-            console.log('Move X:', evt.pageX);
-            console.log('Move x:', x);
-            console.log('Move W:', walkLeft);
-            console.log('Move L:', leftPos);
+            //$this.style.transform = "translateY(" + $opt.pixelOffset + "px)";
+        } else {
+            //$this.style.transform = "translateX(" + $opt.pixelOffset + "px)";
         }
-       
-
-       
-
-      /*
-        console.log('O:', $opt);
-        console.log('P:', $hzslider.isPosition);
-
-        var mouseMoveTimeout;
-
-        let $sett = $hzslider.getSettings( $target );
-        let $direction = ($sett.direction) ? $sett.direction : 'horizontal';
-
-
-        clearTimeout(mouseMoveTimeout);
-        mouseMoveTimeout = setTimeout(function() {
-            if( $direction == 'vertical'){
-               // let topPos =  evt.pageY - $target.offsetTop;
-                let topPos = evt.pageY - ($opt.cursorHeight / 2);
-                $target.style.transform = "translate3d(0px, -" + topPos + "px, 0px)";
-                $hzslider.isPosition = topPos;
-            } else{
-                //let leftPos = evt.pageX - $target.offsetLeft;
-                let leftPos = evt.pageX - ($opt.cursorWidth / 2);
-                $target.style.transform = "translate3d(-" + leftPos + "px, 0px, 0px)";
-                $hzslider.isPosition = leftPos;
-            }
-            
-        }, 10);*/
+        //console.log($opt);
     },
-    
+    slideEnd: function( event ){
+        if ($hzslider.isDraged == 2) {
+
+            let $this = $hzslider.isSlider;
+            let $sett = $hzslider.getSettings( $this );
+            let $direction = ($sett.direction) ? $sett.direction : 'horizontal';
+            let $item = ($sett.itemSelector) ? $sett.itemSelector : '.hzslider-slide',
+            $itemsEl = ($sett.itemsEl) ? $sett.itemsEl : $v.querySelectorAll($item),
+            $step = ($sett.step) ? $sett.step : 0,
+            slideCount = $itemsEl.length;
+            
+            let $opt = $hzslider.options;
+
+            // Reset sliding.
+            $hzslider.isDraged = 0;
+            // Calculate which slide need to be in view.
+            $opt.currentSlide = ($opt.pixelOffset < $opt.startPixelOffset) ? $opt.currentSlide + Math.abs($step) : $opt.currentSlide - Math.abs($step);
+            // Make sure that unexisting slides weren't selected.
+            $opt.currentSlide = Math.min(Math.max($opt.currentSlide, 0), slideCount - Math.abs($step));
+            // Since in this example slide is full viewport width offset can be calculated according to it.
+           
+            $hzslider.options = $opt;
+
+            $hzslider.slideContinue( $this, $opt.currentSlide);
+        }
+    },
     getSettings: function( $el ){
 
         let $default = {
@@ -592,6 +590,5 @@ var $hzslider = {
           z: (transform[2]) ? transform[2] : 0
         };
     }
-
 };
 
