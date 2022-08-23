@@ -38,7 +38,6 @@ var $hzslider = {
                 // class
                 $v.classList.add('hzslider-ready', 'hzslider-wrapper-'+ $k);
                
-
                 let $parentEl = $v.parentElement;
                 $parentEl.style.overflow = 'hidden';
                 $parentEl.style.position = 'relative';
@@ -47,6 +46,25 @@ var $hzslider = {
                 // responsive
                 $hzslider.getContents($parentEl);
 
+                let $sett = $hzslider.getSettings( $v );
+                let $mousemove = ($sett.mousemove) ? $sett.mousemove : false;
+                 // mause event
+                 if($mousemove){
+                    $v.removeEventListener("mousedown", $hzslider.slideStart);
+                    $v.addEventListener("mousedown", $hzslider.slideStart);
+                    $v.removeEventListener("touchstart", $hzslider.slideStart);
+                    $v.addEventListener("touchstart", $hzslider.slideStart);
+    
+                    $v.removeEventListener("mouseup", $hzslider.slideEnd);
+                    $v.addEventListener("mouseup", $hzslider.slideEnd);
+                    $v.removeEventListener("touchend", $hzslider.slideEnd);
+                    $v.addEventListener("touchend", $hzslider.slideEnd);
+    
+                    $v.removeEventListener("mousemove", $hzslider.slideMove);
+                    $v.addEventListener("mousemove", $hzslider.slideMove);
+                    $v.removeEventListener("touchmove", $hzslider.slideMove);
+                    $v.addEventListener("touchmove", $hzslider.slideMove);
+                 }
 
             });
             window.addEventListener('resize', $hzslider.resizeMedia);
@@ -108,22 +126,7 @@ var $hzslider = {
         if( !$v ){
             return;
         }
-        // mause event
-        $v.removeEventListener("mousedown", $hzslider.slideStart);
-        $v.addEventListener("mousedown", $hzslider.slideStart);
-        $v.removeEventListener("touchstart", $hzslider.slideStart);
-        $v.addEventListener("touchstart", $hzslider.slideStart);
-
-        $v.removeEventListener("mouseup", $hzslider.slideEnd);
-        $v.addEventListener("mouseup", $hzslider.slideEnd);
-        $v.removeEventListener("touchend", $hzslider.slideEnd);
-        $v.addEventListener("touchend", $hzslider.slideEnd);
-
-        $v.removeEventListener("mousemove", $hzslider.slideMove);
-        $v.addEventListener("mousemove", $hzslider.slideMove);
-        $v.removeEventListener("touchmove", $hzslider.slideMove);
-        $v.addEventListener("touchmove", $hzslider.slideMove);
-
+       
         let $parentEl = $v.parentElement;
         // set Settings
         let $offset = $parentEl.getBoundingClientRect(),
@@ -235,7 +238,7 @@ var $hzslider = {
             // end autoplay
             // start navigation code
             let $conner = ($navigation.container) ? $navigation.container : true;
-            if( $navigation.nextEl ){
+            if( $navigation.nextEl && $navigation.enable){
                 let $nxbtn = document.querySelector( $navigation.nextEl );
                 if( $conner ){
                     $nxbtn = $parentEl.querySelector( $navigation.nextEl );
@@ -255,7 +258,7 @@ var $hzslider = {
                 }
             }
 
-            if( $navigation.prevEl ){
+            if( $navigation.prevEl && $navigation.enable){
                 let $prebtn = document.querySelector( $navigation.prevEl );
                 if( $conner ){
                     $prebtn = $parentEl.querySelector( $navigation.prevEl );
@@ -278,7 +281,7 @@ var $hzslider = {
             // pagination
             let $paginaCon = ($pagination.container) ? $pagination.container : true;
             let $clickable = ($pagination.clickable) ? $pagination.clickable : true;
-            if( $pagination.el ){
+            if( $pagination.el && $pagination.enable ){
                 let $pagi = document.querySelector( $pagination.el );
                 if( $paginaCon ){
                     $pagi = $parentEl.querySelector( $pagination.el );
@@ -619,7 +622,8 @@ var $hzslider = {
             loop: false, // true, false 
             speed: 1000,  // set time
             duration: 300,  // 300ms
-            step: 1,  
+            step: 1,
+            mousemove: false,
             autoplay: {
                 enable: true, // false, true
                 delay: 500,
@@ -630,13 +634,15 @@ var $hzslider = {
             navigation : {
                 nextEl: ".hzslider-button-next",
                 prevEl: ".hzslider-button-prev",
-                container: true
+                container: true,
+                enable : true
             },
             pagination : {
                 el: ".hzslider-pagination",
                 clickable: true,
                 container: true,
                 mode: 'horizontal', // vertical, horizontal
+                enable : true
             },
             type : 'none', // progressbar, fraction
             responsive: {}
