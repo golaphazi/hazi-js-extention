@@ -1,0 +1,30 @@
+.hztimer-wrap{
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: column;
+    justify-content: space-between;
+    position: relative;
+    align-self: center;
+    align-items: center;
+    row-gap: 4px;
+}
+
+.hztimer-wrap.hzinline{
+    flex-direction: row;
+    column-gap: 4px;
+}
+
+.hztimer-wrap .hztimer{
+    padding: 2px;
+}
+.hztimer-wrap .hztimer.hzitem-inline{
+    display: flex;
+    align-items: center;
+    column-gap: 4px;
+}
+.hztimer-wrap .hzitem-time{
+    margin: 0px;
+}
+.hztimer-wrap .hzitem-title{
+    margin: 0px;
+}
