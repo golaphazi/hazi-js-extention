@@ -32,6 +32,12 @@ var $hzslider = {
                 $v.setAttribute('hjs-slider', 'hjsslider-'+ $k);
                 if( $settings != ''){
                     $settings.idSlide = $v.getAttribute('id');
+                    let $client = $v.getBoundingClientRect();
+                    let $offsetParent = $v.parentElement.getBoundingClientRect();
+
+                    $settings.parentWidth = ($offsetParent.width && $client.width > $offsetParent.width) ? $offsetParent.width : $client.width;
+                    $settings.parentHeight = ($offsetParent.height && $client.height > $offsetParent.height) ? $offsetParent.height : $client.height;
+                    
                     $v.setAttribute('hjs-settings', JSON.stringify($settings)); 
                 }
                
@@ -74,9 +80,13 @@ var $hzslider = {
         return $hzslider;
     },
     resizeMedia: function( e ){
-        document.querySelectorAll('.hzslider').forEach(function($v){
-            $hzslider.getContents($v);
-        });
+        let $time = setTimeout( function(){
+            document.querySelectorAll('.hzslider').forEach(function($v){
+                $hzslider.getContents($v);
+            });  
+            clearInterval($time);
+              
+        }, 100);
     },
     getContents: function( $el ){
         if( !$el ){
@@ -103,6 +113,27 @@ var $hzslider = {
                 }
             }
         }
+        let $offsetParent = $el.parentElement.getBoundingClientRect();
+        $sett.width = (w > $offsetParent.width) ? $offsetParent.width : w;
+        $sett.height = (h > $offsetParent.height) ? $offsetParent.height : h;
+
+        /*
+        if( $sett.parentWidth > 0){
+            if( w < $sett.parentWidth && $offsetParent.width < $sett.parentWidth ){
+                $sett.width = $offsetParent.width ;
+            } else {
+                $sett.width = $sett.parentWidth;
+            }
+        }
+        
+        if( $sett.parentHeight > 0){
+            if( h < $sett.parentHeight && $offsetParent.height < $sett.parentHeight ){
+                $sett.height = $offsetParent.height;
+            } else {
+                $sett.height = $sett.parentHeight;
+            }
+        }*/
+
         if( Object.keys($last).length > 0 ){
             for (const [$k, $v] of Object.entries($last)) {
                 if ($sett.hasOwnProperty($k)) {
@@ -111,12 +142,6 @@ var $hzslider = {
             }
         }
         
-        let $offset = $el.parentElement.getBoundingClientRect();
-        w = ($offset.width && w > $offset.width) ? $offset.width : w;
-        h = ($offset.width && h > $offset.height) ? $offset.height : h;
-        $sett.auto_width = w;
-        $sett.auto_height = h;
-       
         $hzslider.objData[$id] = $sett;
         // render slider
         $hzslider.renderSlider( $this, $sett);
@@ -130,11 +155,13 @@ var $hzslider = {
         let $parentEl = $v.parentElement;
         // set Settings
         let $offset = $parentEl.getBoundingClientRect(),
-            $width = ($sett.auto_width) ? $sett.auto_width : $offset.width,
-            $height = ($sett.auto_height) ? $sett.auto_height : $offset.height;
-            $parentEl.style.width = $width + 'px';
-            $parentEl.style.height = $height + 'px';
-
+            $width = ($sett.width) ? $sett.width : $offset.width,
+            $height = ($sett.height) ? $sett.height : $offset.height;
+            $parentEl.style.width = '100%';
+            $parentEl.style.maxWidth = $width + 'px';
+            $parentEl.style.height = '100%';
+            $parentEl.style.maxHeight = $height + 'px';
+        
         if( Object.keys($sett).length == 0 ){
             $sett = $hzslider.getSettings( $v );
         }
@@ -650,6 +677,12 @@ var $hzslider = {
 
         let $settings = $el.getAttribute('hjs-settings');
         if( !$settings ){
+            let $client = $el.getBoundingClientRect();
+            let $offsetParent = $el.parentElement.getBoundingClientRect();
+
+            $default.parentWidth = ($offsetParent.width && $client.width > $offsetParent.width) ? $offsetParent.width : $client.width;
+            $default.parentHeight = ($offsetParent.height && $client.height > $offsetParent.height) ? $offsetParent.height : $client.height;
+            
             $el.setAttribute('hjs-settings', JSON.stringify($default));
             return $default;
         } 
@@ -663,7 +696,9 @@ var $hzslider = {
         }
         $neSettings.itemsEl = ($settings.itemsEl) ? $settings.itemsEl : $el.querySelectorAll($neSettings.itemSelector);
         $neSettings.idSlide = ($settings.idSlide) ? $settings.idSlide : $el.getAttribute('id');
-       
+        $neSettings.parentWidth = ($settings.parentWidth) ? $settings.parentWidth : 0;
+        $neSettings.parentHeight = ($settings.parentHeight) ? $settings.parentHeight : 0;
+
         return $neSettings;
     },
     getMatrix: function(element) {
