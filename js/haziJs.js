@@ -424,9 +424,18 @@ class HaziExt{
     serialize( $form ){
         let $out = [];
         $form.querySelectorAll('[name]').forEach((elem) => {
+            
             if(elem.type == 'checkbox' || elem.type == 'radio'){
                 if(elem.checked == true){
                     $out.push(elem.name + '=' + elem.value);
+                }
+            } else if( elem.type == 'select-multiple'){
+                let $opions = elem.querySelectorAll('option');
+                for( let $i = 0; $i < $opions.length; $i++){
+                    let $el = $opions[ $i ];
+                    if($el.selected == true){
+                        $out.push(elem.name + '=' + $el.value);
+                    }
                 }
             }else{
                 $out.push(elem.name + '=' + elem.value);
