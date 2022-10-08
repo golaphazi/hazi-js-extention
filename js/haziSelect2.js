@@ -18,32 +18,95 @@ var $nxselect2 = {
             const datalist = document.createElement('datalist');
             const optgroups = select.querySelectorAll('optgroup');
             const span = document.createElement('span');
+            span.setAttribute('class', 'nextselect-display');
+
+            const span_input = document.createElement('span');
+            span_input.setAttribute('class', 'nextselect-input');
+            span_input.setAttribute('contenteditable', true);
+
+            span.appendChild( span_input );
+
             const options = select.options;
             const parent = select.parentElement;
             const multiple = select.hasAttribute('multiple');
+
             const onclick = function(e) {
                 const disabled = this.hasAttribute('data-disabled');
-                select.value = this.dataset.value;
-                span.innerText = this.dataset.label;
+
+                let options_data = div.querySelectorAll('select option');
+
+                let $data = this.dataset.value;
+                let $label = this.dataset.label;
+                let $index = this.dataset.index;
+
                 if (disabled) return;
+
+                // select element
+                if (multiple) {
+                    options_data.forEach( $v => {
+                        let $check_value = ($v.value) ? $v.value : $v.innerText;
+
+                        if( $v.hasAttribute('tabindex') ){
+                            $check_value = $v.getAttribute('tabindex');
+                            $data = $index;
+                        }
+                        
+                        if( $check_value == $data){
+                            const checked_item = $v.hasAttribute("selected");
+                            if (checked_item) {
+                                $v.removeAttribute("selected");
+                            } else {
+                                $v.setAttribute("selected", "");
+                            }
+                        }
+                    });
+                    
+                }else{
+                    options_data.forEach( $v => {
+                        let $check_value = ($v.value) ? $v.value : $v.innerText;
+                        if( $v.hasAttribute('tabindex') ){
+                            $check_value = $v.getAttribute('tabindex');
+                            $data = $index;
+                        }
+                        if( $check_value == $data){
+                            $v.setAttribute("selected", "");
+                        }else{
+                            $v.removeAttribute("selected");
+                        }
+                    });
+                }
+
+                // datalist
                 if (multiple) {
                     if (e.shiftKey) {
-                        const checked = this.hasAttribute("data-checked");
-                        if (checked) {
+                        const checked_item = this.hasAttribute("data-checked");
+                        if (checked_item) {
                             this.removeAttribute("data-checked");
                         } else {
                             this.setAttribute("data-checked", "");
                         };
                     } else {
-                        const options = div.querySelectorAll('.option');
-                        for (i = 0; i < options.length; i++) {
-                            const option = options[i];
-                            option.removeAttribute("data-checked");
-                        };
-                        this.setAttribute("data-checked", "");
+                        const checked_item = this.hasAttribute("data-checked");
+                        if (checked_item) {
+                            this.removeAttribute("data-checked");
+                        } else {
+                            this.setAttribute("data-checked", "");
+                        }
                     };
-                };
+                } else {
+                    const options_div = div.querySelectorAll('.option');
+
+                    for (i = 0; i < options_div.length; i++) {
+                        const option_div = options_div[i];
+                        option_div.removeAttribute("data-checked");
+                    };
+                    
+                    this.setAttribute("data-checked", "");
+                }
+                span_input.innerHTML = '';
+                selectedData();
             };
+
             const onkeyup = function(e) {
                 e.preventDefault();
                 e.stopPropagation();
@@ -51,66 +114,202 @@ var $nxselect2 = {
                     this.click();
                 }
             };
+            const selectedData = function( ){
+                let $options_all = select.querySelectorAll( 'option' );
+                
+                span.innerHTML = '';
+
+                if( $options_all.length > 0){
+                    let $i = 0;
+                    $options_all.forEach( $v => {
+                        const selected = $v.hasAttribute('selected');
+                        if( selected ){
+
+                            let $value = $v.innerText.trim();
+                            if( $value == ''){
+                                $value = ($v.value) ? $v.value : '';
+                            }
+                            if( $v.hasAttribute('tabindex') ){
+                                let $index = $v.getAttribute('tabindex');
+
+                                let $dataList = div.querySelector('datalist div.option[data-index="'+$index+'"]');
+                                if( $dataList && $dataList.hasAttribute('data-label') ){
+                                    let $label = $dataList.getAttribute('data-label');
+                                    if( $label.trim() != ''){
+                                        $value = $label;
+                                    }
+                                }
+                            }
+
+                            let $span = document.createElement('span');
+                            $span.innerText = $value.trim();
+                            $span.tabIndex = $v.getAttribute('tabindex');
+                            $span.setAttribute('data-value', $v.value);
+                            $span.addEventListener('click', function(e){
+                                e.preventDefault();
+                                
+                                let $this = this;
+                                let $value = $this.getAttribute('data-value');
+                                let $index = $this.getAttribute('tabindex');
+
+                                const options_div = div.querySelector('.option[data-index="'+$index+'"]');
+                                if( options_div ){
+                                    options_div.removeAttribute('data-checked');
+                                }
+
+                                const options_vl = select.querySelector('option[tabindex="'+$index+'"]');
+                                if( options_vl ){
+                                    options_vl.removeAttribute('selected');
+                                }
+
+                                $this.remove();
+                                div.setAttribute("data-open", "");
+                            });
+                            span.append( $span );
+                        }
+                        
+                        $i++;
+                    });
+                }
+                
+                span.appendChild( span_input );
+            };
             div.classList.add('nextselect-wrap');
             header.classList.add('nextheader-wrap');
+
             div.tabIndex = 1;
             select.tabIndex = -1;
-            span.innerText = select.label;
+            span.innerText = (select.title) ? select.title : 'Select Item';
+
             header.appendChild(span);
-            for (attribute of select.attributes) div.dataset[attribute.name] = attribute.value;
-            for (i = 0; i < options.length; i++) {
-                const option = document.createElement('div');
-                const label = document.createElement('div');
-                const o = options[i];
-                for (attribute of o.attributes) option.dataset[attribute.name] = attribute.value;
-                option.classList.add('option');
-                label.classList.add('label');
-                label.innerText = o.label;
-                option.dataset.value = o.value;
-                option.dataset.label = o.label;
-                option.onclick = onclick;
-                option.onkeyup = onkeyup;
-                option.tabIndex = i + 1;
-                option.appendChild(label);
-                datalist.appendChild(option);
+
+            for (attribute of select.attributes) {
+                div.dataset[attribute.name] = attribute.value;
             }
+
+            let $options_all = parent.querySelectorAll( 'select > *' );
+            if( $options_all.length > 0){
+                let $i = 0;
+                $options_all.forEach( $v => {
+
+                    const disabled = $v.hasAttribute('disabled');
+                    const selected = $v.hasAttribute('selected');
+
+                    let $opt = $v.querySelectorAll( 'option' );
+                    if( $opt.length > 0 ){
+                        
+                        const optgroup = document.createElement('div');
+                        const label = document.createElement('div');
+
+                        label.classList.add('label');
+                        label.innerText = $v.label;
+                        optgroup.appendChild(label);
+
+                        $opt.forEach( $v1 => {
+                            const option = document.createElement('div');
+                            const label = document.createElement('div');
+                            const o = $v1;
+    
+                            const disabled1 = $v1.hasAttribute('disabled');
+                            const selected1 = $v1.hasAttribute('selected');
+
+                            if( disabled1 ){
+                                option.setAttribute('data-disabled', '');
+                            }
+
+                            if( selected1 ){
+                                option.setAttribute('data-checked', '');
+                            }
+
+                            for (attribute of o.attributes) {
+                                option.dataset[attribute.name] = attribute.value;
+                            }
+    
+                            option.classList.add('option');
+                            option.classList.add('optgroup-item');
+                            label.classList.add('label');
+                            label.innerText = o.label;
+    
+                            option.dataset.value = o.value;
+                            option.dataset.label = o.label;
+                            option.dataset.index = $i;
+    
+                            if( !o.hasAttribute('value') ){
+                                let $check_value = (o.value) ? o.value : o.innerText;
+                                o.setAttribute('value', $check_value);
+                            }
+    
+                            $v1.setAttribute('tabindex', $i);
+
+                            option.onclick = onclick;
+                            option.onkeyup = onkeyup;
+                            //option.tabIndex = $i;
+                            option.appendChild(label);
+                            optgroup.appendChild(option);
+
+                            $i++;
+                        });
+                        optgroup.classList.add('optgroup');
+                        datalist.appendChild(optgroup);
+
+                    } else {
+                        
+                        const option = document.createElement('div');
+                        const label = document.createElement('div');
+                        const o = $v;
+
+                        if( disabled ){
+                            option.setAttribute('data-disabled', '');
+                        }
+
+                        if( selected ){
+                            option.setAttribute('data-checked', '');
+                        }
+
+                        for (attribute of o.attributes) {
+                            option.dataset[attribute.name] = attribute.value;
+                        }
+
+                        option.classList.add('option');
+                        label.classList.add('label');
+                        label.innerText = o.label;
+
+                        option.dataset.value = o.value;
+                        option.dataset.label = o.label;
+                        option.dataset.index = $i;
+                        
+                        if( !o.hasAttribute('value') ){
+                            let $check_value = (o.value) ? o.value : o.innerText;
+                            o.setAttribute('value', $check_value);
+                        }
+
+                        $v.setAttribute('tabindex', $i);
+
+                        option.onclick = onclick;
+                        option.onkeyup = onkeyup;
+                        //option.tabIndex = $i;
+                        option.appendChild(label);
+                        datalist.appendChild(option);
+                    }
+                    $i++;
+                });
+            }
+           
             div.appendChild(header);
-            for (o of optgroups) {
-                const optgroup = document.createElement('div');
-                const label = document.createElement('div');
-                const options = o.querySelectorAll('option');
-                Object.assign(optgroup, o);
-                optgroup.classList.add('optgroup');
-                label.classList.add('label');
-                label.innerText = o.label;
-                optgroup.appendChild(label);
-                div.appendChild(optgroup);
-                for (o of options) {
-                    const option = document.createElement('div');
-                    const label = document.createElement('div');
-                    for (attribute of o.attributes) option.dataset[attribute.name] = attribute.value;
-                    option.classList.add('option');
-                    label.classList.add('label');
-                    label.innerText = o.label;
-                    option.tabIndex = i + 1;
-                    option.dataset.value = o.value;
-                    option.dataset.label = o.label;
-                    option.onclick = onclick;
-                    option.onkeyup = onkeyup;
-                    option.tabIndex = i + 1;
-                    option.appendChild(label);
-                    optgroup.appendChild(option);
-                };
-            };
+
             div.onclick = function(e) {
                 e.preventDefault();
             }
             parent.insertBefore(div, select);
             header.appendChild(select);
             div.appendChild(datalist);
-            datalist.style.top = header.offsetTop + header.offsetHeight + 'px';
+
+            datalist.style.top = ((header.offsetTop + header.offsetHeight) - 1 ) + 'px';
+
             div.onclick = function(e) {
+
                 if (multiple) {
+
                     const open = this.hasAttribute("data-open");
                     e.stopPropagation();
                     if (open) {
@@ -118,7 +317,9 @@ var $nxselect2 = {
                     } else {
                         this.setAttribute("data-open", "");
                     }
+
                 } else {
+
                     const open = this.hasAttribute("data-open");
                     e.stopPropagation();
                     if (open) {
@@ -126,28 +327,59 @@ var $nxselect2 = {
                     } else {
                         this.setAttribute("data-open", "");
                     }
+
                 }
             };
+
             div.onkeyup = function(event) {
                 event.preventDefault();
                 if (event.keyCode === 13) {
                     this.click();
                 }
             };
+
+            span_input.onkeyup = function( event ){
+                event.preventDefault();
+                div.setAttribute("data-open", '');
+                let $this = this;
+                let filter = $this.innerText.toUpperCase();
+
+                let $li = datalist.querySelectorAll("div.option");
+                if($li){
+                    for (let i = 0; i < $li.length; i++) {
+                        let $span = $li[i].querySelectorAll("*");
+                        if($span){
+                            let txtValue = '';
+                            $span.forEach(function($v){
+                                txtValue += $v.textContent || $v.innerText + ' ';
+                            });
+
+                            if (txtValue.toUpperCase().indexOf(filter) > -1) {
+                                $li[i].style.display = "";
+                            } else {
+                                $li[i].style.display = "none";
+                            }
+                        }
+                    }
+                }
+                
+                console.log( filter );
+            };
+
             document.addEventListener('click', function(e) {
                 if (div.hasAttribute("data-open")) div.removeAttribute("data-open");
             });
+
             const width = Math.max(...Array.from(options).map(function(e) {
-                span.innerText = e.label;
                 return div.offsetWidth;
             }));
-            //console.log(width)
-            div.style.width = width + 'px';
-        }
-        document.forms[0].onsubmit = function(e) {
-            const data = new FormData(this);
-            e.preventDefault();
-            submit.innerText = JSON.stringify([...data.entries()]);
+            div.style.minWidth = width + 'px';
+
+            let $selectedItem = parent.querySelectorAll( 'select option[selected]' );
+            if( $selectedItem.length > 0){
+                selectedData();
+            }
+            
         }
 
     }

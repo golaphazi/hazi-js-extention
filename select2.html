@@ -7,39 +7,29 @@
     </head>
     <body>
         
-        <form>
-            <fieldset>
-               <legend>Standard controls</legend>
-               <select
-                  name=1A
-                  id=select
-                  autocomplete=off
-                  required
-                  >
-                  <option>Carrots</option>
-                  <option>Peas</option>
-                  <option>Beans</option>
-                  <option>Pneumonoultramicroscopicsilicovolcanoconiosis</option>
-               </select>
-            </fieldset>
-            <fieldset id=custom>
-               <legend>Custom controls</legend>
-               <select
-                  name="2A"
-                  id="select"
-                  autocomplete="off"
-                  required
-                  class="nxselect2"
-                  multiple
-                  >
-                  <option>Carrots</option>
-                  <option>Peas</option>
-                  <option>Beans</option>
-                  <option>Pneumonoultramicroscopicsilicovolcanoconiosis</option>
-               </select>
-             </fieldset>
-           </form>
-           <div class="countdodun" data-target-date="2022/09/05 17:25:00"></div>
+      <select
+      name="2A"
+      id="select"
+      autocomplete="off"
+      required
+      class="nxselect2"
+      multiple
+      title="Select Once"
+      >
+      <option>Carrots</option>
+      <option value="peas">Peas</option>
+      <option selected>Beans</option>
+      <optgroup label="Options Name">
+         <option>Beans 1</option>
+         <option disabled>Beans 3</option>
+         <option selected>Beans 2</option>
+         <option value="beans_3">Beans 3</option>
+         <option >Beans 4</option>
+         <option >Beans 5</option>
+      </optgroup>
+      <option>Test Data</option>
+   </select>
+           <!--div class="countdodun" data-target-date="2022/09/05 17:25:00"></div-->
         <script src="js/haziJs.js"></script>
         <script src="js/haziSelect2.js"></script>
         <script src="js/haziCountDownJs.js"></script>
