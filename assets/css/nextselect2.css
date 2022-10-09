@@ -1,5 +1,5 @@
 
-.nextselect-wrap {
+.hjs-select2-wrap {
     user-select: none;
     box-sizing: border-box;
     position: relative;
@@ -11,20 +11,20 @@
     display: inline-block;
     width: 100%;
 }
-.nextselect-wrap:focus, .nextselect-wrap:hover {
+.hjs-select2-wrap:focus, .hjs-select2-wrap:hover {
     border-color: #4242e2;
 }
 
-.nextselect-wrap[data-open] {
+.hjs-select2-wrap[data-open] {
     border-bottom-left-radius: 0;
     border-bottom-right-radius: 0;
 }
   
-.nextselect-wrap[data-open] datalist {
+.hjs-select2-wrap[data-open] datalist {
     display: initial;
 }
   
-.nextselect-wrap datalist {
+.hjs-select2-wrap datalist {
     -webkit-appearance: none;
     -moz-appearance: none;
     appearance: none;
@@ -43,10 +43,11 @@
     overflow-x: auto;
     overflow-y: hidden;
     height: auto;
+    border-top-width: 0px;
 }
 
   
-.nextselect-wrap div.nextheader-wrap::after {
+.hjs-select2-wrap div.nextheader-wrap::after {
     content: '>';
     align-self: stretch;
     display: flex;
@@ -57,15 +58,16 @@
     padding: 0.5em 0.7em;
     transform: rotate(90deg);
     background: transparent;
+    font-family: arial;
 }
-.nextselect-wrap[data-open] div.nextheader-wrap::after{
+.hjs-select2-wrap[data-open] div.nextheader-wrap::after{
     transform: rotate(270deg);
 }
-.nextselect-wrap div.nextheader-wrap:hover:after {
+.hjs-select2-wrap div.nextheader-wrap:hover:after {
     background-color:transparent;
 }
   
-.nextselect-wrap .nextheader-wrap select {
+.hjs-select2-wrap .nextheader-wrap select {
     -webkit-appearance: none;
     -moz-appearance: none;
     appearance: none;
@@ -77,34 +79,34 @@
     flex: 1;
     display: none;
 }
-.nextselect-wrap datalist div.option {
-    margin-bottom: 1px;
+.hjs-select2-wrap datalist div.option {
+    margin-bottom: 0px;
     cursor: pointer;
     padding: 0.5em;
     border-width: 0;
 }
   
-.nextselect-wrap datalist div.option:hover {
+.hjs-select2-wrap datalist div.option:hover {
     background-color: #4242e2;
     color: white;
 }
   
-.nextselect-wrap datalist div.option:focus {
+.hjs-select2-wrap datalist div.option:focus {
     background-color: #4242e2;
     color: white;
 }
   
-.nextselect-wrap datalist div.option:checked {
+.hjs-select2-wrap datalist div.option:checked {
     background-color: #4242e2;
     color: white;
 }
-.nextselect-wrap div.optgroup
+.hjs-select2-wrap div.optgroup
 {
     background-color: rgb(238, 241, 244);
     padding: 4px 4px;
 }
-.nextselect-wrap div.optgroup div.option[data-disabled],
-.nextselect-wrap div.option[data-disabled]
+.hjs-select2-wrap div.optgroup div.option[data-disabled],
+.hjs-select2-wrap div.option[data-disabled]
 {
     color: gray;
     cursor: no-drop;
@@ -113,21 +115,21 @@
 }  
 
   
-.nextselect-wrap div.option[data-checked] {
+.hjs-select2-wrap div.option[data-checked] {
     background-color: #1414d0;
     color: white;
 }
   
-.nextselect-wrap div.optgroup div.label {
+.hjs-select2-wrap div.optgroup div.label {
     font-weight: bold;
     line-height: 1.5em;
 }
   
-.nextselect-wrap div.optgroup div.option div.label {
+.hjs-select2-wrap div.optgroup div.option div.label {
     font-weight: normal;
 }
   
-.nextselect-wrap div.nextheader-wrap {
+.hjs-select2-wrap div.nextheader-wrap {
     flex: 1;
     display: flex;
     width: auto;
@@ -138,40 +140,46 @@
     border-radius: inherit;
 }
   
-.nextselect-wrap div.nextheader-wrap span.nextselect-display {
+.hjs-select2-wrap div.nextheader-wrap span.hjs-select2-display {
     flex: 1;
-    padding: .5em;
+    padding: 0.5em;
+    display: flex;
+    flex-wrap: wrap;
+    column-gap: 5px;
+    row-gap: 10px;
 }
-.nextselect-wrap div.nextheader-wrap span.nextselect-display span:not(.nextselect-input) {
+
+.hjs-select2-wrap div.nextheader-wrap span.hjs-select2-display span:not(.hjs-select2-input) {
     padding: .2em .5em;
     position: relative;
     border: 1px solid #ccc;
-    margin-right: 9px;
+    margin-right: 0px;
     border-radius: 3px;
 }
-.nextselect-wrap div.nextheader-wrap span.nextselect-display span:not(.nextselect-input)::after {
+.hjs-select2-wrap div.nextheader-wrap span.hjs-select2-display span:not(.hjs-select2-input)::after {
     content: "x";
     position: absolute;
-    border: 1px solid #d63434;
-    width: 10px;
-    height: 10px;
-    line-height: 10px;
-    padding: 3px;
+    border: 1px solid #ccc;
+    width: 9px;
+    height: 9px;
+    line-height: 9px;
+    padding: 1px;
     text-align: center;
     border-radius: 100px;
-    font-size: 12px;
-    top: -7px;
+    font-size: 11px;
+    top: -6px;
     background: #fff;
     color: #d63434;
-    right: -8px;
+    right: -5px;
+    font-family: arial;
 }
-.nextselect-wrap div.nextheader-wrap .nextselect-input{
+.hjs-select2-wrap div.nextheader-wrap .hjs-select2-input{
     width: auto;
     border: none;
     outline: none;
-    padding: 5px;
+    padding: 2px 6px;
 }
-.nextselect-wrap div.nextheader-wrap .nextselect-input:focus{
+.hjs-select2-wrap div.nextheader-wrap .hjs-select2-input:focus{
     border: none;
     outline: none;
 }

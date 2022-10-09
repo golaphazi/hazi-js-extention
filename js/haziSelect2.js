@@ -8,8 +8,8 @@
 * Developer: Hazi
 */
 
-var $nxselect2 = {
-    init: function( $selector = '.nxselect2'){
+var $hJsSelect2 = {
+    init: function( $selector = '.hjs-select2'){
         let attribute, i, o;
         const selects = document.querySelectorAll( $selector );
         for (const select of selects) {
@@ -18,10 +18,10 @@ var $nxselect2 = {
             const datalist = document.createElement('datalist');
             const optgroups = select.querySelectorAll('optgroup');
             const span = document.createElement('span');
-            span.setAttribute('class', 'nextselect-display');
+            span.setAttribute('class', 'hjs-select2-display');
 
             const span_input = document.createElement('span');
-            span_input.setAttribute('class', 'nextselect-input');
+            span_input.setAttribute('class', 'hjs-select2-input');
             span_input.setAttribute('contenteditable', true);
 
             span.appendChild( span_input );
@@ -115,7 +115,7 @@ var $nxselect2 = {
                 }
             };
             const selectedData = function( ){
-                let $options_all = select.querySelectorAll( 'option' );
+                let $options_all = select.querySelectorAll( 'option[selected]' );
                 
                 span.innerHTML = '';
 
@@ -164,17 +164,23 @@ var $nxselect2 = {
 
                                 $this.remove();
                                 div.setAttribute("data-open", "");
+                                let $selectedItem = parent.querySelectorAll( 'select option[selected]' );
+                                if( $selectedItem.length == 0){
+                                    span.innerText = (select.title) ? select.title : 'Select Item';
+                                }
                             });
                             span.append( $span );
                         }
                         
                         $i++;
                     });
+                } else{
+                    span.innerText = (select.title) ? select.title : 'Select Item';
                 }
                 
                 span.appendChild( span_input );
             };
-            div.classList.add('nextselect-wrap');
+            div.classList.add('hjs-select2-wrap');
             header.classList.add('nextheader-wrap');
 
             div.tabIndex = 1;
@@ -184,7 +190,7 @@ var $nxselect2 = {
             header.appendChild(span);
 
             for (attribute of select.attributes) {
-                div.dataset[attribute.name] = attribute.value;
+                //div.dataset[attribute.name] = attribute.value;
             }
 
             let $options_all = parent.querySelectorAll( 'select > *' );
@@ -222,7 +228,7 @@ var $nxselect2 = {
                             }
 
                             for (attribute of o.attributes) {
-                                option.dataset[attribute.name] = attribute.value;
+                                //option.dataset[attribute.name] = attribute.value;
                             }
     
                             option.classList.add('option');
@@ -267,7 +273,9 @@ var $nxselect2 = {
                         }
 
                         for (attribute of o.attributes) {
-                            option.dataset[attribute.name] = attribute.value;
+                            //let $name = (attribute.name) ? attribute.name : '';
+                            //console.log( $name );
+                            //option.dataset[attribute.name] = attribute.value;
                         }
 
                         option.classList.add('option');
@@ -304,8 +312,8 @@ var $nxselect2 = {
             header.appendChild(select);
             div.appendChild(datalist);
 
-            datalist.style.top = ((header.offsetTop + header.offsetHeight) - 1 ) + 'px';
-
+            //datalist.style.top = ((header.offsetTop + header.offsetHeight) - 1 ) + 'px';
+            datalist.style.top = 'auto';
             div.onclick = function(e) {
 
                 if (multiple) {
@@ -363,7 +371,6 @@ var $nxselect2 = {
                     }
                 }
                 
-                console.log( filter );
             };
 
             document.addEventListener('click', function(e) {
@@ -384,5 +391,3 @@ var $nxselect2 = {
 
     }
 };
-
-$nxselect2.init('.nxselect2');
