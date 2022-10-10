@@ -104,6 +104,7 @@ var $hJsSelect2 = {
                     this.setAttribute("data-checked", "");
                 }
                 span_input.innerHTML = '';
+                cleanList();
                 selectedData();
             };
 
@@ -167,19 +168,31 @@ var $hJsSelect2 = {
                                 let $selectedItem = parent.querySelectorAll( 'select option[selected]' );
                                 if( $selectedItem.length == 0){
                                     span.innerText = (select.title) ? select.title : 'Select Item';
+
+                                    cleanList();
                                 }
                             });
                             span.append( $span );
                         }
-                        
                         $i++;
                     });
                 } else{
                     span.innerText = (select.title) ? select.title : 'Select Item';
+                    cleanList();
                 }
                 
                 span.appendChild( span_input );
             };
+
+            const cleanList = function(){
+                let $li = datalist.querySelectorAll("div.option");
+                if($li){
+                    for (let i = 0; i < $li.length; i++) {
+                        $li[i].style.display = "";
+                    }
+                }
+            };
+
             div.classList.add('hjs-select2-wrap');
             header.classList.add('nextheader-wrap');
 
