@@ -21,7 +21,7 @@ var $hzCountDown = {
                 }
                 $v.setAttribute('hjs-timer', 'hjstimer-'+ $k);
                 if( $settings != ''){
-                    $settings.idSlide = $v.getAttribute('id');
+                    $settings.idCountDown = $v.getAttribute('id');
                     $v.setAttribute('hjs-settings', JSON.stringify($settings)); 
                 }
 
@@ -219,7 +219,7 @@ var $hzCountDown = {
                 $neSettings[$k] = ($settings[$k]) ? $settings[$k] : $default[$k];
             }
         }
-        $neSettings.idSlide = ($settings.idSlide) ? $settings.idSlide : $el.getAttribute('id');
+        $neSettings.idCountDown = ($settings.idCountDown) ? $settings.idCountDown : $el.getAttribute('id');
        
         return $neSettings;
     },

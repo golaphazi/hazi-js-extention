@@ -2,37 +2,20 @@
 <html>
     <head>
         <link rel="stylesheet" href="assets/css/haziCountDown.css">
+        <link rel="stylesheet" href="assets/css/haziCounter.css">
         <link rel="stylesheet" href="assets/css/nextselect2.css">
         <link rel="stylesheet" href="https://cdhjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     </head>
     <body>
         
-      <select
-      name="2A"
-      id="select"
-      autocomplete="off"
-      required
-      class="hjs-select2"
-      multiple
-      title="Select Once"
-      >
-      <option>Carrots</option>
-      <option value="peas">Peas</option>
-      <option selected>Beans</option>
-      <optgroup label="Options Name">
-         <option>Beans 1</option>
-         <option disabled>Beans 3</option>
-         <option selected>Beans 2</option>
-         <option value="beans_3">Beans 3</option>
-         <option >Beans 4</option>
-         <option >Beans 5</option>
-      </optgroup>
-      <option>Test Data</option>
-   </select>
-           <!--div class="countdodun" data-target-date="2022/09/05 17:25:00"></div-->
+           <div class="countdodun" data-target-date="2022/09/05 17:25:00"></div>
+           
+           <div class="counter" data-value="200" data-start="5" data-step="4" data-speed="500" ></div>
+           <div class="counter" data-value="1000" data-start="5" data-step="20" data-speed="100" ></div>
         <script src="js/haziJs.js"></script>
         <script src="js/haziSelect2.js"></script>
         <script src="js/haziCountDownJs.js"></script>
+        <script src="js/haziCounterJs.js?v=122"></script>
     </body>
 
 </html>
