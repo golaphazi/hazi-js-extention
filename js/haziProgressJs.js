@@ -34,7 +34,11 @@ var $hzProgress = {
                 $title = ($sett.title) ? $sett.title: '',
                 $tag = ($sett.tag) ? $sett.tag: 'h3',
                 $label = ($sett.tag) ? $sett.label: '%',
+                $bg = ($sett.bgcolor) ? $sett.bgcolor: 'rgb(205 199 199)',
+                $bgbar = ($sett.barcolor) ? $sett.barcolor: '#ef4848',
                 $inline = ($sett.inline) ? $sett.inline: true;
+
+                $v.style.backgroundColor = $bg;
 
                 if (null == $value || $value == ''){
                     $value = 90;
@@ -53,31 +57,60 @@ var $hzProgress = {
                     $titleEl.innerHTML = $title;
                     $v.appendChild($titleEl);
                 }
+                let $bar = $v.querySelector('.hzprogress-bar');
+                if( !$bar ){
+                    $bar = document.createElement('div');
+                    $bar.setAttribute('class', 'hzprogress-bar');
 
-                let $bar = document.createElement('div');
-                $bar.setAttribute('class', 'hzprogress-bar');
+                    $v.appendChild($bar);
+                    $bar = $v.querySelector('.hzprogress-bar');
+                }
                 $bar.setAttribute('style', 'width: '+$start+'%;');
                 
-                let $span = document.createElement('span');
-                $span.setAttribute('class', 'hzprogress-label');
+                let $span = $bar.querySelector('.hzprogress-label');
+                if( !$span ){
+                    $span = document.createElement('span');
+                    $span.setAttribute('class', 'hzprogress-label');
+                    $bar.appendChild($span);
 
-                let $number = document.createElement('span');
-                $number.setAttribute('class', 'hzprogress-number');
+                    $span = $bar.querySelector('.hzprogress-label');
+                }
+                
+                let $number = $bar.querySelector('.hzprogress-number');
+                if( !$number ){
+                    $number = document.createElement('span');
+                    $number.setAttribute('class', 'hzprogress-number');
 
-                $span.appendChild($number);
+                    $span.appendChild($number);
+                    
+                    $number = $bar.querySelector('.hzprogress-number');
+                }
+                
                 $span.innerHTML += $label;
 
-                $bar.appendChild($span);
-
-                let $i = 1,
+                let $color = '#ef4848',
+                $index = 0,
+                $i = 1,
+                
                 $u = setInterval(function () {
                     
                     if( $i >= $value ){
                         clearInterval($u);
                     }
-                    
-                    $bar.style.width = $i + "%";
 
+                    $bar.style.width = $i + "%";
+                    if( typeof $bgbar === 'object' && $bgbar !== null ){
+                        for (const [$kat, $vat] of Object.entries($bgbar)) {
+                            if( $kat == $i){
+                                $index = $kat;
+                                $color = $vat;
+                            }
+                        }
+                        $bar.style.backgroundColor = $color;
+                    } else {
+                        $bar.style.backgroundColor = $bgbar;
+                    }
+                    
                     let $numberEl = $bar.querySelector('span.hzprogress-number');
                     if( $numberEl ){
                         $numberEl.innerHTML = $i;
@@ -85,7 +118,7 @@ var $hzProgress = {
                     $i++;
                 }, $speed);
 
-                $v.appendChild($bar);
+                
             });
 
         }
@@ -99,6 +132,8 @@ var $hzProgress = {
             'title' : $el.getAttribute('data-title') ? $el.getAttribute('data-title') : '',
             'tag' : $el.getAttribute('data-tag') ? $el.getAttribute('data-tag') : 'h3',
             'label' : $el.getAttribute('data-label') ? $el.getAttribute('data-label') : '%',
+            'bgcolor' : $el.getAttribute('data-bgcolor') ? $el.getAttribute('data-bgcolor') : 'rgb(205 199 199)',
+            'barcolor' : $el.getAttribute('data-barcolor') ? $el.getAttribute('data-barcolor') : '#ef4848',
         };
 
         let $settings = $el.getAttribute('hjs-settings');
@@ -129,6 +164,14 @@ let $settingsPJs = {
     'title' : 'WordPress',
     'tag' : 'h3',
     'label' : '%',
-    */
+    'bgcolor' : 'rgb(205 199 199)',
+    'barcolor' : '#ef4848',*/
+    'barcolor' : {
+        '30' : '#ef4848',
+        '50' : '#3754b8',
+        '70' : '#a5b837',
+        '90' : '#e11536',
+    },
+    
 };
 $hzProgress.init('.progress-bar', $settingsPJs);
