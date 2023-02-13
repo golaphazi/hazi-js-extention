@@ -55,15 +55,17 @@ var $hzCounter = {
         let $speedValue = Number($speed);
         let $stepValue = Number($step);
         let $totalValue = Number($value);
-
+       
         if($totalValue > $startValue){
+            
             $startValue += $stepValue;
-
-            $sett.start = $startValue;
+            $sett.start = Number($startValue);
+            
             $v.setAttribute('hjs-settings', JSON.stringify($sett)); 
 
             setTimeout($hzCounter.counterNumber, $speedValue, $v);
         }
+        $startValue  = ($startValue > $totalValue) ? $totalValue : $startValue;
         $hzCounter.renderData($v, $startValue);
     },
 
@@ -143,6 +145,7 @@ var $hzCounter = {
         return $neSettings;
     },
 };
+
 
 
 let $settingsJs = {
