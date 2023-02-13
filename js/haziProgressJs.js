@@ -94,10 +94,54 @@ var $hzProgress = {
                 
                 $span.innerHTML += $label;
 
+                if( typeof $bgbar === 'object' && $bgbar !== null ){
+                    let $bars_wrap = $v.querySelector('.hzprogress-bars');
+                    if( !$bars_wrap ){
+                        let $bars_wrap1 = document.createElement('div');
+                        $bars_wrap1.setAttribute('class', 'hzprogress-bars');
+                        $bars_wrap1.setAttribute('style', 'height: 100%;width: 100%; position: absolute; left: 0px; top: 0px;display: block;');
+
+                        $bar.appendChild($bars_wrap1);
+                        $bars_wrap = $v.querySelector('.hzprogress-bars');
+                    }
+                    
+                    let $bars_arry = Object.entries($bgbar);
+                    let $bar_length = $bars_arry.length;
+                    let $min = 0, $m = 0, $max = Number($bar_length) - 1;
+
+                    for (const [$kat, $vat] of Object.entries($bgbar)) {
+                        let $bars_item = document.createElement('div');
+                        $bars_item.setAttribute('class', 'hzprogress-bars-items hzprogress-bars-items-' + $kat);
+                        $bars_item.setAttribute('style', 'height: 100%;');
+                        $bars_item.style.position = 'absolute';
+                        
+
+                        let $zindex = 0, $checkindex = Number($kat);
+                        if( $checkindex > $value){
+                            $checkindex = $value;
+                        }
+
+                        $bars_item.setAttribute('title', $checkindex + '%');
+                        $bars_item.style.width = $checkindex + '%';
+
+                        $zindex = Number($value) - $checkindex;
+
+                        $bars_item.style.zIndex = $zindex;
+                        if( $m == $min){
+                            $bars_item.classList.add('first-item');
+                        }
+                        if( $m == $max){
+                            $bars_item.classList.add('last-item');
+                        }
+                        $bars_wrap.appendChild($bars_item);
+
+                        $m++;
+                    }
+                }
                 let $color = '#ef4848',
                 $index = 0,
                 $i = 1,
-                
+                $bars = $bar,
                 $u = setInterval(function () {
                     
                     if( $i >= $value ){
@@ -105,16 +149,25 @@ var $hzProgress = {
                     }
 
                     $bar.style.width = $i + "%";
+                    $bar.style.backgroundColor = $bgbar;
+                    $bar.setAttribute('title', $value + '%');
+
                     if( typeof $bgbar === 'object' && $bgbar !== null ){
                         for (const [$kat, $vat] of Object.entries($bgbar)) {
                             if( $kat == $i){
                                 $index = $kat;
                                 $color = $vat;
+                                $bars = $bar.querySelector('.hzprogress-bars-items-' + $kat);
+                                
                             }
                         }
-                        $bar.style.backgroundColor = $color;
-                    } else {
-                        $bar.style.backgroundColor = $bgbar;
+                        let $width = $i;
+                        if( $width >= $value){
+                            $width = $value;
+                        }
+                        //$bars.setAttribute('title', $width + '%');
+                        //$bars.style.width = $width + '%';
+                        $bars.style.backgroundColor = $color;
                     }
                     
                     let $numberEl = $bar.querySelector('span.hzprogress-number');
@@ -176,7 +229,8 @@ let $settingsPJs = {
         '30' : '#ef4848',
         '50' : '#3754b8',
         '70' : '#a5b837',
-        '90' : '#e11536',
+        '90' : 'rgb(134 55 184)',
+        '100' : '',
     },
     
 };

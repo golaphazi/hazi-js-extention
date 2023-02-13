@@ -5,7 +5,7 @@
 }
 
 .hzprogress-wrap .hzprogress-bar{
-    background-color: #d12c2c;
+    /*background-color: #d12c2c;*/
     position: relative;
     height: 10px;
 }
