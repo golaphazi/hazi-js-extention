@@ -51,11 +51,17 @@ var $hzProgress = {
                     $speed = 100;
                 }
 
+                let $titleEl = $v.querySelector('.hzprogress-title');
                 if( $title != ''){
-                    let $titleEl = document.createElement($tag);
-                    $titleEl.setAttribute('class', 'hzprogress-title');
+
+                    if( !$titleEl ){
+                        $titleEl = document.createElement($tag);
+                        $titleEl.setAttribute('class', 'hzprogress-title');
+                        $v.appendChild($titleEl);
+                        $titleEl = $v.querySelector('.hzprogress-title');
+                    }
+                    
                     $titleEl.innerHTML = $title;
-                    $v.appendChild($titleEl);
                 }
                 let $bar = $v.querySelector('.hzprogress-bar');
                 if( !$bar ){
