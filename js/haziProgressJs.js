@@ -138,9 +138,10 @@ var $hzProgress = {
                         $m++;
                     }
                 }
+                
                 let $color = '#ef4848',
                 $index = 0,
-                $i = $start,
+                $i = Number($start),
                 $bars = $bar,
                 $u = setInterval(function () {
                     
@@ -188,6 +189,7 @@ var $hzProgress = {
         let $default = {
             'value' : $el.getAttribute('data-value') ? $el.getAttribute('data-value') : 90,
             'speed' : $el.getAttribute('data-speed') ? $el.getAttribute('data-speed') : 100,
+            'start' : $el.getAttribute('data-start') ? $el.getAttribute('data-start') : 1,
             'title' : $el.getAttribute('data-title') ? $el.getAttribute('data-title') : '',
             'tag' : $el.getAttribute('data-tag') ? $el.getAttribute('data-tag') : 'h3',
             'label' : $el.getAttribute('data-label') ? $el.getAttribute('data-label') : '%',
@@ -225,6 +227,7 @@ let $settingsPJs = {
     'label' : '%',
     'bgcolor' : 'rgb(205 199 199)',
     'barcolor' : '#ef4848',*/
+    'start' : 40,
     'barcolor' : {
         '30' : '#ef4848',
         '50' : '#3754b8',
