@@ -30,7 +30,7 @@ var $hzProgress = {
                 let $sett = $hzProgress.getSettings( $v ),
                 $value = ($sett.value) ? $sett.value: 90,
                 $speed = ($sett.speed) ? $sett.speed: 100,
-                $start = ($sett.start) ? $sett.start: 0,
+                $start = ($sett.start) ? $sett.start: 1,
                 $title = ($sett.title) ? $sett.title: '',
                 $tag = ($sett.tag) ? $sett.tag: 'h3',
                 $label = ($sett.tag) ? $sett.label: '%',
@@ -140,7 +140,7 @@ var $hzProgress = {
                 }
                 let $color = '#ef4848',
                 $index = 0,
-                $i = 1,
+                $i = $start,
                 $bars = $bar,
                 $u = setInterval(function () {
                     
