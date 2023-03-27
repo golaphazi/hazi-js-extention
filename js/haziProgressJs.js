@@ -28,6 +28,7 @@ var $hzProgress = {
                 $v.classList.add('hzprogress-wrap');
 
                 let $sett = $hzProgress.getSettings( $v ),
+                $type = ($sett.value) ? $sett.type: 'horizontal',
                 $value = ($sett.value) ? $sett.value: 90,
                 $speed = ($sett.speed) ? $sett.speed: 100,
                 $start = ($sett.start) ? $sett.start: 1,
@@ -39,6 +40,8 @@ var $hzProgress = {
                 $inline = ($sett.inline) ? $sett.inline: true;
 
                 $v.style.backgroundColor = $bg;
+
+                $v.classList.add('hzprogress-' + $type);
 
                 if (null == $value || $value == ''){
                     $value = 90;
@@ -52,7 +55,7 @@ var $hzProgress = {
                 }
 
                 let $titleEl = $v.querySelector('.hzprogress-title');
-                if( $title != ''){
+                if( $title != '' && $type != 'vertical'){
 
                     if( !$titleEl ){
                         $titleEl = document.createElement($tag);
@@ -63,6 +66,7 @@ var $hzProgress = {
                     
                     $titleEl.innerHTML = $title;
                 }
+
                 let $bar = $v.querySelector('.hzprogress-bar');
                 if( !$bar ){
                     $bar = document.createElement('div');
@@ -71,7 +75,13 @@ var $hzProgress = {
                     $v.appendChild($bar);
                     $bar = $v.querySelector('.hzprogress-bar');
                 }
-                $bar.setAttribute('style', 'width: '+$start+'%;');
+
+                if ( $type == 'vertical') {
+                    $bar.setAttribute('style', 'height: '+$start+'%;');
+                } else {
+                    $bar.setAttribute('style', 'width: '+$start+'%;');
+                }
+                
                 
                 let $span = $bar.querySelector('.hzprogress-label');
                 if( !$span ){
@@ -99,8 +109,13 @@ var $hzProgress = {
                     if( !$bars_wrap ){
                         let $bars_wrap1 = document.createElement('div');
                         $bars_wrap1.setAttribute('class', 'hzprogress-bars');
-                        $bars_wrap1.setAttribute('style', 'height: 100%;width: 100%; position: absolute; left: 0px; top: 0px;display: block;');
 
+                        if ( $type == 'vertical') {
+                            $bars_wrap1.setAttribute('style', 'height: 100%;width: 100%; position: absolute; left: 0px; bottom: 0px;display: block;');
+                        } else {
+                            $bars_wrap1.setAttribute('style', 'height: 100%;width: 100%; position: absolute; left: 0px; top: 0px;display: block;');
+                        }
+                        
                         $bar.appendChild($bars_wrap1);
                         $bars_wrap = $v.querySelector('.hzprogress-bars');
                     }
@@ -109,10 +124,24 @@ var $hzProgress = {
                     let $bar_length = $bars_arry.length;
                     let $min = 0, $m = 0, $max = Number($bar_length) - 1;
 
-                    for (const [$kat, $vat] of Object.entries($bgbar)) {
+                    let $objkey = Object.entries($bgbar);
+                    if ($type == 'vertical') {
+                        //$objkey = Object.entries($bgbar).reverse();
+                        $m = Number($bar_length);
+                    }
+                    
+                    $objkey.forEach($v => {
+                        
+                        let $kat = ($v[0]) ? $v[0] : 0;
+
                         let $bars_item = document.createElement('div');
                         $bars_item.setAttribute('class', 'hzprogress-bars-items hzprogress-bars-items-' + $kat);
-                        $bars_item.setAttribute('style', 'height: 100%;');
+                        
+                        if ( $type == 'vertical') {
+                            $bars_item.setAttribute('style', 'width: 100%;');
+                        } else {
+                            $bars_item.setAttribute('style', 'height: 100%;');
+                        }
                         $bars_item.style.position = 'absolute';
                         
 
@@ -122,9 +151,19 @@ var $hzProgress = {
                         }
 
                         $bars_item.setAttribute('title', $checkindex + '%');
-                        $bars_item.style.width = $checkindex + '%';
+                        
+                        if ( $type == 'vertical') {
+                            $bars_item.style.height = $checkindex + '%';
+                        } else {
+                            $bars_item.style.width = $checkindex + '%';
+                        }
 
-                        $zindex = Number($value) - $checkindex;
+                        if ($type == 'vertical') {
+                            $zindex = Number($value) - $checkindex;
+                        } else {
+                            $zindex = Number($value) - $checkindex;
+                        }
+                        $zindex = $m;
 
                         $bars_item.style.zIndex = $zindex;
                         if( $m == $min){
@@ -135,10 +174,29 @@ var $hzProgress = {
                         }
                         $bars_wrap.appendChild($bars_item);
 
-                        $m++;
-                    }
+                        if ($type == 'vertical') {
+                            $m--;
+                        } else {
+                            $m++;
+                        }
+                        
+                    });
+
+                    
                 }
                 
+                if( $title != '' && $type == 'vertical'){
+
+                    if( !$titleEl ){
+                        $titleEl = document.createElement($tag);
+                        $titleEl.setAttribute('class', 'hzprogress-title');
+                        $v.appendChild($titleEl);
+                        $titleEl = $v.querySelector('.hzprogress-title');
+                    }
+                    
+                    $titleEl.innerHTML = $title;
+                }
+
                 let $color = '#ef4848',
                 $index = 0,
                 $i = Number($start),
@@ -148,8 +206,13 @@ var $hzProgress = {
                     if( $i >= $value ){
                         clearInterval($u);
                     }
+     
+                    if ( $type == 'vertical') {
+                        $bar.style.height = $i + "%";
+                    } else {
+                        $bar.style.width = $i + "%";
+                    }
 
-                    $bar.style.width = $i + "%";
                     $bar.style.backgroundColor = $bgbar;
                     $bar.setAttribute('title', $value + '%');
 
@@ -187,6 +250,7 @@ var $hzProgress = {
     getSettings: function( $el ){
 
         let $default = {
+            'type' : $el.getAttribute('data-type') ? $el.getAttribute('data-type') : 'horizontal', // vertical
             'value' : $el.getAttribute('data-value') ? $el.getAttribute('data-value') : 90,
             'speed' : $el.getAttribute('data-speed') ? $el.getAttribute('data-speed') : 100,
             'start' : $el.getAttribute('data-start') ? $el.getAttribute('data-start') : 1,
@@ -226,7 +290,7 @@ let $settingsPJs = {
     'tag' : 'h3',
     'label' : '%',
     'bgcolor' : 'rgb(205 199 199)',
-    'barcolor' : '#ef4848',*/
+    'barcolor' : '#ef4848',
     'start' : 40,
     'barcolor' : {
         '30' : '#ef4848',
@@ -234,7 +298,7 @@ let $settingsPJs = {
         '70' : '#a5b837',
         '90' : 'rgb(134 55 184)',
         '100' : '',
-    },
+    },*/
     
 };
 $hzProgress.init('.progress-bar', $settingsPJs);
