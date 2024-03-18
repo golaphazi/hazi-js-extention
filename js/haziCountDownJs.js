@@ -66,6 +66,8 @@ var $hzCountDown = {
                         let $value = ($v1.value) ? $v1.value : $default_value;
                         $default_value = ( $value != '') ? $value : $default_value;
 
+                        let $checkEl = $v.querySelector('.hz-'+ $k1);
+                        
                         let $div = document.createElement( 'div' );
                         $div.setAttribute('class', 'hztimer hz-'+ $k1);
                         if( $item_inline ){
@@ -75,21 +77,30 @@ var $hzCountDown = {
                         $time.setAttribute('class', 'hzitem-time hzitem-time-'+ $k1);
                         $time.setAttribute('id', 'hzitem-time-'+ $k1 + '-' + $v.getAttribute('id'));
                         $time.innerText = $default_value;
-                        $div.appendChild( $time );
+                        if( !$checkEl ){
+                            $div.appendChild( $time );
+                        }
+                        
 
                         if($title != ''){
                             let $titleEl = document.createElement( 'p' );
                             $titleEl.setAttribute('class', 'hzitem-title hzitem-title-'+ $k1);
                             $titleEl.innerHTML = $title;
-                            $div.appendChild( $titleEl );
+                            if( !$checkEl ){
+                                $div.appendChild( $titleEl );
+                            }
                         }
 
-                        $v.appendChild( $div );
+                        if( !$checkEl ){
+                            $v.appendChild( $div );
+                        }
                         if( $divider != '' && $len > $i){
                             let $div1 = document.createElement( 'div' );
                             $div1.setAttribute('class', 'hztimer-divider hz-divider-'+ $k1);
                             $div1.innerHTML = $divider;
-                            $v.appendChild( $div1 );
+                            if( !$checkEl ){
+                                $v.appendChild( $div1 );
+                            }
                         }
 
                         $i++;
