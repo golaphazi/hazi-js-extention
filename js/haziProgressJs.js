@@ -41,6 +41,12 @@ var $hzProgress = {
 
                 $v.style.backgroundColor = $bg;
 
+                // check attribute already 
+                let $checkEl = $v.querySelector('.hzprogress-bar');
+                if( $checkEl ){
+                    return;
+                }
+
                 $v.classList.add('hzprogress-' + $type);
 
                 if (null == $value || $value == ''){
@@ -100,10 +106,10 @@ var $hzProgress = {
                     $span.appendChild($number);
                     
                     $number = $bar.querySelector('.hzprogress-number');
+
+                    $span.innerHTML += $label;
                 }
                 
-                $span.innerHTML += $label;
-
                 if( typeof $bgbar === 'object' && $bgbar !== null ){
                     let $bars_wrap = $v.querySelector('.hzprogress-bars');
                     if( !$bars_wrap ){
