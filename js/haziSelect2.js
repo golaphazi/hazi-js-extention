@@ -12,7 +12,14 @@ var $hJsSelect2 = {
     init: function( $selector = '.hjs-select2'){
         let attribute, i, o;
         const selects = document.querySelectorAll( $selector );
+       
         for (const select of selects) {
+
+            // check already select2
+            if( select.classList.contains('has-hjs-select2')){
+                continue;
+            }
+
             const div = document.createElement('div');
             const header = document.createElement('div');
             const datalist = document.createElement('datalist');
@@ -29,6 +36,8 @@ var $hJsSelect2 = {
             const options = select.options;
             const parent = select.parentElement;
             const multiple = select.hasAttribute('multiple');
+
+            select.classList.add('has-hjs-select2');
 
             const onclick = function(e) {
                 const disabled = this.hasAttribute('data-disabled');
@@ -401,6 +410,6 @@ var $hJsSelect2 = {
             }
             
         }
-
     }
+    
 };
